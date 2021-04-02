@@ -1,6 +1,8 @@
 package com.goudourasv.courses;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Course {
 
@@ -10,6 +12,7 @@ public class Course {
     private String professor;
     private LocalDate startDate;
     private LocalDate endDate;
+    private ArrayList<Lecture> lectures = new ArrayList<Lecture>();
 
 
     //Constructor
@@ -52,4 +55,14 @@ public class Course {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+    //Adds a lecture in a course
+    public void addLecture (Lecture lecture){
+        lectures.add(lecture);
+    }
+
+    //List all the lectures of the course
+    public Iterator<Lecture> getLectures(){
+        return lectures.iterator();
+    }
+
 }

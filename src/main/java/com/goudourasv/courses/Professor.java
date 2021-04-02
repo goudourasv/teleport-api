@@ -1,18 +1,18 @@
 package com.goudourasv.courses;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Professor {
-    private String name;
+    private final String name;
     private String institution;
-    private String title;
+    private ArrayList<Course> courses = new ArrayList<Course>();
 
     //constructor
-    public Professor(String name, String institution, String course) {
-    //TODO one professor can teach many courses
+    public Professor(String name, String institution) {
 
         this.name = name;
         this.institution = institution;
-        title = course;
-
     }
 
     public String getName() {
@@ -23,8 +23,14 @@ public class Professor {
         return institution;
     }
 
-    public String getTitle() {
-        return title;
+    //Adds a course a professor teaches
+    public void addCourse (Course course){
+        courses.add(course);
+    }
+
+    //List all the courses a professor teaches
+    public Iterator<Course> getCourses(){
+        return courses.iterator();
     }
 
 

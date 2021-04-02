@@ -4,8 +4,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Lecture {
-    private String course;
-    private int numberOfLecture;
+    private final String course;
+    private final int  numberOfLecture;
     private LocalDateTime date;
     private Duration duration;
 

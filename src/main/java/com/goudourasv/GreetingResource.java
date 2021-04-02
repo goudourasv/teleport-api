@@ -1,5 +1,7 @@
 package com.goudourasv;
 
+import com.goudourasv.courses.Tag;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,8 +11,11 @@ import javax.ws.rs.core.MediaType;
 public class GreetingResource {
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello RESTEasy";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Tag hello() {
+        Tag physics = new Tag("physics");
+        return physics;
     }
+
+
 }

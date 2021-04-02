@@ -1,25 +1,38 @@
 package com.goudourasv.courses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Tag {
 
     private String tag;
-    private String courseTitle;
+    private ArrayList<Course> courses = new ArrayList<Course>();
 
     //Constructor
-    public Tag(String field, String course) {
-        //TODO
+    public Tag(String field) {
         tag = field;
-        courseTitle = course;
-
     }
 
     public String getTag() {
         return tag;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    //Adds a course in a tag
+    public void addCourse (Course course){
+        courses.add(course);
     }
+
+    //List all the courses of the specific tag
+    public Iterator<Course> getCourses(){
+        return courses.iterator();
+    }
+
+    public String toString(){
+        return ("");
+    }
+
 
 }
 
