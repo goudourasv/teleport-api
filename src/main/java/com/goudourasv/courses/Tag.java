@@ -1,6 +1,6 @@
 package com.goudourasv.courses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.goudourasv.courses.domain.Course;
 
 import java.util.ArrayList;
 import java.util.Iterator;

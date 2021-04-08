@@ -1,6 +1,6 @@
 package com.goudourasv.institutions;
 
-import com.goudourasv.courses.Course;
+import com.goudourasv.courses.domain.Course;
 import com.goudourasv.courses.Professor;
 import com.goudourasv.courses.Tag;
 
