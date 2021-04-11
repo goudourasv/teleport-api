@@ -12,5 +12,19 @@
     "institution": "AUTH",
     "tag": "Math",
     "professor": "Jabbour Nikolaos"
+  },
+  {
+    "id": 3,
+    "title": "Electrical machines",
+    "institution": "AUTH",
+    "tag": "Engineering",
+    "professor": "Jabbour Nikolaos"
+  },
+  {
+    "id": 4,
+    "title": "Yoga Science",
+    "institution": "Buddha",
+    "tag": "Tsakra",
+    "professor": "Lila Nikolaou"
   }
 ]
