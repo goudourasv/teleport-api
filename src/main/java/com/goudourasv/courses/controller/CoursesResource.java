@@ -34,7 +34,7 @@ public class CoursesResource {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String file = Thread.currentThread().getContextClassLoader().getResource("/courses.json").getFile();
-            coursesList = mapper.readValue(new File(file), new TypeReference<List<Course>>() {
+            coursesList = mapper.readValue(new File(file), new TypeReference<>() {
             });
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
@@ -43,7 +43,7 @@ public class CoursesResource {
     }
 
     private List<Course> getFilteredByInstitutionList(List<Course> coursesList, String institution) {
-        List<Course> filteredByInstitutionList = new ArrayList<Course>();
+        List<Course> filteredByInstitutionList = new ArrayList<>();
         for (Course course : coursesList) {
             if (course.getInstitutionName().equals(institution)) {
                 filteredByInstitutionList.add(course);
@@ -51,7 +51,7 @@ public class CoursesResource {
         }
         return filteredByInstitutionList;
     }
-    
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
