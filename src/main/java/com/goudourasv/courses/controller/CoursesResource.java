@@ -18,8 +18,9 @@ public class CoursesResource {
     @Produces(MediaType.APPLICATION_JSON)
     //TODO Return courses matching an institution
     public List<Course> getCourses(@QueryParam("institution") String institution) {
+
         List<Course> coursesList = parseJsonFile();
-        
+        //TODO query param validation
         if (institution != null) {
             List<Course> filteredList = getFilteredByInstitutionList(coursesList, institution);
             return filteredList;
@@ -50,29 +51,21 @@ public class CoursesResource {
         }
         return filteredByInstitutionList;
     }
+    
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Course getCourse(@PathParam("id")int id) {
+        Course course = new Course();
+        List<Course> coursesList = parseJsonFile();
 
-//    //TODO Take from the same file a specific course from the list
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Course getCourse(@QueryParam("id") int id) {
-//        Course myCourse = new Course();
-//        List<Course> coursesList;
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            String file = Thread.currentThread().getContextClassLoader().getResource("/courses.json").getFile();
-//            coursesList = mapper.readValue(new File(file), new TypeReference<List<Course>>() {
-//            });
-//        } catch (Exception ex) {
-//            throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
-//        }
-//
-//        for (Course course : coursesList) {
-//            if (course.getId()==id) {
-//                myCourse = course;
-//            }
-//        }
-//        return myCourse;
-//    }
+        for (Course element: coursesList) {
+            if (element.getId()==id) {
+                course = element;
+            }
+        }
+        return course;
+    }
 
 }
 
