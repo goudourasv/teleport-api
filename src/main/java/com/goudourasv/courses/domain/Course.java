@@ -10,15 +10,16 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Course {
-    private final int id;
-    private final String title;
+    private int id;
+    private String title;
     @JsonProperty("institution")
-    private final String institutionName;
+    private String institutionName;
     private String tag;
     private String professor;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<Lecture> lectures = new ArrayList<Lecture>();
+    private List<Lecture> lectures = new ArrayList<>();
+
 
 
     public Course() {
@@ -77,6 +78,31 @@ public class Course {
     //Adds a lecture in a course
     public void addLecture(Lecture lecture) {
         lectures.add(lecture);
+    }
+
+    public String setTag(String tag) {
+        this.tag = tag;
+        return tag;
+    }
+
+    public String setProfessor (String professor) {
+        this.professor = professor;
+        return professor;
+    }
+
+    public int setId(int id) {
+        this.id = id;
+        return id;
+    }
+
+    public String setTitle(String title) {
+        this.title = title;
+        return title;
+    }
+
+    public String setInstitutionName(String institutionName) {
+        this.institutionName = institutionName;
+        return institutionName;
     }
 
 }
