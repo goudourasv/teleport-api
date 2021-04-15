@@ -20,6 +20,7 @@ public class CoursesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     //TODO Return courses matching an institution
+    //TODO @QueryParam ("tag")
     public List<Course> getCourses(@QueryParam("institution") String institution) {
         try {
             List<Course> coursesList = coursesService.getCourses();
@@ -35,6 +36,65 @@ public class CoursesResource {
         }
     }
 
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Course getCourse(@PathParam("id") int id) {
+        Course course = coursesService.getSpecificCourse(id);
+        return course;
+    }
+
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Course createCourse(Course input) {
+        CoursesValidator.validate(input);
+        Course createdCourse = coursesService.createNewCourse(input);
+        return createdCourse;
+    }
+
+
+    @DELETE
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteCourse(@PathParam("id") int id) {
+        boolean deleted = coursesService.deleteSpecificCourse(id);
+        if (!deleted) {
+            throw new NotFoundException("Course with id: " + id + "doesn't exist");
+        }
+
+    }
+
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Course updateCourse(@PathParam("id") int id, Course input) {
+        try {
+            Course course = coursesService.updateEntireCourse(input);
+            return course;
+        } catch (Exception ex) {
+            throw new ClientErrorException("Not possible to update the existing resource", Response.Status.CONFLICT);
+        }
+    }
+
+    //TODO PATCH request
+
+
+
+
+
+
+
+
+    
+
+
+
     private List<Course> parseJsonFile() {
         List<Course> coursesList;
         ObjectMapper mapper = new ObjectMapper();
@@ -47,36 +107,5 @@ public class CoursesResource {
         }
         return coursesList;
     }
-
-
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Course getCourse(@PathParam("id") int id) {
-        Course course = new Course();
-        List<Course> coursesList = parseJsonFile();
-
-        for (Course element : coursesList) {
-            if (element.getId() == id) {
-                course = element;
-            }
-        }
-        return course;
-    }
-
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Course createCourse(Course input) {
-        try {
-            Course createdCourse = coursesService.createNewCourse(input) ;
-            return createdCourse;
-
-        } catch (Exception ex) {
-            throw new ClientErrorException(Response.Status.EXPECTATION_FAILED);
-        }
-    }
-
 }
 

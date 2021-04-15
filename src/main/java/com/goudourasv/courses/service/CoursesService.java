@@ -24,6 +24,7 @@ public class CoursesService {
         return courseStore;
     }
 
+
     public List<Course> getCourses() {
         List<Course> courses = new ArrayList<>(courseStore.values());
         return courses;
@@ -39,8 +40,25 @@ public class CoursesService {
         return filteredByInstitutionList;
     }
 
-    public Course createNewCourse(Course course){
+    public Course getSpecificCourse(int id) {
+        Course specificCourse = courseStore.get(id);
+
+        return specificCourse;
+    }
+
+    public Course createNewCourse(Course course) {
         courseStore.put(course.getId(), course);
         return course;
     }
+
+    public boolean deleteSpecificCourse(int id) {
+        Course specificCourse = courseStore.remove(id);
+        return specificCourse != null;
+    }
+
+    public Course updateEntireCourse(Course course) {
+        Course updatedCourse = courseStore.replace(course.getId(), course);
+        return updatedCourse;
+    }
+
 }
