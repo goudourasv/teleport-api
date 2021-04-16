@@ -2,6 +2,7 @@ package com.goudourasv.courses.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goudourasv.courses.controller.dto.CourseUpdate;
 import com.goudourasv.courses.domain.Course;
 import com.goudourasv.courses.service.CoursesService;
 
@@ -73,26 +74,24 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") int id, Course input) {
+    public Course updateCourse(@PathParam("id") int id, Course course) {
         try {
-            Course course = coursesService.updateEntireCourse(input);
-            return course;
+            Course updatedCourse = coursesService.replaceCourse(course);
+            return updatedCourse;
         } catch (Exception ex) {
             throw new ClientErrorException("Not possible to update the existing resource", Response.Status.CONFLICT);
         }
     }
 
     //TODO PATCH request
-
-
-
-
-
-
-
-
-    
-
+    @PATCH
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Course partiallyUpdateCourse(@PathParam("id") int id, CourseUpdate courseUpdate) {
+        Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, id);
+        return updatedCourse;
+    }
 
 
     private List<Course> parseJsonFile() {

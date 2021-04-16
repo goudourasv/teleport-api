@@ -7,7 +7,7 @@ import javax.ws.rs.BadRequestException;
 public class CoursesValidator {
 
     public static void validate(Course course) {
-        //TODO validations for everything
+        //TODO validations for everything()
         if (course.getTitle() == null) {
             throw new BadRequestException("Required property title missing");
         }

@@ -1,5 +1,6 @@
 package com.goudourasv.courses.service;
 
+import com.goudourasv.courses.controller.dto.CourseUpdate;
 import com.goudourasv.courses.domain.Course;
 
 import java.util.ArrayList;
@@ -56,9 +57,37 @@ public class CoursesService {
         return specificCourse != null;
     }
 
-    public Course updateEntireCourse(Course course) {
+    public Course replaceCourse(Course course) {
         Course updatedCourse = courseStore.replace(course.getId(), course);
         return updatedCourse;
     }
+
+
+    public Course partiallyUpdateCourse(CourseUpdate courseUpdate, int id) {
+        Course courseToUpdate = courseStore.get(id);
+
+        if (courseUpdate.getTitle() != null) {
+            String newTitle = courseUpdate.getTitle();
+            courseToUpdate.setTitle(newTitle);
+        }
+
+        if (courseUpdate.getInstitutionName() != null) {
+            String institutionName = courseUpdate.getInstitutionName();
+            courseToUpdate.setInstitutionName(institutionName);
+        }
+
+        if (courseUpdate.getProfessor() != null) {
+            String newProfessorName = courseUpdate.getProfessor();
+            courseToUpdate.setProfessor(newProfessorName);
+        }
+
+        if (courseUpdate.getTag() != null) {
+            String newTag = courseUpdate.getTag();
+            courseToUpdate.setTag(newTag);
+        }
+
+        return courseToUpdate;
+    }
+
 
 }
