@@ -20,18 +20,12 @@ public class CoursesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    //TODO Return courses matching an institution
-    //TODO @QueryParam ("tag")
-    public List<Course> getCourses(@QueryParam("institution") String institution) {
+    //TODO @QueryParam ("tag")+ professor
+    public List<Course> getCourses(@QueryParam("institution") String institution,@QueryParam("tag") String tag) {
         try {
             List<Course> coursesList = coursesService.getCourses();
-            //TODO query param validation
-            if (institution != null) {
-                List<Course> filteredList = coursesService.getFilteredList(coursesList, institution);
-                return filteredList;
-            } else {
-                return coursesList;
-            }
+            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution,tag);
+            return filteredList;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -46,6 +40,7 @@ public class CoursesResource {
         return course;
     }
 
+//TODO status code 201 for success
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -83,7 +78,7 @@ public class CoursesResource {
         }
     }
 
-    //TODO PATCH request
+    //TODO PATCH
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)

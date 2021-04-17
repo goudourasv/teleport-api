@@ -31,10 +31,10 @@ public class CoursesService {
         return courses;
     }
 
-    public List<Course> getFilteredList(List<Course> coursesList, String institution) {
+    public List<Course> getFilteredList(List<Course> coursesList, String institution,String tag) {
         List<Course> filteredByInstitutionList = new ArrayList<>();
         for (Course course : coursesList) {
-            if (course.getInstitutionName().equals(institution)) {
+            if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) ) {
                 filteredByInstitutionList.add(course);
             }
         }
