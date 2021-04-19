@@ -31,14 +31,37 @@ public class CoursesService {
         return courses;
     }
 
-    public List<Course> getFilteredList(List<Course> coursesList, String institution,String tag) {
-        List<Course> filteredByInstitutionList = new ArrayList<>();
-        for (Course course : coursesList) {
-            if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) ) {
-                filteredByInstitutionList.add(course);
+    public List<Course> getFilteredList(List<Course> coursesList, String institution, String tag, String professor) {
+        List<Course> filteredList = new ArrayList<>();
+        if (institution == null && tag == null && professor == null) {
+            filteredList.addAll(coursesList);
+        } else {
+            for (Course course : coursesList) {
+
+                if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) && course.getProfessor().equals(professor)) {
+                    filteredList.add(course);
+
+                } else if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) && professor == null) {
+                    filteredList.add(course);
+
+                } else if (course.getInstitutionName().equals(institution) && course.getProfessor().equals(professor) && tag == null) {
+                    filteredList.add(course);
+
+                } else if (course.getTag().equals(tag) && course.getProfessor().equals(professor) && institution == null) {
+                    filteredList.add(course);
+
+                } else if (course.getProfessor().equals(professor) && institution == null && tag == null) {
+                    filteredList.add(course);
+
+                } else if (course.getTag().equals(tag) && professor == null && institution == null) {
+                    filteredList.add(course);
+
+                } else if (course.getInstitutionName().equals(institution) && professor == null && tag == null) {
+                    filteredList.add(course);
+                }
             }
         }
-        return filteredByInstitutionList;
+        return filteredList;
     }
 
     public Course getSpecificCourse(int id) {

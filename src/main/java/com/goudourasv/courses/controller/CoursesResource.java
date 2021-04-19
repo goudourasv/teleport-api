@@ -9,11 +9,12 @@ import com.goudourasv.courses.service.CoursesService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.File;
+import java.net.URI;
 import java.util.List;
 
 @Path("/courses")
-
 public class CoursesResource {
     private final CoursesService coursesService = new CoursesService();
 
@@ -21,10 +22,10 @@ public class CoursesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     //TODO @QueryParam ("tag")+ professor
-    public List<Course> getCourses(@QueryParam("institution") String institution,@QueryParam("tag") String tag) {
+    public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("professor") String professor) {
         try {
             List<Course> coursesList = coursesService.getCourses();
-            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution,tag);
+            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution, tag, professor);
             return filteredList;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
@@ -40,15 +41,17 @@ public class CoursesResource {
         return course;
     }
 
-//TODO status code 201 for success
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Course createCourse(Course input) {
+    public Response createCourse(Course input, UriInfo uriInfo) {
+
         CoursesValidator.validate(input);
         Course createdCourse = coursesService.createNewCourse(input);
-        return createdCourse;
+        String path = uriInfo.getPath();
+
+        String location = path + "/" + createdCourse.getId();
+        return Response.created(URI.create(location)).entity(createdCourse).build();
     }
 
 
@@ -70,6 +73,7 @@ public class CoursesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Course updateCourse(@PathParam("id") int id, Course course) {
+        CoursesValidator.validate(course);
         try {
             Course updatedCourse = coursesService.replaceCourse(course);
             return updatedCourse;
@@ -78,7 +82,7 @@ public class CoursesResource {
         }
     }
 
-    //TODO PATCH
+
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)

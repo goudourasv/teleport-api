@@ -11,7 +11,8 @@ public class CoursesValidator {
         if (course.getId() <= 0) {
             throw new BadRequestException("Invalid course id");
         }
-        if (course.getTitle() == null || course.getTitle().equals("")) {
+        String title = course.getTitle();
+        if (title == null || "".equals(title)) {
             throw new BadRequestException("Required property title missing");
         }
 
