@@ -8,9 +8,6 @@ public class CoursesValidator {
 //TODO validation with annotations
 
     public static void validate(Course course) {
-        if (course.getId() <= 0) {
-            throw new BadRequestException("Invalid course id");
-        }
         String title = course.getTitle();
         if (title == null || "".equals(title)) {
             throw new BadRequestException("Required property title missing");

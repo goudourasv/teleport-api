@@ -8,10 +8,11 @@ import com.sun.istack.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Course {
-    private int id;
+    private UUID id;
     private String title;
     @JsonProperty("institution")
     private String institutionName;
@@ -24,13 +25,13 @@ public class Course {
 
 
     public Course() {
-        id = 0;
+        id = null;
         title = null;
         institutionName = null;
     }
 
     //Constructor
-    public Course(int id, String title, String institution, String tag, String professor) {
+    public Course(UUID id,String title, String institution, String tag, String professor) {
         this.id = id;
         this.title = title;
         institutionName = institution;
@@ -43,7 +44,7 @@ public class Course {
         return title;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -89,11 +90,6 @@ public class Course {
     public String setProfessor (String professor) {
         this.professor = professor;
         return professor;
-    }
-
-    public int setId(int id) {
-        this.id = id;
-        return id;
     }
 
     public String setTitle(String title) {

@@ -13,6 +13,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @Path("/courses")
 public class CoursesResource {
@@ -21,7 +22,6 @@ public class CoursesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    //TODO @QueryParam ("tag")+ professor
     public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("professor") String professor) {
         try {
             List<Course> coursesList = coursesService.getCourses();
@@ -36,7 +36,8 @@ public class CoursesResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Course getCourse(@PathParam("id") int id) {
+    public Course getCourse(@PathParam("id") String idString) {
+        UUID id = UUID.fromString(idString);
         Course course = coursesService.getSpecificCourse(id);
         return course;
     }
@@ -59,7 +60,8 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteCourse(@PathParam("id") int id) {
+    public void deleteCourse(@PathParam("id") String idString) {
+        UUID id = UUID.fromString(idString);
         boolean deleted = coursesService.deleteSpecificCourse(id);
         if (!deleted) {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
@@ -72,9 +74,10 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") int id, Course course) {
+    public Course updateCourse(@PathParam("id") String id, Course course) {
         CoursesValidator.validate(course);
         try {
+
             Course updatedCourse = coursesService.replaceCourse(course);
             return updatedCourse;
         } catch (Exception ex) {
@@ -87,7 +90,7 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course partiallyUpdateCourse(@PathParam("id") int id, CourseUpdate courseUpdate) {
+    public Course partiallyUpdateCourse(@PathParam("id") UUID id, CourseUpdate courseUpdate) {
         Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, id);
         return updatedCourse;
     }

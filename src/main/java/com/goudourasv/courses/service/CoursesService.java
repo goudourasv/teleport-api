@@ -6,22 +6,23 @@ import com.goudourasv.courses.domain.Course;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class CoursesService {
-    private final HashMap<Integer, Course> courseStore = new HashMap<>();
+    private final HashMap<UUID, Course> courseStore = new HashMap<>();
 
     public CoursesService() {
-        Course programmingMethodology = new Course(1, "Programming Methodology", "Stanford", "software", "Mehran Sahami");
-        Course linearAlgebra1 = new Course(2, "Linear Algebra", "AUTH", "Math", "Jabbour Nikolaos");
-        Course electricalMachines = new Course(3, "Electrical machines", "AUTH", "Engineering", "Jabbour Nikolaos");
-        Course yogaScience = new Course(4, "Yoga Science", "Buddha", "Tsakra", "Lila Nikolaou");
-        courseStore.put(1, programmingMethodology);
-        courseStore.put(2, linearAlgebra1);
-        courseStore.put(3, electricalMachines);
-        courseStore.put(4, yogaScience);
+        Course programmingMethodology = new Course(UUID.fromString("e0f8f134-4408-42e7-a9dd-34206c5f91f2"), "Programming Methodology", "Stanford", "software", "Mehran Sahami");
+        Course linearAlgebra1 = new Course(UUID.fromString("ecf02406-a0ec-4cc2-a76a-f3598fb2c6f4"), "Linear Algebra", "AUTH", "Math", "Jabbour Nikolaos");
+        Course electricalMachines = new Course(UUID.fromString("a41aa048-62b1-4196-a2c4-13207d3751c8"), "Electrical machines", "AUTH", "Engineering", "Jabbour Nikolaos");
+        Course yogaScience = new Course(UUID.fromString("0a8c8472-c9b0-4a5a-a34b-893cabb7a40b"), "Yoga Science", "Buddha", "Tsakra", "Lila Nikolaou");
+        courseStore.put(programmingMethodology.getId(), programmingMethodology);
+        courseStore.put(linearAlgebra1.getId(), linearAlgebra1);
+        courseStore.put(electricalMachines.getId(), electricalMachines);
+        courseStore.put(yogaScience.getId(), yogaScience);
     }
 
-    public HashMap<Integer, Course> getCourseStore() {
+    public HashMap<UUID, Course> getCourseStore() {
         return courseStore;
     }
 
@@ -37,34 +38,29 @@ public class CoursesService {
             filteredList.addAll(coursesList);
         } else {
             for (Course course : coursesList) {
+                boolean isMatch = true;
+                if (professor != null && !course.getProfessor().equals(professor)) {
+                    isMatch = false;
 
-                if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) && course.getProfessor().equals(professor)) {
-                    filteredList.add(course);
+                }
+                if (institution != null && !course.getInstitutionName().equals(institution)) {
+                    isMatch = false;
 
-                } else if (course.getInstitutionName().equals(institution) && course.getTag().equals(tag) && professor == null) {
-                    filteredList.add(course);
+                }
+                if (tag != null && !course.getTag().equals(tag)) {
+                    isMatch = false;
 
-                } else if (course.getInstitutionName().equals(institution) && course.getProfessor().equals(professor) && tag == null) {
-                    filteredList.add(course);
-
-                } else if (course.getTag().equals(tag) && course.getProfessor().equals(professor) && institution == null) {
-                    filteredList.add(course);
-
-                } else if (course.getProfessor().equals(professor) && institution == null && tag == null) {
-                    filteredList.add(course);
-
-                } else if (course.getTag().equals(tag) && professor == null && institution == null) {
-                    filteredList.add(course);
-
-                } else if (course.getInstitutionName().equals(institution) && professor == null && tag == null) {
+                }
+                if (isMatch == true) {
                     filteredList.add(course);
                 }
+                
             }
         }
         return filteredList;
     }
 
-    public Course getSpecificCourse(int id) {
+    public Course getSpecificCourse(UUID id) {
         Course specificCourse = courseStore.get(id);
 
         return specificCourse;
@@ -75,7 +71,7 @@ public class CoursesService {
         return course;
     }
 
-    public boolean deleteSpecificCourse(int id) {
+    public boolean deleteSpecificCourse(UUID id) {
         Course specificCourse = courseStore.remove(id);
         return specificCourse != null;
     }
@@ -86,7 +82,7 @@ public class CoursesService {
     }
 
 
-    public Course partiallyUpdateCourse(CourseUpdate courseUpdate, int id) {
+    public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         Course courseToUpdate = courseStore.get(id);
 
         if (courseUpdate.getTitle() != null) {
