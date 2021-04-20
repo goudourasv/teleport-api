@@ -1,13 +1,13 @@
 package com.goudourasv.courses.controller;
 
-import com.goudourasv.courses.domain.Course;
+import com.goudourasv.courses.controller.dto.CourseCreate;
 
 import javax.ws.rs.BadRequestException;
 
 public class CoursesValidator {
 //TODO validation with annotations
 
-    public static void validate(Course course) {
+    public static void validate(CourseCreate course) {
         String title = course.getTitle();
         if (title == null || "".equals(title)) {
             throw new BadRequestException("Required property title missing");

@@ -3,7 +3,6 @@ package com.goudourasv.courses.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goudourasv.courses.Lecture;
-import com.sun.istack.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class Course {
     private List<Lecture> lectures = new ArrayList<>();
 
 
-
     public Course() {
         id = null;
         title = null;
@@ -31,13 +29,20 @@ public class Course {
     }
 
     //Constructor
-    public Course(UUID id,String title, String institution, String tag, String professor) {
+    public Course(UUID id, String title, String institution, String tag, String professor) {
         this.id = id;
         this.title = title;
         institutionName = institution;
         this.tag = tag;
         this.professor = professor;
 
+    }
+
+    public Course(String title, String institution, String tag, String professor) {
+        this.title = title;
+        institutionName = institution;
+        this.tag = tag;
+        this.professor = professor;
     }
 
     public String getTitle() {
@@ -87,7 +92,7 @@ public class Course {
         return tag;
     }
 
-    public String setProfessor (String professor) {
+    public String setProfessor(String professor) {
         this.professor = professor;
         return professor;
     }
@@ -102,4 +107,12 @@ public class Course {
         return institutionName;
     }
 
+
+    public void generateId() {
+        UUID id = UUID.randomUUID();
+        this.id = id;
+    }
 }
+
+
+

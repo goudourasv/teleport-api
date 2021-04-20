@@ -1,5 +1,6 @@
 package com.goudourasv.courses.service;
 
+import com.goudourasv.courses.controller.dto.CourseCreate;
 import com.goudourasv.courses.controller.dto.CourseUpdate;
 import com.goudourasv.courses.domain.Course;
 
@@ -54,7 +55,6 @@ public class CoursesService {
                 if (isMatch == true) {
                     filteredList.add(course);
                 }
-                
             }
         }
         return filteredList;
@@ -66,19 +66,23 @@ public class CoursesService {
         return specificCourse;
     }
 
-    public Course createNewCourse(Course course) {
-        courseStore.put(course.getId(), course);
-        return course;
-    }
 
     public boolean deleteSpecificCourse(UUID id) {
         Course specificCourse = courseStore.remove(id);
         return specificCourse != null;
     }
 
-    public Course replaceCourse(Course course) {
-        Course updatedCourse = courseStore.replace(course.getId(), course);
+    public Course replaceCourse(CourseCreate course, UUID id) {
+        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitutionName(), course.getTag(), course.getProfessor());
+        courseStore.replace(updatedCourse.getId(), updatedCourse);
         return updatedCourse;
+    }
+
+    public Course createNewCourseInput(CourseCreate course) {
+        Course createdCourse = new Course(course.getTitle(), course.getInstitutionName(), course.getTag(), course.getProfessor());
+        createdCourse.generateId();
+        courseStore.put(createdCourse.getId(), createdCourse);
+        return createdCourse;
     }
 
 

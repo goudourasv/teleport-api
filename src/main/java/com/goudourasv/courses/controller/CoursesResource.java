@@ -2,6 +2,7 @@ package com.goudourasv.courses.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goudourasv.courses.controller.dto.CourseCreate;
 import com.goudourasv.courses.controller.dto.CourseUpdate;
 import com.goudourasv.courses.domain.Course;
 import com.goudourasv.courses.service.CoursesService;
@@ -36,8 +37,7 @@ public class CoursesResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Course getCourse(@PathParam("id") String idString) {
-        UUID id = UUID.fromString(idString);
+    public Course getCourse(@PathParam("id") UUID id) {
         Course course = coursesService.getSpecificCourse(id);
         return course;
     }
@@ -45,10 +45,10 @@ public class CoursesResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCourse(Course input, UriInfo uriInfo) {
+    public Response createCourse(CourseCreate input, UriInfo uriInfo) {
 
         CoursesValidator.validate(input);
-        Course createdCourse = coursesService.createNewCourse(input);
+        Course createdCourse = coursesService.createNewCourseInput(input);
         String path = uriInfo.getPath();
 
         String location = path + "/" + createdCourse.getId();
@@ -60,8 +60,7 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteCourse(@PathParam("id") String idString) {
-        UUID id = UUID.fromString(idString);
+    public void deleteCourse(@PathParam("id") UUID id) {
         boolean deleted = coursesService.deleteSpecificCourse(id);
         if (!deleted) {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
@@ -74,11 +73,10 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") String id, Course course) {
+    public Course updateCourse(@PathParam("id") UUID id, CourseCreate course) {
         CoursesValidator.validate(course);
         try {
-
-            Course updatedCourse = coursesService.replaceCourse(course);
+            Course updatedCourse = coursesService.replaceCourse(course, id);
             return updatedCourse;
         } catch (Exception ex) {
             throw new ClientErrorException("Not possible to update the existing resource", Response.Status.CONFLICT);
