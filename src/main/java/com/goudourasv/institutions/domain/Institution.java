@@ -4,26 +4,47 @@ import com.goudourasv.courses.domain.Course;
 import com.goudourasv.professors.Professor;
 import com.goudourasv.tags.Tag;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
 public class Institution {
+    private String city;
+    private String country;
     private UUID id;
     private final String name;
-    private ArrayList<Professor> professors = new ArrayList<Professor>();
-    private ArrayList<Course> courses = new ArrayList<Course>();
-    private ArrayList<Tag> tags = new ArrayList<Tag>();
+    private ArrayList<Professor> professors = new ArrayList<>();
+    private ArrayList<Course> courses = new ArrayList<>();
+    private ArrayList<Tag> tags = new ArrayList<>();
 
 
     //Constructor
-    public Institution (UUID id, String name) {
+    public Institution(UUID id, String name) {
         this.id = id;
         this.name = name;
 
     }
 
-    public String getInstitutionName() {
+    public Institution(UUID id, String name, String country, String city) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.city = city;
+
+
+    }
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getName() {
         return name;
     }
 
@@ -31,39 +52,6 @@ public class Institution {
     public UUID getId() {
         return id;
     }
-
-    //Adds a course in an institution
-    public void addCourse (Course course){
-        courses.add(course);
-    }
-
-    //List all the courses of the specific institution
-    public Iterator<Course> getCourses(){
-        return courses.iterator();
-    }
-
-    //Adds a professor in an institution
-    public void addProfessor (Professor professor){
-        professors.add(professor);
-    }
-
-    //List all the professors of the specific institution
-    public Iterator<Professor> getProfessors(){
-        return professors.iterator();
-    }
-
-    //Adds a tag in an institution
-    public void addTag (Tag field){
-        tags.add(field);
-    }
-
-    //List all the fields of the specific institution
-    public Iterator<Tag> getTags(){
-        return tags.iterator();
-    }
-
-    public String toString(){
-        return ("");
-    }
-
 }
+
+
