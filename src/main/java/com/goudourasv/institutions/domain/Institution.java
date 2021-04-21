@@ -1,14 +1,15 @@
-package com.goudourasv.institutions;
+package com.goudourasv.institutions.domain;
 
 import com.goudourasv.courses.domain.Course;
-import com.goudourasv.courses.Professor;
-import com.goudourasv.courses.Tag;
+import com.goudourasv.professors.Professor;
+import com.goudourasv.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 
 public class Institution {
-
+    private UUID id;
     private final String name;
     private ArrayList<Professor> professors = new ArrayList<Professor>();
     private ArrayList<Course> courses = new ArrayList<Course>();
@@ -16,8 +17,8 @@ public class Institution {
 
 
     //Constructor
-    public Institution(String name) {
-
+    public Institution (UUID id, String name) {
+        this.id = id;
         this.name = name;
 
     }
@@ -26,6 +27,10 @@ public class Institution {
         return name;
     }
 
+
+    public UUID getId() {
+        return id;
+    }
 
     //Adds a course in an institution
     public void addCourse (Course course){

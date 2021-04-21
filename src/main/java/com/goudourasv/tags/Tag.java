@@ -1,4 +1,4 @@
-package com.goudourasv.courses;
+package com.goudourasv.tags;
 
 import com.goudourasv.courses.domain.Course;
 

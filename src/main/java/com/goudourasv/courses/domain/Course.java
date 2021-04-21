@@ -2,7 +2,7 @@ package com.goudourasv.courses.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.goudourasv.courses.Lecture;
+import com.goudourasv.lectures.Lecture;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

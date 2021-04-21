@@ -1,4 +1,4 @@
-package com.goudourasv.courses;
+package com.goudourasv.professors;
 
 import com.goudourasv.courses.domain.Course;
 

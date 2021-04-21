@@ -1,4 +1,4 @@
-package com.goudourasv.courses;
+package com.goudourasv.lectures;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
