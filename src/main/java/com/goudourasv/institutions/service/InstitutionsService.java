@@ -1,6 +1,7 @@
 package com.goudourasv.institutions.service;
 
 import com.goudourasv.institutions.controller.dto.InstitutionCreate;
+import com.goudourasv.institutions.controller.dto.InstitutionUpdate;
 import com.goudourasv.institutions.domain.Institution;
 
 import java.util.*;
@@ -9,12 +10,12 @@ public class InstitutionsService {
     Map<UUID,Institution> institutionsMap = new HashMap<>();
 
     public InstitutionsService(){
-        Institution Stanford = new Institution(UUID.fromString("cdf2b504-ad7c-46e4-bd01-7e7040ed3052"),"stanford","USA","California");
-        Institution AUTH = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"),"auth","Greece","Thessaloniki");
-        Institution Buddha = new Institution(UUID.fromString( "cc249d1c-c001-4140-ab0d-1b25e7d64f42"),"buddha","Nepal","Kathmandu");
-        institutionsMap.put(Stanford.getId(),Stanford);
-        institutionsMap.put(AUTH.getId(),AUTH);
-        institutionsMap.put(Buddha.getId(),Buddha);
+        Institution stanford = new Institution(UUID.fromString("cdf2b504-ad7c-46e4-bd01-7e7040ed3052"),"stanford","USA","California");
+        Institution auth = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"),"auth","Greece","Thessaloniki");
+        Institution buddha = new Institution(UUID.fromString( "cc249d1c-c001-4140-ab0d-1b25e7d64f42"),"buddha","Nepal","Kathmandu");
+        institutionsMap.put(stanford.getId(),stanford);
+        institutionsMap.put(auth.getId(),auth);
+        institutionsMap.put(buddha.getId(),buddha);
 
     }
     public List<Institution> getInstitutions(){
@@ -27,14 +28,41 @@ public class InstitutionsService {
         Institution specificInstitution = institutionsMap.get(id);
         return specificInstitution;
     }
+
     public Institution createInstitution(InstitutionCreate institutionInput){
         Institution institution = new Institution(institutionInput.getName(),institutionInput.getCountry(),institutionInput.getCity());
-        institution.generateNewId();
         institutionsMap.put(institution.getId(),institution);
+
         return institution;
     }
 
     public void deleteSpecificCourse(UUID id) {
         institutionsMap.remove(id);
+    }
+
+    public Institution partiallyUpdateInstitution(InstitutionUpdate input,UUID id){
+        Institution institutionToUpdate = institutionsMap.get(id);
+
+        if (input.getName()!=null){
+            String newInstitutionName = input.getName();
+            institutionToUpdate.setName(newInstitutionName);
+        }
+        if (input.getCountry()!=null){
+            String newInstitutionCountry = input.getCountry();
+            institutionToUpdate.setCountry(newInstitutionCountry);
+        }
+        if (input.getCity()!=null){
+            String newInstitutionCity = input.getCity();
+            institutionToUpdate.setCity(newInstitutionCity);
+        }
+
+        return institutionToUpdate;
+    }
+
+    public Institution replaceInstitution(InstitutionUpdate input,UUID id){
+        Institution institution = new Institution(id,input.getName(),input.getCountry(), input.getCity());
+        institutionsMap.put(institution.getId(),institution);
+        return institution;
+
     }
 }
