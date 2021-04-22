@@ -1,5 +1,6 @@
 package com.goudourasv.institutions.service;
 
+import com.goudourasv.institutions.controller.dto.InstitutionCreate;
 import com.goudourasv.institutions.domain.Institution;
 
 import java.util.*;
@@ -25,5 +26,15 @@ public class InstitutionsService {
     public Institution getSpecificInstitution(UUID id) {
         Institution specificInstitution = institutionsMap.get(id);
         return specificInstitution;
+    }
+    public Institution createInstitution(InstitutionCreate institutionInput){
+        Institution institution = new Institution(institutionInput.getName(),institutionInput.getCountry(),institutionInput.getCity());
+        institution.generateNewId();
+        institutionsMap.put(institution.getId(),institution);
+        return institution;
+    }
+
+    public void deleteSpecificCourse(UUID id) {
+        institutionsMap.remove(id);
     }
 }

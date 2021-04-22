@@ -20,20 +20,26 @@ public class Institution {
 
 
     //Constructor
-    public Institution(UUID id, String name) {
+    public Institution (UUID id, String name) {
         this.id = id;
         this.name = name;
 
     }
 
-    public Institution(UUID id, String name, String country, String city) {
+    public Institution (UUID id, String name, String country, String city) {
         this.id = id;
         this.name = name;
         this.country = country;
         this.city = city;
 
+    }
+    public Institution (String name, String country, String city) {
+        this.name = name;
+        this.country = country;
+        this.city = city;
 
     }
+
 
 
     public String getCity() {
@@ -51,6 +57,11 @@ public class Institution {
 
     public UUID getId() {
         return id;
+    }
+
+    public void generateNewId() {
+        UUID id = UUID.randomUUID();
+        this.id = id;
     }
 }
 
