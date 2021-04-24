@@ -1,10 +1,6 @@
 package com.goudourasv.institutions.domain;
 
-import com.goudourasv.courses.domain.Course;
-import com.goudourasv.professors.Professor;
-import com.goudourasv.tags.Tag;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class Institution {
@@ -19,6 +15,7 @@ public class Institution {
         this.name = name;
 
     }
+
     public Institution(UUID id, String name, String country, String city) {
         this.id = id;
         this.name = name;

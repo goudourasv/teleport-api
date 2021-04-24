@@ -17,13 +17,14 @@ import java.util.UUID;
 @Path("/institutions")
 public class InstitutionsResource {
     private InstitutionsService institutionsService = new InstitutionsService();
-    //TODO Filtering
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Institution> getInstitutions() {
-        List<Institution> institutions = institutionsService.getInstitutions();
-        return institutions;
+    public List<Institution> getInstitutions(@QueryParam("country") String country, @QueryParam("city") String city) {
+        List<Institution> institutionList = institutionsService.getInstitutions();
+        List<Institution> filteredList = institutionsService.getFilteredList(institutionList, country, city);
+        return filteredList;
     }
 
 
@@ -35,14 +36,16 @@ public class InstitutionsResource {
         return institution;
     }
 
-    //TODO change Location header
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewInstitution(InstitutionCreate institution, UriInfo uriInfo) {
         Institution createdInstitution = institutionsService.createInstitution(institution);
-        URI uri = uriInfo.getRequestUri();
-        return Response.created(uri).entity(createdInstitution).build();
+
+        String path = uriInfo.getPath();
+        String location = path + createdInstitution.getId().toString();
+        return Response.created(URI.create(location)).entity(createdInstitution).build();
     }
 
 
