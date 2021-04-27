@@ -2,6 +2,8 @@ package com.goudourasv.courses.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotBlank;
+
 
 public class CourseUpdate {
     private String title;

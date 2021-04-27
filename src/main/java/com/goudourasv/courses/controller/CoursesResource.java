@@ -7,6 +7,7 @@ import com.goudourasv.courses.controller.dto.CourseUpdate;
 import com.goudourasv.courses.domain.Course;
 import com.goudourasv.courses.service.CoursesService;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,9 +46,8 @@ public class CoursesResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCourse(CourseCreate input, UriInfo uriInfo) {
-
-        CoursesValidator.validate(input);
+    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo) {
+//        CoursesValidator.validate(input);
         Course createdCourse = coursesService.createNewCourseInput(input);
         String path = uriInfo.getPath();
 
@@ -73,8 +73,8 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") UUID id, CourseCreate course) {
-        CoursesValidator.validate(course);
+    public Course updateCourse(@PathParam("id") UUID id,@Valid CourseCreate course) {
+//        CoursesValidator.validate(course);
         try {
             Course updatedCourse = coursesService.replaceCourse(course, id);
             return updatedCourse;

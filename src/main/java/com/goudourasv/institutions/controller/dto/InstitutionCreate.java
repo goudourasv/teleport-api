@@ -1,8 +1,13 @@
 package com.goudourasv.institutions.controller.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class InstitutionCreate {
+    @NotBlank
     private String name;
+    @NotBlank
     private String country;
+    @NotBlank
     private String city;
 
     public InstitutionCreate(String name,String country,String city) {

@@ -5,6 +5,7 @@ import com.goudourasv.institutions.controller.dto.InstitutionUpdate;
 import com.goudourasv.institutions.domain.Institution;
 import com.goudourasv.institutions.service.InstitutionsService;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -40,7 +41,7 @@ public class InstitutionsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createNewInstitution(InstitutionCreate institution, UriInfo uriInfo) {
+    public Response createNewInstitution(@Valid InstitutionCreate institution, UriInfo uriInfo) {
         Institution createdInstitution = institutionsService.createInstitution(institution);
 
         String path = uriInfo.getPath();
@@ -62,7 +63,7 @@ public class InstitutionsResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Institution replaceInstitution(@PathParam("id") UUID id, InstitutionUpdate input) {
+    public Institution replaceInstitution(@PathParam("id") UUID id,@Valid InstitutionCreate input) {
         Institution replacedInstitution = institutionsService.replaceInstitution(input, id);
         return replacedInstitution;
     }
