@@ -1,5 +1,6 @@
 package com.goudourasv.courses.controller;
 
+import com.arjuna.ats.txoj.ConflictType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goudourasv.courses.controller.dto.CourseCreate;
@@ -38,15 +39,16 @@ public class CoursesResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Course getCourse(@PathParam("id") UUID id) {
-        Course course = coursesService.getSpecificCourse(id);
-        return course;
+    public Course getCourse(@PathParam("id") UUID id)  {
+        throw new ServerErrorException("Database error",504);
+//        Course course = coursesService.getSpecificCourse(id);
+//        return course;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo) {
+    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo)  {
 //        CoursesValidator.validate(input);
         Course createdCourse = coursesService.createNewCourseInput(input);
         String path = uriInfo.getPath();
