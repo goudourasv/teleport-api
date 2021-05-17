@@ -33,28 +33,29 @@ public class CoursesService {
         return courses;
     }
 
+    //TODO check java Streams
     public List<Course> getFilteredList(List<Course> coursesList, String institution, String tag, String professor) {
         List<Course> filteredList = new ArrayList<>();
         if (institution == null && tag == null && professor == null) {
             filteredList.addAll(coursesList);
         } else {
             for (Course course : coursesList) {
-                boolean isMatch = true;
+//                boolean isMatch = true;
                 if (professor != null && !course.getProfessor().equals(professor)) {
-                    isMatch = false;
-
+//                    isMatch = false;
+                    continue;
                 }
                 if (institution != null && !course.getInstitutionName().equals(institution)) {
-                    isMatch = false;
-
+//                    isMatch = false;
+                    continue;
                 }
                 if (tag != null && !course.getTag().equals(tag)) {
-                    isMatch = false;
-
+                    //                    isMatch = false;
+                    continue;
                 }
-                if (isMatch == true) {
-                    filteredList.add(course);
-                }
+//                if (isMatch) {
+                filteredList.add(course);
+//                }
             }
         }
         return filteredList;

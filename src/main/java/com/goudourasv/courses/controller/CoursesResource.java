@@ -1,6 +1,5 @@
 package com.goudourasv.courses.controller;
 
-import com.arjuna.ats.txoj.ConflictType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goudourasv.courses.controller.dto.CourseCreate;
@@ -39,20 +38,18 @@ public class CoursesResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Course getCourse(@PathParam("id") UUID id)  {
-        throw new ServerErrorException("Database error",504);
-//        Course course = coursesService.getSpecificCourse(id);
-//        return course;
+    public Course getCourse(@PathParam("id") UUID id) {
+        Course course = coursesService.getSpecificCourse(id);
+        return course;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo)  {
-//        CoursesValidator.validate(input);
+    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo) {
         Course createdCourse = coursesService.createNewCourseInput(input);
-        String path = uriInfo.getPath();
 
+        String path = uriInfo.getPath();
         String location = path + "/" + createdCourse.getId();
         return Response.created(URI.create(location)).entity(createdCourse).build();
     }
@@ -61,7 +58,6 @@ public class CoursesResource {
     @DELETE
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public void deleteCourse(@PathParam("id") UUID id) {
         boolean deleted = coursesService.deleteSpecificCourse(id);
         if (!deleted) {
@@ -75,14 +71,9 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") UUID id,@Valid CourseCreate course) {
-//        CoursesValidator.validate(course);
-        try {
-            Course updatedCourse = coursesService.replaceCourse(course, id);
-            return updatedCourse;
-        } catch (Exception ex) {
-            throw new ClientErrorException("Not possible to update the existing resource", Response.Status.CONFLICT);
-        }
+    public Course updateCourse(@PathParam("id") UUID id, @Valid CourseCreate course) {
+        Course updatedCourse = coursesService.replaceCourse(course, id);
+        return updatedCourse;
     }
 
 

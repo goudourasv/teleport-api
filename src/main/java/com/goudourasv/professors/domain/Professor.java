@@ -1,41 +1,60 @@
-package com.goudourasv.professors;
+package com.goudourasv.professors.domain;
 
-import com.goudourasv.courses.domain.Course;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.UUID;
 
 public class Professor {
-    private final String name;
+    private UUID id;
+    private String firstName;
+    private String lastName;
     private String institution;
-    private ArrayList<Course> courses = new ArrayList<Course>();
 
-    //constructor
-    public Professor(String name, String institution) {
 
-        this.name = name;
+    public Professor(UUID id, String firstName, String lastName, String institution) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.institution = institution;
     }
 
-    public String getName() {
-        return name;
+    public Professor(String firstName, String lastName, String institution) {
+        this.generateNewId();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.institution = institution;
     }
+
+    private void generateNewId() {
+        UUID id = UUID.randomUUID();
+        this.id = id;
+    }
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
 
     public String getInstitution() {
         return institution;
     }
 
-    //Adds a course a professor teaches
-    public void addCourse (Course course){
-        courses.add(course);
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    //List all the courses a professor teaches
-    public Iterator<Course> getCourses(){
-        return courses.iterator();
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-
-
-
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
 }

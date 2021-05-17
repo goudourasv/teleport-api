@@ -15,7 +15,12 @@ public class CourseCreate {
     @NotBlank
     private String professor;
 
-
+    public CourseCreate(String title,String institutionName,String tag,String professor){
+        this.title = title;
+        this.institutionName = institutionName;
+        this.tag = tag;
+        this.professor = professor;
+    }
 
 
     public String getTitle() {

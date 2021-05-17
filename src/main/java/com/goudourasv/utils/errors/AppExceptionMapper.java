@@ -7,8 +7,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 
-
-//TODO Handle ValidationException
+//TODO handle exceptions from Jackson (e.g when missing getter ,500 )
 @Provider
 public class AppExceptionMapper implements ExceptionMapper<Exception> {
     @Override

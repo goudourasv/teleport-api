@@ -56,23 +56,22 @@ public class InstitutionsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void deleteInstitution(@PathParam("id") UUID id) {
         institutionsService.deleteSpecificCourse(id);
-
     }
 
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Institution replaceInstitution(@PathParam("id") UUID id,@Valid InstitutionCreate input) {
-        Institution replacedInstitution = institutionsService.replaceInstitution(input, id);
-        return replacedInstitution;
+    public Institution updateInstitution(@PathParam("id") UUID id, @Valid InstitutionCreate input) {
+        Institution updatedInstitution = institutionsService.replaceInstitution(input, id);
+        return updatedInstitution;
     }
 
     @PATCH
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Institution updateInstitution(@PathParam("id") UUID id, InstitutionUpdate input) {
+    public Institution partiallyUpdateInstitution(@PathParam("id") UUID id, InstitutionUpdate input) {
         Institution updatedInstitution = institutionsService.partiallyUpdateInstitution(input, id);
         return updatedInstitution;
     }

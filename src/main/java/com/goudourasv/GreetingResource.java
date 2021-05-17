@@ -1,6 +1,6 @@
 package com.goudourasv;
 
-import com.goudourasv.tags.Tag;
+import com.goudourasv.tags.domain.Tag;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

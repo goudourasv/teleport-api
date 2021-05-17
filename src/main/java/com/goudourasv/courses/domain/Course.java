@@ -22,20 +22,13 @@ public class Course {
     private List<Lecture> lectures = new ArrayList<>();
 
 
-    public Course() {
-        id = null;
-        title = null;
-        institutionName = null;
-    }
-
-    //Constructor
     public Course(UUID id, String title, String institution, String tag, String professor) {
         this.id = id;
         this.title = title;
         institutionName = institution;
         this.tag = tag;
         this.professor = professor;
-
+        System.out.println("yes");
     }
 
     public Course(String title, String institution, String tag, String professor) {
@@ -43,6 +36,8 @@ public class Course {
         institutionName = institution;
         this.tag = tag;
         this.professor = professor;
+        System.out.println("yes no");
+
     }
 
     public String getTitle() {

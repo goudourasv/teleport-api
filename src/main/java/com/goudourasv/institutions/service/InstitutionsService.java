@@ -64,6 +64,13 @@ public class InstitutionsService {
         institutionsMap.remove(id);
     }
 
+    public Institution replaceInstitution(InstitutionCreate input, UUID id) {
+        Institution institution = new Institution(id, input.getName(), input.getCountry(), input.getCity());
+        institutionsMap.put(institution.getId(), institution);
+        return institution;
+
+    }
+
     public Institution partiallyUpdateInstitution(InstitutionUpdate input, UUID id) {
         Institution institutionToUpdate = institutionsMap.get(id);
 
@@ -83,10 +90,5 @@ public class InstitutionsService {
         return institutionToUpdate;
     }
 
-    public Institution replaceInstitution(InstitutionCreate input, UUID id) {
-        Institution institution = new Institution(id, input.getName(), input.getCountry(), input.getCity());
-        institutionsMap.put(institution.getId(), institution);
-        return institution;
 
-    }
 }
