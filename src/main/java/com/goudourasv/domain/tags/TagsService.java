@@ -1,10 +1,12 @@
 package com.goudourasv.domain.tags;
 
+import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.http.tags.dto.TagCreate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class TagsService {
     HashMap<String, Tag> tagsMap = new HashMap<>();
@@ -21,7 +23,11 @@ public class TagsService {
         tagsMap.put("software", software);
         tagsMap.put("math", math);
     }
+    public Tag getSpecificTag(String name) {
+        Tag specificTag = tagsMap.get(name);
+        return specificTag;
 
+    }
 
     public List<Tag> getTagsList() {
         List<Tag> tags = new ArrayList<>(tagsMap.values());

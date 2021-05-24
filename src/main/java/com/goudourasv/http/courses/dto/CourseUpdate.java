@@ -2,28 +2,30 @@ package com.goudourasv.http.courses.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 
 public class CourseUpdate {
     private String title;
     @JsonProperty("institution")
-    private String institutionName;
+    private UUID institutionId;
     private String tag;
-    private String instructor;
+    private UUID instructorId;
 
     public String getTitle() {
         return title;
     }
 
-    public String getInstitutionName() {
-        return institutionName;
+    public UUID getInstitutionId() {
+        return institutionId;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public String getInstructor() {
-        return instructor;
+    public UUID getInstructorId() {
+        return instructorId;
     }
 
 }

@@ -2,7 +2,10 @@ package com.goudourasv.domain.courses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.tags.Tag;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,29 +17,27 @@ public class Course {
     private UUID id;
     private String title;
     @JsonProperty("institution")
-    private String institutionName;
-    private String tag;
-    private String instructor;
+    private Institution institution;
+    private Tag tag;
+    private Instructor instructor;
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Lecture> lectures = new ArrayList<>();
 
 
-    public Course(UUID id, String title, String institution, String tag, String instructor) {
+    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor) {
         this.id = id;
         this.title = title;
-        institutionName = institution;
+        this.institution = institution;
         this.tag = tag;
         this.instructor = instructor;
-        System.out.println("yes");
     }
 
-    public Course(String title, String institution, String tag, String instructor) {
+    public Course(String title, Institution institution, Tag tag, Instructor instructor) {
         this.title = title;
-        institutionName = institution;
+        this.institution = institution;
         this.tag = tag;
         this.instructor = instructor;
-        System.out.println("yes no");
 
     }
 
@@ -49,15 +50,15 @@ public class Course {
     }
 
 
-    public String getInstitutionName() {
-        return institutionName;
+    public Institution getInstitution() {
+        return institution;
     }
 
-    public String getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    public String getInstructor() {
+    public Instructor getInstructor() {
         return instructor;
     }
 
@@ -82,12 +83,16 @@ public class Course {
         lectures.add(lecture);
     }
 
-    public String setTag(String tag) {
+    public List<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public Tag setTag(Tag tag) {
         this.tag = tag;
         return tag;
     }
 
-    public String setInstructor(String instructor) {
+    public Instructor setInstructor(Instructor instructor) {
         this.instructor = instructor;
         return instructor;
     }
@@ -97,9 +102,10 @@ public class Course {
         return title;
     }
 
-    public String setInstitutionName(String institutionName) {
-        this.institutionName = institutionName;
-        return institutionName;
+    public Institution setInstitution(Institution institution) {
+
+        this.institution = institution;
+        return institution;
     }
 
 

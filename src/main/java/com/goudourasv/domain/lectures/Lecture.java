@@ -1,22 +1,25 @@
 package com.goudourasv.domain.lectures;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Lecture {
+    private UUID id;
     private String title;
     private LocalDateTime date;
-    private LocalDateTime start_time;
-    private LocalDateTime end_time;
+    private LocalDateTime startΤime;
+    private LocalDateTime endΤime;
 
-
-    //constructor
-    public Lecture(String title, LocalDateTime date,LocalDateTime start_time,LocalDateTime end_time) {
+    public Lecture(UUID id, String title, LocalDateTime date, LocalDateTime startΤime, LocalDateTime endΤime) {
+        this.id = id;
         this.title = title;
         this.date = date;
-        this.start_time = start_time;
-        this.end_time = end_time;
+        this.startΤime = startΤime;
+        this.endΤime = endΤime;
+    }
 
+    public UUID getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -27,21 +30,20 @@ public class Lecture {
         return date;
     }
 
-    public LocalDateTime getEnd_time() {
-        return end_time;
+    public LocalDateTime getEndΤime() {
+        return endΤime;
     }
 
-
-    public LocalDateTime getStart_time() {
-        return start_time;
+    public LocalDateTime getStartΤime() {
+        return startΤime;
     }
 
-    public void setStart_time(LocalDateTime start_time) {
-        this.start_time = start_time;
+    public void setStartΤime(LocalDateTime startΤime) {
+        this.startΤime = startΤime;
     }
 
-    public void setEnd_time(LocalDateTime end_time) {
-        this.end_time = end_time;
+    public void setEndΤime(LocalDateTime endΤime) {
+        this.endΤime = endΤime;
     }
 
     public void setDate(LocalDateTime date) {

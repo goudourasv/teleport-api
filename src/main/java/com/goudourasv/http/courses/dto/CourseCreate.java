@@ -1,6 +1,9 @@
 package com.goudourasv.http.courses.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.tags.Tag;
 
 import javax.validation.constraints.NotBlank;
 
@@ -10,14 +13,14 @@ public class CourseCreate {
     private String title;
     @JsonProperty("institution")
     @NotBlank
-    private String institutionName;
-    private String tag;
+    private Institution institution;
+    private Tag tag;
     @NotBlank
-    private String instructor;
+    private Instructor instructor;
 
-    public CourseCreate(String title,String institutionName,String tag,String instructor){
+    public CourseCreate(String title, Institution institution, Tag tag, Instructor instructor){
         this.title = title;
-        this.institutionName = institutionName;
+        this.institution = institution;
         this.tag = tag;
         this.instructor = instructor;
     }
@@ -27,15 +30,15 @@ public class CourseCreate {
         return title;
     }
 
-    public String getInstitutionName() {
-        return institutionName;
+    public Institution getInstitution() {
+        return institution;
     }
 
-    public String getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    public String getInstructor() {
+    public Instructor getInstructor() {
         return instructor;
     }
 

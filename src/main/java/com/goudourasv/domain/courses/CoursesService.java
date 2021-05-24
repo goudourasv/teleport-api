@@ -1,5 +1,12 @@
 package com.goudourasv.domain.courses;
 
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.institutions.InstitutionsService;
+import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.instructors.InstructorsService;
+import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.tags.Tag;
+import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
@@ -10,12 +17,29 @@ import java.util.UUID;
 
 public class CoursesService {
     private final HashMap<UUID, Course> courseStore = new HashMap<>();
+    private InstitutionsService institutionsService = new InstitutionsService();
+    private InstructorsService instructorsService = new InstructorsService();
+    private TagsService tagsService = new TagsService();
 
     public CoursesService() {
-        Course programmingMethodology = new Course(UUID.fromString("e0f8f134-4408-42e7-a9dd-34206c5f91f2"), "Programming Methodology", "Stanford", "software", "Mehran Sahami");
-        Course linearAlgebra1 = new Course(UUID.fromString("ecf02406-a0ec-4cc2-a76a-f3598fb2c6f4"), "Linear Algebra", "AUTH", "Math", "Jabbour Nikolaos");
-        Course electricalMachines = new Course(UUID.fromString("a41aa048-62b1-4196-a2c4-13207d3751c8"), "Electrical machines", "AUTH", "Engineering", "Jabbour Nikolaos");
-        Course yogaScience = new Course(UUID.fromString("0a8c8472-c9b0-4a5a-a34b-893cabb7a40b"), "Yoga Science", "Buddha", "Tsakra", "Lila Nikolaou");
+        Tag tsakra = new Tag("tsakra");
+        Tag engineering = new Tag("engineering");
+        Tag software = new Tag("software");
+        Tag math = new Tag("math");
+
+        Instructor mehranSahami = new Instructor(UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Mehran", "Sahami", "Stanford");
+        Instructor jabbourNikolaos = new Instructor(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "Nikolaos", "Jabbour", "Auth");
+        Instructor lilaNikolaou = new Instructor(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "Lila", "Nikolaou", "Buddha");
+
+        Institution stanford = new Institution(UUID.fromString("cdf2b504-ad7c-46e4-bd01-7e7040ed3052"), "stanford", "USA", "California");
+        Institution auth = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"), "auth", "Greece", "Thessaloniki");
+        Institution buddha = new Institution(UUID.fromString("cc249d1c-c001-4140-ab0d-1b25e7d64f42"), "buddha", "Nepal", "Kathmandu");
+
+        Course programmingMethodology = new Course(UUID.fromString("e0f8f134-4408-42e7-a9dd-34206c5f91f2"), "Programming Methodology", stanford, software, mehranSahami);
+        Course linearAlgebra1 = new Course(UUID.fromString("ecf02406-a0ec-4cc2-a76a-f3598fb2c6f4"), "Linear Algebra", auth, math, jabbourNikolaos);
+        Course electricalMachines = new Course(UUID.fromString("a41aa048-62b1-4196-a2c4-13207d3751c8"), "Electrical machines", auth, engineering, jabbourNikolaos);
+        Course yogaScience = new Course(UUID.fromString("0a8c8472-c9b0-4a5a-a34b-893cabb7a40b"), "Yoga Science", buddha, tsakra, lilaNikolaou);
+
         courseStore.put(programmingMethodology.getId(), programmingMethodology);
         courseStore.put(linearAlgebra1.getId(), linearAlgebra1);
         courseStore.put(electricalMachines.getId(), electricalMachines);
@@ -44,7 +68,7 @@ public class CoursesService {
 //                    isMatch = false;
                     continue;
                 }
-                if (institution != null && !course.getInstitutionName().equals(institution)) {
+                if (institution != null && !course.getInstitution().equals(institution)) {
 //                    isMatch = false;
                     continue;
                 }
@@ -73,13 +97,13 @@ public class CoursesService {
     }
 
     public Course replaceCourse(CourseCreate course, UUID id) {
-        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitutionName(), course.getTag(), course.getInstructor());
+        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor());
         courseStore.replace(updatedCourse.getId(), updatedCourse);
         return updatedCourse;
     }
 
     public Course createNewCourseInput(CourseCreate course) {
-        Course createdCourse = new Course(course.getTitle(), course.getInstitutionName(), course.getTag(), course.getInstructor());
+        Course createdCourse = new Course(course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor());
         createdCourse.generateId();
         courseStore.put(createdCourse.getId(), createdCourse);
         return createdCourse;
@@ -94,23 +118,32 @@ public class CoursesService {
             courseToUpdate.setTitle(newTitle);
         }
 
-        if (courseUpdate.getInstitutionName() != null) {
-            String institutionName = courseUpdate.getInstitutionName();
-            courseToUpdate.setInstitutionName(institutionName);
+        if (courseUpdate.getInstitutionId() != null) {
+            UUID institutionId = courseUpdate.getInstitutionId();
+            Institution institution = institutionsService.getSpecificInstitution(institutionId);
+            courseToUpdate.setInstitution(institution);
         }
 
-        if (courseUpdate.getInstructor() != null) {
-            String newInstructorName = courseUpdate.getInstructor();
-            courseToUpdate.setInstructor(newInstructorName);
+        if (courseUpdate.getInstructorId() != null) {
+            UUID instructorId = courseUpdate.getInstructorId();
+            Instructor instructor = instructorsService.getSpecificInstructor(instructorId);
+            courseToUpdate.setInstructor(instructor);
         }
 
         if (courseUpdate.getTag() != null) {
-            String newTag = courseUpdate.getTag();
+            String tag = courseUpdate.getTag();
+            Tag newTag = tagsService.getSpecificTag(tag);
             courseToUpdate.setTag(newTag);
         }
 
         return courseToUpdate;
     }
 
+    //TODO live course list
+    public List<LiveCourse> getLiveCourses() {
+        List<LiveCourse> liveCourses = new ArrayList<>();
+        return liveCourses;
 
+
+    }
 }
