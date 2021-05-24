@@ -1,11 +1,11 @@
-package com.goudourasv.professors.controller.dto;
+package com.goudourasv.instructors.controller.dto;
 
-public class ProfessorUpdate {
+public class InstructorUpdate {
     private String firstName;
     private String lastName;
     private String institution;
 
-    public ProfessorUpdate(String firstName,String lastName,String institution){
+    public InstructorUpdate(String firstName, String lastName, String institution){
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;

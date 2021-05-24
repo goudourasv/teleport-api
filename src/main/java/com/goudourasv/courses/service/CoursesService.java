@@ -34,14 +34,14 @@ public class CoursesService {
     }
 
     //TODO check java Streams
-    public List<Course> getFilteredList(List<Course> coursesList, String institution, String tag, String professor) {
+    public List<Course> getFilteredList(List<Course> coursesList, String institution, String tag, String instructor) {
         List<Course> filteredList = new ArrayList<>();
-        if (institution == null && tag == null && professor == null) {
+        if (institution == null && tag == null && instructor == null) {
             filteredList.addAll(coursesList);
         } else {
             for (Course course : coursesList) {
 //                boolean isMatch = true;
-                if (professor != null && !course.getProfessor().equals(professor)) {
+                if (instructor != null && !course.getInstructor().equals(instructor)) {
 //                    isMatch = false;
                     continue;
                 }
@@ -74,13 +74,13 @@ public class CoursesService {
     }
 
     public Course replaceCourse(CourseCreate course, UUID id) {
-        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitutionName(), course.getTag(), course.getProfessor());
+        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitutionName(), course.getTag(), course.getInstructor());
         courseStore.replace(updatedCourse.getId(), updatedCourse);
         return updatedCourse;
     }
 
     public Course createNewCourseInput(CourseCreate course) {
-        Course createdCourse = new Course(course.getTitle(), course.getInstitutionName(), course.getTag(), course.getProfessor());
+        Course createdCourse = new Course(course.getTitle(), course.getInstitutionName(), course.getTag(), course.getInstructor());
         createdCourse.generateId();
         courseStore.put(createdCourse.getId(), createdCourse);
         return createdCourse;
@@ -100,9 +100,9 @@ public class CoursesService {
             courseToUpdate.setInstitutionName(institutionName);
         }
 
-        if (courseUpdate.getProfessor() != null) {
-            String newProfessorName = courseUpdate.getProfessor();
-            courseToUpdate.setProfessor(newProfessorName);
+        if (courseUpdate.getInstructor() != null) {
+            String newInstructorName = courseUpdate.getInstructor();
+            courseToUpdate.setInstructor(newInstructorName);
         }
 
         if (courseUpdate.getTag() != null) {

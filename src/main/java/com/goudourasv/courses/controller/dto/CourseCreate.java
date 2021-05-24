@@ -13,13 +13,13 @@ public class CourseCreate {
     private String institutionName;
     private String tag;
     @NotBlank
-    private String professor;
+    private String instructor;
 
-    public CourseCreate(String title,String institutionName,String tag,String professor){
+    public CourseCreate(String title,String institutionName,String tag,String instructor){
         this.title = title;
         this.institutionName = institutionName;
         this.tag = tag;
-        this.professor = professor;
+        this.instructor = instructor;
     }
 
 
@@ -35,8 +35,8 @@ public class CourseCreate {
         return tag;
     }
 
-    public String getProfessor() {
-        return professor;
+    public String getInstructor() {
+        return instructor;
     }
 
 

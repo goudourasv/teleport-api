@@ -24,10 +24,10 @@ public class CoursesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("professor") String professor) {
+    public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("instructor") String instructor) {
         try {
             List<Course> coursesList = coursesService.getCourses();
-            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution, tag, professor);
+            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution, tag, instructor);
             return filteredList;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);

@@ -2,15 +2,13 @@ package com.goudourasv.courses.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotBlank;
-
 
 public class CourseUpdate {
     private String title;
     @JsonProperty("institution")
     private String institutionName;
     private String tag;
-    private String professor;
+    private String instructor;
 
     public String getTitle() {
         return title;
@@ -24,8 +22,8 @@ public class CourseUpdate {
         return tag;
     }
 
-    public String getProfessor() {
-        return professor;
+    public String getInstructor() {
+        return instructor;
     }
 
 }

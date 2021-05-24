@@ -4,27 +4,21 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Lecture {
-    private final String course;
-    private final int  numberOfLecture;
+    private String title;
     private LocalDateTime date;
     private Duration duration;
 
 
     //constructor
-    public Lecture(String course, int num, LocalDateTime date,Duration duration) {
-        this.course = course;
-        numberOfLecture = num;
+    public Lecture(String title, LocalDateTime date, Duration duration) {
+        this.title = title;
         this.date = date;
         this.duration = duration;
 
     }
 
-    public String getLectureCourse() {
-        return course;
-    }
-
-    public int getNumberOfLecture() {
-        return numberOfLecture;
+    public String getTitle() {
+        return title;
     }
 
     public LocalDateTime getDate() {

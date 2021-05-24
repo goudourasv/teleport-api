@@ -16,26 +16,26 @@ public class Course {
     @JsonProperty("institution")
     private String institutionName;
     private String tag;
-    private String professor;
+    private String instructor;
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Lecture> lectures = new ArrayList<>();
 
 
-    public Course(UUID id, String title, String institution, String tag, String professor) {
+    public Course(UUID id, String title, String institution, String tag, String instructor) {
         this.id = id;
         this.title = title;
         institutionName = institution;
         this.tag = tag;
-        this.professor = professor;
+        this.instructor = instructor;
         System.out.println("yes");
     }
 
-    public Course(String title, String institution, String tag, String professor) {
+    public Course(String title, String institution, String tag, String instructor) {
         this.title = title;
         institutionName = institution;
         this.tag = tag;
-        this.professor = professor;
+        this.instructor = instructor;
         System.out.println("yes no");
 
     }
@@ -57,8 +57,8 @@ public class Course {
         return tag;
     }
 
-    public String getProfessor() {
-        return professor;
+    public String getInstructor() {
+        return instructor;
     }
 
     public LocalDate getStartDate() {
@@ -87,9 +87,9 @@ public class Course {
         return tag;
     }
 
-    public String setProfessor(String professor) {
-        this.professor = professor;
-        return professor;
+    public String setInstructor(String instructor) {
+        this.instructor = instructor;
+        return instructor;
     }
 
     public String setTitle(String title) {

@@ -1,15 +1,15 @@
-package com.goudourasv.professors.controller.dto;
+package com.goudourasv.instructors.controller.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class ProfessorCreate {
+public class InstructorCreate {
     @NotBlank
     private String lastName;
     @NotBlank
     private String firstName;
     private String institution;
 
-    public ProfessorCreate(String firstName,String lastName,String institution){
+    public InstructorCreate(String firstName, String lastName, String institution){
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;

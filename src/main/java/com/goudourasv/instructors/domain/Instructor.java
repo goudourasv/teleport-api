@@ -1,22 +1,22 @@
-package com.goudourasv.professors.domain;
+package com.goudourasv.instructors.domain;
 
 import java.util.UUID;
 
-public class Professor {
+public class Instructor {
     private UUID id;
     private String firstName;
     private String lastName;
     private String institution;
 
 
-    public Professor(UUID id, String firstName, String lastName, String institution) {
+    public Instructor(UUID id, String firstName, String lastName, String institution) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;
     }
 
-    public Professor(String firstName, String lastName, String institution) {
+    public Instructor(String firstName, String lastName, String institution) {
         this.generateNewId();
         this.firstName = firstName;
         this.lastName = lastName;
