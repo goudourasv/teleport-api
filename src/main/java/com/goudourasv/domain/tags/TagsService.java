@@ -1,16 +1,15 @@
 package com.goudourasv.domain.tags;
 
-import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.http.tags.dto.TagCreate;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
+@ApplicationScoped
 public class TagsService {
     HashMap<String, Tag> tagsMap = new HashMap<>();
-
 
 
     public TagsService() {
@@ -23,6 +22,7 @@ public class TagsService {
         tagsMap.put("software", software);
         tagsMap.put("math", math);
     }
+
     public Tag getSpecificTag(String name) {
         Tag specificTag = tagsMap.get(name);
         return specificTag;

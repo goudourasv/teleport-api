@@ -7,7 +7,7 @@ import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.tags.Tag;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,12 +20,13 @@ public class Course {
     private Institution institution;
     private Tag tag;
     private Instructor instructor;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Instant startDate;
+    private Instant endDate;
     private List<Lecture> lectures = new ArrayList<>();
 
 
-    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor) {
+
+    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor,Instant startDate,Instant endDate) {
         this.id = id;
         this.title = title;
         this.institution = institution;
@@ -62,19 +63,19 @@ public class Course {
         return instructor;
     }
 
-    public LocalDate getStartDate() {
+    public Instant getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Instant getEndDate() {
         return endDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Instant startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
 

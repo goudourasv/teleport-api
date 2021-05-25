@@ -2,11 +2,13 @@ package com.goudourasv.http.courses;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goudourasv.http.courses.dto.CourseCreate;
-import com.goudourasv.http.courses.dto.CourseUpdate;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CoursesService;
+import com.goudourasv.http.courses.dto.CourseCreate;
+import com.goudourasv.http.courses.dto.CourseUpdate;
+import io.smallrye.common.annotation.Blocking;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,11 +19,19 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+
+@ApplicationScoped
 @Path("/courses")
 public class CoursesResource {
-    private final CoursesService coursesService = new CoursesService();
+    private final CoursesService coursesService;
+
+    // @Inject not needed in Quarkus
+    public CoursesResource(CoursesService coursesService) {
+        this.coursesService = coursesService;
+    }
 
 
+    @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("instructor") String instructor) {
@@ -34,7 +44,7 @@ public class CoursesResource {
         }
     }
 
-
+    @Blocking
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +53,7 @@ public class CoursesResource {
         return course;
     }
 
+    @Blocking
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -54,7 +65,7 @@ public class CoursesResource {
         return Response.created(URI.create(location)).entity(createdCourse).build();
     }
 
-
+    @Blocking
     @DELETE
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -66,7 +77,7 @@ public class CoursesResource {
 
     }
 
-
+    @Blocking
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -76,7 +87,7 @@ public class CoursesResource {
         return updatedCourse;
     }
 
-
+    @Blocking
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
