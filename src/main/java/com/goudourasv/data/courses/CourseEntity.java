@@ -34,4 +34,20 @@ public class CourseEntity {
     public Instant getEndDAte() {
         return endDAte;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDAte(Instant endDAte) {
+        this.endDAte = endDAte;
+    }
 }

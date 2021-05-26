@@ -11,6 +11,7 @@ import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +39,10 @@ public class CoursesService {
         Institution auth = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"), "auth", "Greece", "Thessaloniki");
         Institution buddha = new Institution(UUID.fromString("cc249d1c-c001-4140-ab0d-1b25e7d64f42"), "buddha", "Nepal", "Kathmandu");
 
-        Course programmingMethodology = new Course(UUID.fromString("e0f8f134-4408-42e7-a9dd-34206c5f91f2"), "Programming Methodology", stanford, software, mehranSahami,null,null);
-        Course linearAlgebra1 = new Course(UUID.fromString("ecf02406-a0ec-4cc2-a76a-f3598fb2c6f4"), "Linear Algebra", auth, math, jabbourNikolaos,null,null);
-        Course electricalMachines = new Course(UUID.fromString("a41aa048-62b1-4196-a2c4-13207d3751c8"), "Electrical machines", auth, engineering, jabbourNikolaos,null,null);
-        Course yogaScience = new Course(UUID.fromString("0a8c8472-c9b0-4a5a-a34b-893cabb7a40b"), "Yoga Science", buddha, tsakra, lilaNikolaou,null,null);
+        Course programmingMethodology = new Course(UUID.fromString("e0f8f134-4408-42e7-a9dd-34206c5f91f2"), "Programming Methodology", stanford, software, mehranSahami, null, null);
+        Course linearAlgebra1 = new Course(UUID.fromString("ecf02406-a0ec-4cc2-a76a-f3598fb2c6f4"), "Linear Algebra", auth, math, jabbourNikolaos, null, null);
+        Course electricalMachines = new Course(UUID.fromString("a41aa048-62b1-4196-a2c4-13207d3751c8"), "Electrical machines", auth, engineering, jabbourNikolaos, null, null);
+        Course yogaScience = new Course(UUID.fromString("0a8c8472-c9b0-4a5a-a34b-893cabb7a40b"), "Yoga Science", buddha, tsakra, lilaNikolaou, null, null);
 
         courseStore.put(programmingMethodology.getId(), programmingMethodology);
         courseStore.put(linearAlgebra1.getId(), linearAlgebra1);
@@ -88,12 +89,10 @@ public class CoursesService {
         }
         return filteredList;
     }
-
+    @Transactional
     public Course getSpecificCourse(UUID id) {
-        Course specificCourse = courseStore.get(id);
-
+        Course specificCourse = coursesRepository.getSpecificCourse(id);
         return specificCourse;
-
     }
 
 
@@ -104,16 +103,15 @@ public class CoursesService {
 
     public Course replaceCourse(CourseCreate course, UUID id) {
         //TODO Handle startDate and endDate
-        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(),null,null);
+        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(), null, null);
         courseStore.replace(updatedCourse.getId(), updatedCourse);
         return updatedCourse;
     }
 
-    public Course createNewCourseInput(CourseCreate course) {
-        Course createdCourse = new Course(course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor());
-        createdCourse.generateId();
-        courseStore.put(createdCourse.getId(), createdCourse);
-        return createdCourse;
+    @Transactional
+    public Course createNewCourse(CourseCreate courseCreate) {
+        Course course = coursesRepository.createCourse(courseCreate);
+        return course;
     }
 
 

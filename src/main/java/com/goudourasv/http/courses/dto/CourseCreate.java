@@ -6,23 +6,26 @@ import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.tags.Tag;
 
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 
 
 public class CourseCreate {
     @NotBlank
     private String title;
     @JsonProperty("institution")
-    @NotBlank
     private Institution institution;
     private Tag tag;
-    @NotBlank
     private Instructor instructor;
+    private Instant startDate;
+    private Instant endDate;
 
-    public CourseCreate(String title, Institution institution, Tag tag, Instructor instructor){
+    public CourseCreate(String title, Institution institution, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
         this.title = title;
         this.institution = institution;
         this.tag = tag;
         this.instructor = instructor;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 
@@ -42,5 +45,11 @@ public class CourseCreate {
         return instructor;
     }
 
+    public Instant getStartDate() {
+        return startDate;
+    }
 
+    public Instant getEndDate() {
+        return endDate;
+    }
 }
