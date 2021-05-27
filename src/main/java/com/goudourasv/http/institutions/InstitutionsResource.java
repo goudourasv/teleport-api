@@ -4,6 +4,7 @@ import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionsService;
+import io.smallrye.common.annotation.Blocking;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -49,7 +50,7 @@ public class InstitutionsResource {
         return Response.created(URI.create(location)).entity(createdInstitution).build();
     }
 
-
+    @Blocking
     @DELETE
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)

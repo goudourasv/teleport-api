@@ -96,15 +96,17 @@ public class CoursesService {
     }
 
 
+    @Transactional
     public boolean deleteSpecificCourse(UUID id) {
-        Course specificCourse = courseStore.remove(id);
-        return specificCourse != null;
+        boolean deleted = coursesRepository.deleteSpecificCourse(id);
+        return deleted;
     }
 
+    @Transactional
     public Course replaceCourse(CourseCreate course, UUID id) {
         //TODO Handle startDate and endDate
-        Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(), null, null);
-        courseStore.replace(updatedCourse.getId(), updatedCourse);
+       // Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(), null, null);
+         Course updatedCourse= coursesRepository.replaceCourse(course,id);
         return updatedCourse;
     }
 

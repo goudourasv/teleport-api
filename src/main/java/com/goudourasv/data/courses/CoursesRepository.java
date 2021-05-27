@@ -5,6 +5,8 @@ import com.goudourasv.http.courses.dto.CourseCreate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +44,6 @@ public class CoursesRepository {
     }
 
     public Course getSpecificCourse(UUID id) {
-
         CourseEntity courseEntity = entityManager.find(CourseEntity.class, id);
         if (courseEntity == null) {
             return null;
@@ -50,6 +51,37 @@ public class CoursesRepository {
         Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
 
+    }
+
+    public boolean deleteSpecificCourse(UUID id) {
+        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class,id);
+        if (courseEntity == null) {
+            return false;
+        }
+        entityManager.remove(courseEntity);
+        return true;
+
+        //
+
+    }
+
+    public Course replaceCourse(CourseCreate courseCreate, UUID id) {
+        CourseEntity courseEntity = new CourseEntity();
+        courseEntity.setTitle(courseCreate.getTitle());
+        courseEntity.setStartDate(courseCreate.getStartDate());
+        courseEntity.setEndDAte(courseCreate.getEndDate());
+        courseEntity.setId(id);
+        try {
+            entityManager.merge(courseEntity);
+        } catch (Exception ex) {
+            throw new NotFoundException("Course with id: " + id + "doesn't exist");
+
+        }
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        return course;
+
+    }
+    public Course partiallyUpdateCourse(){
 
     }
 }

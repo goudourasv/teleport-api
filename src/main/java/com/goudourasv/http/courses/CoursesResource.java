@@ -69,6 +69,7 @@ public class CoursesResource {
     @DELETE
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public void deleteCourse(@PathParam("id") UUID id) {
         boolean deleted = coursesService.deleteSpecificCourse(id);
         if (!deleted) {
