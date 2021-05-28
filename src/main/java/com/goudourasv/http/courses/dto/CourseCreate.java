@@ -52,4 +52,6 @@ public class CourseCreate {
     public Instant getEndDate() {
         return endDate;
     }
+
+
 }

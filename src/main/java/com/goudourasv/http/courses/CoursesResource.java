@@ -57,8 +57,8 @@ public class CoursesResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCourse(@Valid CourseCreate input, UriInfo uriInfo) {
-        Course createdCourse = coursesService.createNewCourse(input);
+    public Response createCourse(@Valid CourseCreate courseCreate, UriInfo uriInfo) {
+        Course createdCourse = coursesService.createNewCourse(courseCreate);
 
         String path = uriInfo.getPath();
         String location = path + "/" + createdCourse.getId();
@@ -83,8 +83,8 @@ public class CoursesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Course updateCourse(@PathParam("id") UUID id, @Valid CourseCreate course) {
-        Course updatedCourse = coursesService.replaceCourse(course, id);
+    public Course updateCourse(@PathParam("id") UUID id, @Valid CourseCreate courseCreate) {
+        Course updatedCourse = coursesService.replaceCourse(courseCreate, id);
         return updatedCourse;
     }
 

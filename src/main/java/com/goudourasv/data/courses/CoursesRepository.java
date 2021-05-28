@@ -2,11 +2,13 @@ package com.goudourasv.data.courses;
 
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.http.courses.dto.CourseCreate;
+import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -54,14 +56,16 @@ public class CoursesRepository {
     }
 
     public boolean deleteSpecificCourse(UUID id) {
-        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class,id);
-        if (courseEntity == null) {
-            return false;
-        }
-        entityManager.remove(courseEntity);
-        return true;
+//        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class,id);
+//        if (courseEntity == null) {
+//            return false;
+//        }
+//        entityManager.remove(courseEntity);
+//        return true;
 
-        //
+        String sqlQuery = "DELETE FROM courses WHERE id = :id ";
+        entityManager.createNativeQuery(sqlQuery,CourseEntity.class).setParameter("id",id).executeUpdate();
+        return true;
 
     }
 
@@ -81,8 +85,30 @@ public class CoursesRepository {
         return course;
 
     }
-    public Course partiallyUpdateCourse(){
+    public Course partiallyUpdateCourse(CourseUpdate courseUpdate,UUID id) {
+        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, id);
 
+        if (courseUpdate.getTitle() != null) {
+            String newTitle = courseUpdate.getTitle();
+            courseEntity.setTitle(newTitle);
+        }
+
+        if (courseUpdate.getStartDate() != null) {
+            Instant newStartDate = courseUpdate.getStartDate();
+            courseEntity.setStartDate(newStartDate);
+        }
+
+        if (courseUpdate.getEndDate() != null) {
+            Instant newEndDate = courseUpdate.getEndDate();
+            courseEntity.setEndDAte(newEndDate);
+        }
+
+        entityManager.merge(courseEntity);
+        entityManager.flush();
+
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        return course;
     }
+
 }
 

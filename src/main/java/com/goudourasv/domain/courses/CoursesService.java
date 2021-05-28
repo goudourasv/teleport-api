@@ -12,6 +12,7 @@ import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +90,7 @@ public class CoursesService {
         }
         return filteredList;
     }
+
     @Transactional
     public Course getSpecificCourse(UUID id) {
         Course specificCourse = coursesRepository.getSpecificCourse(id);
@@ -103,10 +105,11 @@ public class CoursesService {
     }
 
     @Transactional
-    public Course replaceCourse(CourseCreate course, UUID id) {
+    public Course replaceCourse(CourseCreate courseCreate, UUID id) {
         //TODO Handle startDate and endDate
-       // Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(), null, null);
-         Course updatedCourse= coursesRepository.replaceCourse(course,id);
+
+        // Course updatedCourse = new Course(id, course.getTitle(), course.getInstitution(), course.getTag(), course.getInstructor(), null, null);
+        Course updatedCourse = coursesRepository.replaceCourse(courseCreate, id);
         return updatedCourse;
     }
 
@@ -116,9 +119,9 @@ public class CoursesService {
         return course;
     }
 
-
+    @Transactional
     public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
-        Course courseToUpdate = courseStore.get(id);
+        Course courseToUpdate = coursesRepository.partiallyUpdateCourse(courseUpdate, id);
 
         if (courseUpdate.getTitle() != null) {
             String newTitle = courseUpdate.getTitle();
@@ -141,6 +144,16 @@ public class CoursesService {
             String tag = courseUpdate.getTag();
             Tag newTag = tagsService.getSpecificTag(tag);
             courseToUpdate.setTag(newTag);
+        }
+
+        if (courseUpdate.getStartDate() != null) {
+            Instant newStartDate = courseUpdate.getStartDate();
+            courseToUpdate.setStartDate(newStartDate);
+        }
+
+        if (courseUpdate.getEndDate() != null) {
+            Instant newEndDate = courseUpdate.getEndDate();
+            courseToUpdate.setEndDate(newEndDate);
         }
 
         return courseToUpdate;

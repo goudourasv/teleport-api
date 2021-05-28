@@ -31,6 +31,8 @@ public class Course {
         this.title = title;
         this.institution = institution;
         this.tag = tag;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.instructor = instructor;
     }
 

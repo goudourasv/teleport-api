@@ -2,6 +2,7 @@ package com.goudourasv.http.courses.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.UUID;
 
 
@@ -11,6 +12,8 @@ public class CourseUpdate {
     private UUID institutionId;
     private String tag;
     private UUID instructorId;
+    private Instant startDate;
+    private Instant endDate;
 
     public String getTitle() {
         return title;
@@ -28,4 +31,11 @@ public class CourseUpdate {
         return instructorId;
     }
 
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
 }
