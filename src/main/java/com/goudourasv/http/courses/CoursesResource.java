@@ -7,7 +7,6 @@ import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import io.smallrye.common.annotation.Blocking;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 import javax.ws.rs.*;

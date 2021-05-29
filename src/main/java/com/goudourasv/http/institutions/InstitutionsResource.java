@@ -1,11 +1,12 @@
 package com.goudourasv.http.institutions;
 
-import com.goudourasv.http.institutions.dto.InstitutionCreate;
-import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionsService;
+import com.goudourasv.http.institutions.dto.InstitutionCreate;
+import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import io.smallrye.common.annotation.Blocking;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,12 +16,18 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-
+@ApplicationScoped
 @Path("/institutions")
 public class InstitutionsResource {
-    private InstitutionsService institutionsService = new InstitutionsService();
 
+    private InstitutionsService institutionsService;
 
+    public InstitutionsResource(InstitutionsService institutionsService) {
+        this.institutionsService = institutionsService;
+
+    }
+
+    @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Institution> getInstitutions(@QueryParam("country") String country, @QueryParam("city") String city) {
@@ -29,7 +36,7 @@ public class InstitutionsResource {
         return filteredList;
     }
 
-
+    @Blocking
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,7 +45,7 @@ public class InstitutionsResource {
         return institution;
     }
 
-
+    @Blocking
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +66,7 @@ public class InstitutionsResource {
         institutionsService.deleteSpecificCourse(id);
     }
 
+    @Blocking
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,6 +76,7 @@ public class InstitutionsResource {
         return updatedInstitution;
     }
 
+    @Blocking
     @PATCH
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -1,0 +1,6 @@
+CREATE TABLE institutions(
+id UUID PRIMARY KEY,
+name VARCHAR(200) NOT NULL,
+city VARCHAR(200),
+country VARCHAR(200)
+)

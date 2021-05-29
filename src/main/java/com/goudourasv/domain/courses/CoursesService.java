@@ -1,6 +1,7 @@
 package com.goudourasv.domain.courses;
 
 import com.goudourasv.data.courses.CoursesRepository;
+import com.goudourasv.data.institutions.InstitutionsRepository;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.domain.instructors.Instructor;
@@ -21,12 +22,14 @@ import java.util.UUID;
 @ApplicationScoped
 public class CoursesService {
     private final HashMap<UUID, Course> courseStore = new HashMap<>();
-    private InstitutionsService institutionsService = new InstitutionsService();
+
+
+    private InstitutionsService institutionsService;
     private InstructorsService instructorsService = new InstructorsService();
     private TagsService tagsService;
     private CoursesRepository coursesRepository;
 
-    public CoursesService(TagsService tagsService, CoursesRepository coursesRepository) {
+    public CoursesService(TagsService tagsService, CoursesRepository coursesRepository,InstitutionsService institutionsService) {
         Tag tsakra = new Tag("tsakra");
         Tag engineering = new Tag("engineering");
         Tag software = new Tag("software");
@@ -51,6 +54,7 @@ public class CoursesService {
         courseStore.put(yogaScience.getId(), yogaScience);
         this.tagsService = tagsService;
         this.coursesRepository = coursesRepository;
+        this.institutionsService = institutionsService;
     }
 
     public HashMap<UUID, Course> getCourseStore() {

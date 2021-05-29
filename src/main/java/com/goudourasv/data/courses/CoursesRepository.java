@@ -6,7 +6,6 @@ import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
 import java.util.ArrayList;

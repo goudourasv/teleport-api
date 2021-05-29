@@ -1,25 +1,31 @@
 package com.goudourasv.domain.institutions;
 
+import com.goudourasv.data.institutions.InstitutionsRepository;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.*;
 
+@ApplicationScoped
 public class InstitutionsService {
+    private InstitutionsRepository institutionsRepository;
     Map<UUID, Institution> institutionsMap = new HashMap<>();
 
-    public InstitutionsService() {
+    public InstitutionsService(InstitutionsRepository institutionsRepository) {
         Institution stanford = new Institution(UUID.fromString("cdf2b504-ad7c-46e4-bd01-7e7040ed3052"), "stanford", "USA", "California");
         Institution auth = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"), "auth", "Greece", "Thessaloniki");
         Institution buddha = new Institution(UUID.fromString("cc249d1c-c001-4140-ab0d-1b25e7d64f42"), "buddha", "Nepal", "Kathmandu");
         institutionsMap.put(stanford.getId(), stanford);
         institutionsMap.put(auth.getId(), auth);
         institutionsMap.put(buddha.getId(), buddha);
-
+        this.institutionsRepository = institutionsRepository;
     }
 
+
     public List<Institution> getInstitutions() {
-        List<Institution> institutions = new ArrayList<>(institutionsMap.values());
+        List<Institution> institutions = institutionsRepository.getInstitutions();
         return institutions;
     }
 
@@ -51,11 +57,9 @@ public class InstitutionsService {
         Institution specificInstitution = institutionsMap.get(id);
         return specificInstitution;
     }
-
-    public Institution createInstitution(InstitutionCreate institutionInput) {
-        Institution institution = new Institution(institutionInput.getName(), institutionInput.getCountry(), institutionInput.getCity());
-        institutionsMap.put(institution.getId(), institution);
-
+    @Transactional
+    public Institution createInstitution(InstitutionCreate institutionCreate) {
+        Institution institution = institutionsRepository.createInstitution(institutionCreate);
         return institution;
     }
 
