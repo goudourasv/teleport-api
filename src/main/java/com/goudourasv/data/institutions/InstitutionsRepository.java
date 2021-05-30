@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class InstitutionsRepository {
@@ -28,6 +29,12 @@ public class InstitutionsRepository {
         return institutions;
     }
 
+
+
+
+
+
+
     public Institution createInstitution(InstitutionCreate institutionCreate) {
         InstitutionEntity institutionEntity = new InstitutionEntity();
         institutionEntity.setName(institutionCreate.getName());
@@ -37,6 +44,20 @@ public class InstitutionsRepository {
         entityManager.flush();
         Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
         return institution;
+
+    }
+
+    public Institution getSpecificInstitution(UUID id) {
+        InstitutionEntity institutionEntity = entityManager.find(InstitutionEntity.class, id);
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        return institution;
+    }
+
+    public boolean deleteSpecificInstitution(UUID id) {
+        String sqlQuery = "DELETE FROM institutions WHERE id = :id";
+        entityManager.createNativeQuery(sqlQuery,InstitutionEntity.class).setParameter("id",id).executeUpdate();
+        return true;
+
 
 
     }

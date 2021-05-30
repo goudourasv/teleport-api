@@ -63,7 +63,10 @@ public class InstitutionsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void deleteInstitution(@PathParam("id") UUID id) {
-        institutionsService.deleteSpecificCourse(id);
+        boolean deleted = institutionsService.deleteSpecificCourse(id);
+        if (!deleted) {
+            throw new NotFoundException("Course with id: " + id + "doesn't exist");
+        }
     }
 
     @Blocking

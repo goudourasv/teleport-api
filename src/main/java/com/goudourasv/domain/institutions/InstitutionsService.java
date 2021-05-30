@@ -52,9 +52,9 @@ public class InstitutionsService {
         return filteredList;
     }
 
-
+    @Transactional
     public Institution getSpecificInstitution(UUID id) {
-        Institution specificInstitution = institutionsMap.get(id);
+        Institution specificInstitution = institutionsRepository.getSpecificInstitution(id);
         return specificInstitution;
     }
     @Transactional
@@ -62,9 +62,10 @@ public class InstitutionsService {
         Institution institution = institutionsRepository.createInstitution(institutionCreate);
         return institution;
     }
-
-    public void deleteSpecificCourse(UUID id) {
-        institutionsMap.remove(id);
+    @Transactional
+    public boolean deleteSpecificCourse(UUID id) {
+        boolean deleted= institutionsRepository.deleteSpecificInstitution(id);
+        return deleted;
     }
 
     public Institution replaceInstitution(InstitutionCreate input, UUID id) {
