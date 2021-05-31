@@ -101,7 +101,6 @@ public class CoursesRepository {
             Instant newEndDate = courseUpdate.getEndDate();
             courseEntity.setEndDAte(newEndDate);
         }
-
         entityManager.merge(courseEntity);
         entityManager.flush();
 

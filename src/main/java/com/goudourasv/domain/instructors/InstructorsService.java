@@ -3,11 +3,13 @@ package com.goudourasv.domain.instructors;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 public class InstructorsService {
     private final HashMap<UUID, Instructor> instructorsMap = new HashMap<>();
 

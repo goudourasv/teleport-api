@@ -6,20 +6,15 @@ import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class InstitutionsService {
     private InstitutionsRepository institutionsRepository;
-    Map<UUID, Institution> institutionsMap = new HashMap<>();
 
     public InstitutionsService(InstitutionsRepository institutionsRepository) {
-        Institution stanford = new Institution(UUID.fromString("cdf2b504-ad7c-46e4-bd01-7e7040ed3052"), "stanford", "USA", "California");
-        Institution auth = new Institution(UUID.fromString("d5c83909-c699-40b5-ac04-c65b558a16c3"), "auth", "Greece", "Thessaloniki");
-        Institution buddha = new Institution(UUID.fromString("cc249d1c-c001-4140-ab0d-1b25e7d64f42"), "buddha", "Nepal", "Kathmandu");
-        institutionsMap.put(stanford.getId(), stanford);
-        institutionsMap.put(auth.getId(), auth);
-        institutionsMap.put(buddha.getId(), buddha);
         this.institutionsRepository = institutionsRepository;
     }
 
@@ -57,41 +52,30 @@ public class InstitutionsService {
         Institution specificInstitution = institutionsRepository.getSpecificInstitution(id);
         return specificInstitution;
     }
+
     @Transactional
     public Institution createInstitution(InstitutionCreate institutionCreate) {
         Institution institution = institutionsRepository.createInstitution(institutionCreate);
         return institution;
     }
+
     @Transactional
     public boolean deleteSpecificCourse(UUID id) {
-        boolean deleted= institutionsRepository.deleteSpecificInstitution(id);
+        boolean deleted = institutionsRepository.deleteSpecificInstitution(id);
         return deleted;
     }
 
-    public Institution replaceInstitution(InstitutionCreate input, UUID id) {
-        Institution institution = new Institution(id, input.getName(), input.getCountry(), input.getCity());
-        institutionsMap.put(institution.getId(), institution);
-        return institution;
-
+    @Transactional
+    public Institution replaceInstitution(InstitutionCreate institutionCreate, UUID id) {
+        Institution updatedInstitution = institutionsRepository.replaceInstitution(institutionCreate, id);
+        return updatedInstitution;
     }
 
-    public Institution partiallyUpdateInstitution(InstitutionUpdate input, UUID id) {
-        Institution institutionToUpdate = institutionsMap.get(id);
+    @Transactional
+    public Institution partiallyUpdateInstitution(InstitutionUpdate institutionUpdate, UUID id) {
 
-        if (input.getName() != null) {
-            String newInstitutionName = input.getName();
-            institutionToUpdate.setName(newInstitutionName);
-        }
-        if (input.getCountry() != null) {
-            String newInstitutionCountry = input.getCountry();
-            institutionToUpdate.setCountry(newInstitutionCountry);
-        }
-        if (input.getCity() != null) {
-            String newInstitutionCity = input.getCity();
-            institutionToUpdate.setCity(newInstitutionCity);
-        }
-
-        return institutionToUpdate;
+        Institution updatedInstitution = institutionsRepository.partiallyUpdateInstitution(institutionUpdate, id);
+        return updatedInstitution;
     }
 
 
