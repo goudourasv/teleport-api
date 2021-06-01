@@ -1,6 +1,8 @@
 package com.goudourasv.data.courses;
 
+import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
@@ -38,9 +40,13 @@ public class CoursesRepository {
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
         courseEntity.setEndDAte(courseCreate.getEndDate());
+
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class,courseCreate.getInstitutionId());
+        courseEntity.setInstitutionEntity(institutionEntity);
         entityManager.persist(courseEntity);
         entityManager.flush();
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Institution institution = new Institution(institutionEntity.getId(),institutionEntity.getName(),institutionEntity.getCountry(),institutionEntity.getCity());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
 
@@ -101,6 +107,8 @@ public class CoursesRepository {
             Instant newEndDate = courseUpdate.getEndDate();
             courseEntity.setEndDAte(newEndDate);
         }
+
+
         entityManager.merge(courseEntity);
         entityManager.flush();
 

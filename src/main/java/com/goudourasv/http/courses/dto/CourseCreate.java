@@ -7,21 +7,22 @@ import com.goudourasv.domain.tags.Tag;
 
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.UUID;
 
 
 public class CourseCreate {
     @NotBlank
     private String title;
     @JsonProperty("institution")
-    private Institution institution;
+    private UUID institutionId;
     private Tag tag;
     private Instructor instructor;
     private Instant startDate;
     private Instant endDate;
 
-    public CourseCreate(String title, Institution institution, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
+    public CourseCreate(String title, UUID institutionId, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
         this.title = title;
-        this.institution = institution;
+        this.institutionId = institutionId;
         this.tag = tag;
         this.instructor = instructor;
         this.startDate = startDate;
@@ -33,8 +34,8 @@ public class CourseCreate {
         return title;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public UUID getInstitutionId() {
+        return institutionId;
     }
 
     public Tag getTag() {

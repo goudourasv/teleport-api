@@ -1,9 +1,8 @@
 package com.goudourasv.data.courses;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.goudourasv.data.institutions.InstitutionEntity;
+
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -18,6 +17,14 @@ public class CourseEntity {
     private Instant startDate;
     @Column(name = "end_date")
     private Instant endDAte;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "institution_id")
+    private InstitutionEntity institutionEntity;
+
+    public InstitutionEntity getInstitutionEntity() {
+        return institutionEntity;
+    }
 
     public UUID getId() {
         return id;
@@ -49,5 +56,9 @@ public class CourseEntity {
 
     public void setEndDAte(Instant endDAte) {
         this.endDAte = endDAte;
+    }
+
+    public void setInstitutionEntity(InstitutionEntity institutionEntity) {
+        this.institutionEntity = institutionEntity;
     }
 }
