@@ -2,9 +2,7 @@ package com.goudourasv.domain.courses;
 
 import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.institutions.InstitutionsService;
-import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorsService;
-import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
@@ -47,7 +45,7 @@ public class CoursesService {
 //                    isMatch = false;
                     continue;
                 }
-                if (institution != null && !course.getInstitution().equals(institution)) {
+                if (institution != null && !course.getInstitutionId().equals(institution)) {
 //                    isMatch = false;
                     continue;
                 }

@@ -27,7 +27,7 @@ public class CoursesRepository {
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
         for (CourseEntity courseEntity : courseEntities) {
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(),courseEntity.getInstitutionEntity().getId(), null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
             courses.add(course);
         }
         return courses;
@@ -40,7 +40,7 @@ public class CoursesRepository {
         courseEntity.setEndDAte(courseCreate.getEndDate());
         entityManager.persist(courseEntity);
         entityManager.flush();
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), courseEntity.getInstitutionEntity().getId(), null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
 
@@ -49,7 +49,7 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(),courseEntity.getInstitutionEntity().getId(), null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
 
     }
@@ -80,7 +80,7 @@ public class CoursesRepository {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
 
         }
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), courseEntity.getInstitutionEntity().getId(), null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
 
     }
@@ -101,10 +101,15 @@ public class CoursesRepository {
             Instant newEndDate = courseUpdate.getEndDate();
             courseEntity.setEndDAte(newEndDate);
         }
+        if (courseUpdate.getInstitutionId() != null) {
+            UUID newInstitutionId = courseUpdate.getInstitutionId();
+            courseEntity.
+        }
+
         entityManager.merge(courseEntity);
         entityManager.flush();
 
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), courseEntity.getInstitutionEntity().getId(), null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
 

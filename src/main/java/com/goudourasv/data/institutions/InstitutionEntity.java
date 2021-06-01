@@ -1,9 +1,10 @@
 package com.goudourasv.data.institutions;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.goudourasv.data.courses.CourseEntity;
+import com.goudourasv.domain.courses.Course;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "Institutions")
@@ -17,7 +18,8 @@ public class InstitutionEntity {
     private String city;
     @Column
     private String country;
-
+    @OneToMany(mappedBy="id",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<CourseEntity> courseEntities;
 
     public UUID getId() {
         return id;
@@ -49,5 +51,9 @@ public class InstitutionEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<CourseEntity> getCourseEntities() {
+        return courseEntities;
     }
 }

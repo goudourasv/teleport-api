@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class CourseUpdate {
     private String title;
-    @JsonProperty("institution")
+    @JsonProperty("institution_id")
     private UUID institutionId;
     private String tag;
     private UUID instructorId;

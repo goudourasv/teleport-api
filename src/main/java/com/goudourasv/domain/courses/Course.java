@@ -16,8 +16,8 @@ import java.util.UUID;
 public class Course {
     private UUID id;
     private String title;
-    @JsonProperty("institution")
-    private Institution institution;
+    @JsonProperty("institutionId")
+    private UUID institutionId;
     private Tag tag;
     private Instructor instructor;
     private Instant startDate;
@@ -26,19 +26,19 @@ public class Course {
 
 
 
-    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor,Instant startDate,Instant endDate) {
+    public Course(UUID id, String title, UUID institutionId, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
         this.id = id;
         this.title = title;
-        this.institution = institution;
+        this.institutionId = institutionId;
         this.tag = tag;
         this.startDate = startDate;
         this.endDate = endDate;
         this.instructor = instructor;
     }
 
-    public Course(String title, Institution institution, Tag tag, Instructor instructor) {
+    public Course(String title, UUID institutionId, Tag tag, Instructor instructor) {
         this.title = title;
-        this.institution = institution;
+        this.institutionId = institutionId;
         this.tag = tag;
         this.instructor = instructor;
 
@@ -53,8 +53,8 @@ public class Course {
     }
 
 
-    public Institution getInstitution() {
-        return institution;
+    public UUID getInstitutionId() {
+        return institutionId;
     }
 
     public Tag getTag() {
@@ -105,11 +105,6 @@ public class Course {
         return title;
     }
 
-    public Institution setInstitution(Institution institution) {
-
-        this.institution = institution;
-        return institution;
-    }
 
 
     public void generateId() {
