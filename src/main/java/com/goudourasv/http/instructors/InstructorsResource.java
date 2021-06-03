@@ -5,6 +5,7 @@ import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorsService;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,9 +15,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 @Path("/instructors")
 public class InstructorsResource {
-    private final InstructorsService instructorsService = new InstructorsService();
+    private final InstructorsService instructorsService;
+
+    public InstructorsResource(InstructorsService instructorsService) {
+        this.instructorsService = instructorsService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

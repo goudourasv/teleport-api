@@ -1,5 +1,6 @@
 package com.goudourasv.domain.instructors;
 
+import com.goudourasv.data.instructors.InstructorsRepository;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
@@ -12,18 +13,20 @@ import java.util.UUID;
 @ApplicationScoped
 public class InstructorsService {
     private final HashMap<UUID, Instructor> instructorsMap = new HashMap<>();
+    private InstructorsRepository instructorsRepository;
 
-    public InstructorsService() {
+    public InstructorsService(InstructorsRepository instructorsRepository) {
         Instructor mehranSahami = new Instructor(UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Mehran", "Sahami", "Stanford");
         Instructor jabbourNikolaos = new Instructor(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "Nikolaos", "Jabbour", "Auth");
         Instructor lilaNikolaou = new Instructor(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "Lila", "Nikolaou", "Buddha");
         instructorsMap.put(mehranSahami.getId(), mehranSahami);
         instructorsMap.put(jabbourNikolaos.getId(), jabbourNikolaos);
         instructorsMap.put(lilaNikolaou.getId(), lilaNikolaou);
+        this.instructorsRepository = instructorsRepository;
     }
 
     public List<Instructor> getInstructors() {
-        List<Instructor> instructorList = new ArrayList<>(instructorsMap.values());
+        List<Instructor> instructorList = instructorsRepository.getInstructors();
         return instructorList;
     }
 

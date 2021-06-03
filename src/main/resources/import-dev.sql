@@ -13,3 +13,10 @@ VALUES
 ('165f03a3-a4a3-48ca-8c8d-78ea591194cb','Statistics','2021-05-27T15:13:22Z','2021-05-27T15:13:22Z','0ba2fe42-b199-4584-baf8-0059199eaaa1'),
 ('24c74444-fadb-4e91-8604-f299ad6189ed','SAE 1','2021-05-27T15:13:22Z','2021-05-27T15:13:22Z','e21be850-20f7-4943-bd37-c226cbdc8c83');
 
+INSERT INTO instructors(id,first_name,last_name)
+VALUES
+('278553ff-c001-4ac3-a5ea-71141e855704','Mehran','Sahami'),
+('7ce6be58-4eb1-4ff1-b470-a34c2fc54687','Nikolaos','Jabbour'),
+('c65abe61-fa7b-4fb8-aa17-f8103c12957a','Rodoula','Tsiotsiou'),
+('7c30c894-cd0c-4c57-9d11-e6fd2913514b','Alex','Taylor');
+
