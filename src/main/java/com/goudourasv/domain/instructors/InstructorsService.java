@@ -55,9 +55,10 @@ public class InstructorsService {
         return instructor;
 
     }
-
-    public void deleteSpecificInstructor(UUID id) {
-        instructorsMap.remove(id);
+    @Transactional
+    public boolean deleteSpecificInstructor(UUID id) {
+        boolean deleted = instructorsRepository.deleteSpecificInstructor(id);
+        return deleted;
     }
 
 

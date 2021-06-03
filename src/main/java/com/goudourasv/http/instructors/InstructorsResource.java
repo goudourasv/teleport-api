@@ -1,9 +1,9 @@
 package com.goudourasv.http.instructors;
 
-import com.goudourasv.http.instructors.dto.InstructorCreate;
-import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorsService;
+import com.goudourasv.http.instructors.dto.InstructorCreate;
+import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -55,12 +55,16 @@ public class InstructorsResource {
         return Response.created(URI.create(location)).entity(createdInstructor).build();
     }
 
+    @Blocking
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void deleteSpecificInstructor(@PathParam("id") UUID id) {
-        instructorsService.deleteSpecificInstructor(id);
+        boolean deleted = instructorsService.deleteSpecificInstructor(id);
+        if (!deleted) {
+            throw new NotFoundException("Instructor with id: " + id + " doesn't exist");
+        }
     }
 
     @PUT

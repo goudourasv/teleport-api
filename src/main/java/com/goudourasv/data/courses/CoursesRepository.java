@@ -69,7 +69,10 @@ public class CoursesRepository {
 //        return true;
 
         String sqlQuery = "DELETE FROM courses WHERE id = :id ";
-        entityManager.createNativeQuery(sqlQuery,CourseEntity.class).setParameter("id",id).executeUpdate();
+        int deletedEntities = entityManager.createNativeQuery(sqlQuery,CourseEntity.class).setParameter("id",id).executeUpdate();
+        if(deletedEntities == 0){
+            return false;
+        }
         return true;
 
     }

@@ -19,37 +19,46 @@ public class InstructorsRepository {
     }
 
 
-    public List<Instructor> getInstructors(){
+    public List<Instructor> getInstructors() {
         String sqlQuery = "SELECT * FROM instructors";
         List<Instructor> instructors = new ArrayList<>();
 
         @SuppressWarnings("unchecked")//java generics
-        List<InstructorEntity> instructorEntities = entityManager.createNativeQuery(sqlQuery,InstructorEntity.class).getResultList();
+        List<InstructorEntity> instructorEntities = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).getResultList();
 
-        for(InstructorEntity instructorEntity : instructorEntities){
-            Instructor instructor = new Instructor(instructorEntity.getId(),instructorEntity.getFirstName(),instructorEntity.getLastName(),null);
+        for (InstructorEntity instructorEntity : instructorEntities) {
+            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), null);
             instructors.add(instructor);
         }
         return instructors;
     }
 
-    public Instructor getSpecificInstructor(UUID id){
-        InstructorEntity instructorEntity =entityManager.find(InstructorEntity.class,id);
-        Instructor instructor = new Instructor(instructorEntity.getId(),instructorEntity.getFirstName(),instructorEntity.getLastName(),null);
+    public Instructor getSpecificInstructor(UUID id) {
+        InstructorEntity instructorEntity = entityManager.find(InstructorEntity.class, id);
+        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), null);
         return instructor;
 
     }
 
-    public Instructor createNewInstructor(InstructorCreate instructorCreate){
+    public Instructor createNewInstructor(InstructorCreate instructorCreate) {
         InstructorEntity instructorEntity = new InstructorEntity();
         instructorEntity.setFirstName(instructorCreate.getFirstName());
         instructorEntity.setLastName(instructorCreate.getLastName());
         entityManager.persist(instructorEntity);
         entityManager.flush();
-        Instructor instructor = new Instructor(instructorEntity.getId(),instructorEntity.getFirstName(),instructorEntity.getLastName(),null);
+        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), null);
         return instructor;
 
+    }
 
+    public boolean deleteSpecificInstructor(UUID id) {
+        String sqlQuery = "DELETE FROM instructors WHERE id = :id";
+        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).setParameter("id", id).executeUpdate();
+        if (deletedEntities == 0) {
+            return false;
+        }
 
+        return true;
     }
 }
+
