@@ -1,11 +1,13 @@
 package com.goudourasv.http.instructors.dto;
 
+import com.goudourasv.domain.institutions.Institution;
+
 public class InstructorUpdate {
     private String firstName;
     private String lastName;
-    private String institution;
+    private Institution institution;
 
-    public InstructorUpdate(String firstName, String lastName, String institution){
+    public InstructorUpdate(String firstName, String lastName, Institution institution){
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;
@@ -19,7 +21,7 @@ public class InstructorUpdate {
         return lastName;
     }
 
-    public String getInstitution() {
+    public Institution getInstitution() {
         return institution;
     }
 }

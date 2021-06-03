@@ -4,6 +4,7 @@ import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorsService;
+import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class InstructorsResource {
         this.instructorsService = instructorsService;
     }
 
+    @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Instructor> getInstructors(@QueryParam("institution") String institution) {
@@ -32,6 +34,7 @@ public class InstructorsResource {
         return instructorsList;
     }
 
+    @Blocking
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,6 +43,7 @@ public class InstructorsResource {
         return specificInstructor;
     }
 
+    @Blocking
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

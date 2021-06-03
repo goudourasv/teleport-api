@@ -1,5 +1,8 @@
 package com.goudourasv.http.instructors.dto;
 
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.instructors.Instructor;
+
 import javax.validation.constraints.NotBlank;
 
 public class InstructorCreate {
@@ -7,12 +10,15 @@ public class InstructorCreate {
     private String lastName;
     @NotBlank
     private String firstName;
-    private String institution;
 
-    public InstructorCreate(String firstName, String lastName, String institution){
+    private Institution institution;
+
+
+    public InstructorCreate(String firstName, String lastName, Institution institution) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;
+
     }
 
     public String getLastName() {
@@ -23,7 +29,7 @@ public class InstructorCreate {
         return firstName;
     }
 
-    public String getInstitution() {
+    public Institution getInstitution() {
         return institution;
     }
 }

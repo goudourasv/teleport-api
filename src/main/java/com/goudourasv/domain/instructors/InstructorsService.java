@@ -1,10 +1,12 @@
 package com.goudourasv.domain.instructors;
 
 import com.goudourasv.data.instructors.InstructorsRepository;
+import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,15 +18,9 @@ public class InstructorsService {
     private InstructorsRepository instructorsRepository;
 
     public InstructorsService(InstructorsRepository instructorsRepository) {
-        Instructor mehranSahami = new Instructor(UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Mehran", "Sahami", "Stanford");
-        Instructor jabbourNikolaos = new Instructor(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "Nikolaos", "Jabbour", "Auth");
-        Instructor lilaNikolaou = new Instructor(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "Lila", "Nikolaou", "Buddha");
-        instructorsMap.put(mehranSahami.getId(), mehranSahami);
-        instructorsMap.put(jabbourNikolaos.getId(), jabbourNikolaos);
-        instructorsMap.put(lilaNikolaou.getId(), lilaNikolaou);
         this.instructorsRepository = instructorsRepository;
     }
-
+    @Transactional
     public List<Instructor> getInstructors() {
         List<Instructor> instructorList = instructorsRepository.getInstructors();
         return instructorList;
@@ -46,15 +42,16 @@ public class InstructorsService {
         return filteredInstructorList;
     }
 
+    @Transactional
     public Instructor getSpecificInstructor(UUID id) {
-        Instructor specificInstructor = instructorsMap.get(id);
+        Instructor specificInstructor = instructorsRepository.getSpecificInstructor(id);
         return specificInstructor;
 
     }
 
-    public Instructor createNewInstructor(InstructorCreate input) {
-        Instructor instructor = new Instructor(input.getFirstName(), input.getLastName(), input.getInstitution());
-        instructorsMap.put(instructor.getId(), instructor);
+    @Transactional
+    public Instructor createNewInstructor(InstructorCreate instructorCreate) {
+        Instructor instructor =instructorsRepository.createNewInstructor(instructorCreate);
         return instructor;
 
     }
@@ -64,8 +61,8 @@ public class InstructorsService {
     }
 
 
-    public Instructor replaceInstructor(UUID id, InstructorCreate input) {
-        Instructor instructor = new Instructor(id, input.getFirstName(), input.getLastName(), input.getInstitution());
+    public Instructor replaceInstructor(UUID id, InstructorCreate instructorCreate) {
+        Instructor instructor = new Instructor(id, instructorCreate.getFirstName(), instructorCreate.getLastName(), instructorCreate.getInstitution());
         instructorsMap.replace(instructor.getId(), instructor);
         return instructor;
 
@@ -83,7 +80,7 @@ public class InstructorsService {
             instructor.setLastName(newInstructorLastName);
         }
         if (input.getInstitution() != null) {
-            String newInstructorInstitution = input.getInstitution();
+            Institution newInstructorInstitution = input.getInstitution();
             instructor.setInstitution(newInstructorInstitution);
         }
         return instructor;

@@ -1,22 +1,24 @@
 package com.goudourasv.domain.instructors;
 
+import com.goudourasv.domain.institutions.Institution;
+
 import java.util.UUID;
 
 public class Instructor {
     private UUID id;
     private String firstName;
     private String lastName;
-    private String institution;
+    private Institution institution;
 
 
-    public Instructor(UUID id, String firstName, String lastName, String institution) {
+    public Instructor(UUID id, String firstName, String lastName,Institution institution) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.institution = institution;
     }
 
-    public Instructor(String firstName, String lastName, String institution) {
+    public Instructor(String firstName, String lastName, Institution institution) {
         this.generateNewId();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,7 +44,7 @@ public class Instructor {
     }
 
 
-    public String getInstitution() {
+    public Institution getInstitution() {
         return institution;
     }
 
@@ -54,7 +56,7 @@ public class Instructor {
         this.lastName = lastName;
     }
 
-    public void setInstitution(String institution) {
+    public void setInstitution(Institution institution) {
         this.institution = institution;
     }
 }

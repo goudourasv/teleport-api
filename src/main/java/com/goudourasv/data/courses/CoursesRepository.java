@@ -40,7 +40,7 @@ public class CoursesRepository {
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
         courseEntity.setEndDAte(courseCreate.getEndDate());
-
+        //TODO check if institution(id) exists
         InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class,courseCreate.getInstitutionId());
         courseEntity.setInstitutionEntity(institutionEntity);
         entityManager.persist(courseEntity);
