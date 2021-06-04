@@ -61,29 +61,16 @@ public class InstructorsService {
         return deleted;
     }
 
-
+    @Transactional
     public Instructor replaceInstructor(UUID id, InstructorCreate instructorCreate) {
-        Instructor instructor = new Instructor(id, instructorCreate.getFirstName(), instructorCreate.getLastName(), instructorCreate.getInstitution());
-        instructorsMap.replace(instructor.getId(), instructor);
+        Instructor instructor = instructorsRepository.replaceInstructor(id,instructorCreate);
         return instructor;
 
     }
 
-    public Instructor partiallyUpdateInstructor(InstructorUpdate input, UUID id) {
-        Instructor instructor = instructorsMap.get(id);
-
-        if (input.getFirstName() != null) {
-            String newInstructorFirstName = input.getFirstName();
-            instructor.setFirstName(newInstructorFirstName);
-        }
-        if (input.getLastName() != null) {
-            String newInstructorLastName = input.getLastName();
-            instructor.setLastName(newInstructorLastName);
-        }
-        if (input.getInstitution() != null) {
-            Institution newInstructorInstitution = input.getInstitution();
-            instructor.setInstitution(newInstructorInstitution);
-        }
+    @Transactional
+    public Instructor partiallyUpdateInstructor(InstructorUpdate instructorUpdate, UUID id) {
+        Instructor instructor = instructorsRepository.partiallyUpdateInstructor(instructorUpdate,id);
         return instructor;
     }
 

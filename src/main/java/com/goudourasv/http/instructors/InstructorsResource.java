@@ -67,6 +67,7 @@ public class InstructorsResource {
         }
     }
 
+    @Blocking
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -76,6 +77,7 @@ public class InstructorsResource {
         return updatedInstructor;
     }
 
+    @Blocking
     @PATCH
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
