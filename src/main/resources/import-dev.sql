@@ -20,3 +20,9 @@ VALUES
 ('c65abe61-fa7b-4fb8-aa17-f8103c12957a','Rodoula','Tsiotsiou'),
 ('7c30c894-cd0c-4c57-9d11-e6fd2913514b','Alex','Taylor');
 
+INSERT INTO institution_instructor(institution_id,instructor_id)
+VALUES
+('86664d56-71c6-4de6-9771-cb8e707c8674','278553ff-c001-4ac3-a5ea-71141e855704'),
+('e21be850-20f7-4943-bd37-c226cbdc8c83','7ce6be58-4eb1-4ff1-b470-a34c2fc54687'),
+('daad559f-4755-4d8a-9d3c-5e039e2ceb2f','c65abe61-fa7b-4fb8-aa17-f8103c12957a'),
+('0ba2fe42-b199-4584-baf8-0059199eaaa1','7c30c894-cd0c-4c57-9d11-e6fd2913514b');

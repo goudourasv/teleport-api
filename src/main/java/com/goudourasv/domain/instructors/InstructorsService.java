@@ -1,13 +1,11 @@
 package com.goudourasv.domain.instructors;
 
 import com.goudourasv.data.instructors.InstructorsRepository;
-import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -20,26 +18,11 @@ public class InstructorsService {
     public InstructorsService(InstructorsRepository instructorsRepository) {
         this.instructorsRepository = instructorsRepository;
     }
+
     @Transactional
-    public List<Instructor> getInstructors() {
-        List<Instructor> instructorList = instructorsRepository.getInstructors();
-        return instructorList;
-    }
+    public List<Instructor> getInstructors(UUID institutionId) {
+        return  instructorsRepository.getInstructors(institutionId);
 
-    public List<Instructor> getFilteredInstructors(List<Instructor> instructorsList, String institution) {
-        List<Instructor> filteredInstructorList = new ArrayList<>();
-
-        if (institution == null) {
-            filteredInstructorList.addAll(instructorsList);
-        } else {
-            for (Instructor instructor : instructorsList) {
-                if (institution != null && instructor.getInstitution().equals(institution)) {
-                    continue;
-                }
-                filteredInstructorList.add(instructor);
-            }
-        }
-        return filteredInstructorList;
     }
 
     @Transactional

@@ -1,9 +1,11 @@
 package com.goudourasv.data.institutions;
 
 import com.goudourasv.data.courses.CourseEntity;
+import com.goudourasv.data.instructors.InstructorEntity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "Institutions")
@@ -18,8 +20,11 @@ public class InstitutionEntity {
     @Column
     private String country;
 
-    @OneToMany(mappedBy="id",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy="institutionEntity",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CourseEntity> courseEntities;
+
+    @ManyToMany(mappedBy = "institutionEntities")
+    private  List<InstructorEntity> instructorEntities;
 
 
 
@@ -39,6 +44,14 @@ public class InstitutionEntity {
         return country;
     }
 
+    public List<CourseEntity> getCourseEntities() {
+        return courseEntities;
+    }
+
+    public List<InstructorEntity> getInstructorEntities() {
+        return instructorEntities;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -53,5 +66,13 @@ public class InstitutionEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setCourseEntities(List<CourseEntity> courseEntities) {
+        this.courseEntities = courseEntities;
+    }
+
+    public void setInstructorEntities(List<InstructorEntity> instructorEntities) {
+        this.instructorEntities = instructorEntities;
     }
 }

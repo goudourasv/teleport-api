@@ -1,23 +1,26 @@
 package com.goudourasv.http.instructors.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+import java.util.UUID;
 
 public class InstructorCreate {
     @NotBlank
     private String lastName;
     @NotBlank
     private String firstName;
+    @JsonProperty("institutions")
+    private List<UUID> institutionIds;
 
-    private Institution institution;
 
-
-    public InstructorCreate(String firstName, String lastName, Institution institution) {
+    public InstructorCreate(String firstName, String lastName, List<UUID> institutionIds) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.institution = institution;
+        this.institutionIds = institutionIds;
 
     }
 
@@ -29,7 +32,7 @@ public class InstructorCreate {
         return firstName;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public List<UUID> getInstitutionIds() {
+        return institutionIds;
     }
 }

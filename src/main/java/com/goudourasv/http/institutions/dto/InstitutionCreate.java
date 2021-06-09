@@ -1,6 +1,8 @@
 package com.goudourasv.http.institutions.dto;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+import java.util.UUID;
 
 public class InstitutionCreate {
     @NotBlank
@@ -10,10 +12,14 @@ public class InstitutionCreate {
     @NotBlank
     private String city;
 
-    public InstitutionCreate(String name,String country,String city) {
+    private List<UUID> instructorIds;
+
+
+    public InstitutionCreate(String name,String country,String city,List<UUID> instructorIds) {
         this.name = name;
         this.country =country;
         this.city = city;
+        this.instructorIds = instructorIds;
     }
 
     public String getName() {
@@ -26,5 +32,9 @@ public class InstitutionCreate {
 
     public String getCity() {
         return city;
+    }
+
+    public List<UUID> getInstructorIds() {
+        return instructorIds;
     }
 }

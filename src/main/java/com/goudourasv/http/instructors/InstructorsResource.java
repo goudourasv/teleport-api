@@ -28,10 +28,9 @@ public class InstructorsResource {
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Instructor> getInstructors(@QueryParam("institution") String institution) {
-        List<Instructor> instructorsList = instructorsService.getInstructors();
-        List<Instructor> filteredInstructorsList = instructorsService.getFilteredInstructors(instructorsList, institution);
-        return instructorsList;
+    public List<Instructor> getInstructors(@QueryParam("institution") UUID institutionId) {
+        List<Instructor> instructors = instructorsService.getInstructors(institutionId);
+        return instructors;
     }
 
     @Blocking

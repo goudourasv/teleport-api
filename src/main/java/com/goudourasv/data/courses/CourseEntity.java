@@ -1,7 +1,6 @@
 package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
-
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -22,9 +21,7 @@ public class CourseEntity {
     @JoinColumn(name = "institution_id")
     private InstitutionEntity institutionEntity;
 
-    public InstitutionEntity getInstitutionEntity() {
-        return institutionEntity;
-    }
+
 
     public UUID getId() {
         return id;
@@ -40,6 +37,10 @@ public class CourseEntity {
 
     public Instant getEndDAte() {
         return endDAte;
+    }
+
+    public InstitutionEntity getInstitutionEntity() {
+        return institutionEntity;
     }
 
     public void setId(UUID id) {

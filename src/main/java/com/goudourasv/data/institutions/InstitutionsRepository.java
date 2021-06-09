@@ -1,9 +1,10 @@
 package com.goudourasv.data.institutions;
 
+
+import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.ws.rs.NotFoundException;
@@ -31,13 +32,44 @@ public class InstitutionsRepository {
         return institutions;
     }
 
+//    public List<Course> getCoursesFromSpecificInstitution() {
+//        String sqlQuery = "SELECT course FROM institutions";
+//        List<Course> courses = new ArrayList<>();
+//        @SuppressWarnings("unchecked")
+//        List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).getResultList();
+//        for (CourseEntity courseEntity : courseEntities) {
+//            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+//            courses.add(course);
+//        }
+//        return courses;
+//    }
+//    public List<Instructor> getInstructorsFromSpecificInstitution() {
+//        String sqlQuery = "SELECT instructor_id FROM institutions";
+//        List<Instructor> instructors = new ArrayList<>();
+//        @SuppressWarnings("unchecked")
+//        List<InstructorEntity> instructorEntities = entityManager.createNativeQuery(sqlQuery,InstructorEntity.class).getResultList();
+//        for(InstructorEntity instructorEntity : instructorEntities)
+//            Instructor instructor = new Instructor(instructorEntity.getId(),instructorEntity.getFirstName(),instructorEntity.getLastName(),instructorEntity.getInstitutionEntities());
+//            instructors.add(instructor);
+//    }
+
     public Institution createInstitution(InstitutionCreate institutionCreate) {
         InstitutionEntity institutionEntity = new InstitutionEntity();
         institutionEntity.setName(institutionCreate.getName());
         institutionEntity.setCity(institutionCreate.getCity());
         institutionEntity.setCountry(institutionCreate.getCountry());
+
+        List<InstructorEntity> instructorEntities = new ArrayList<>();
+        List<UUID> instructorIds = institutionCreate.getInstructorIds();
+        for (UUID id : instructorIds) {
+            InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, id);
+            instructorEntities.add(instructorEntity);
+        }
+        institutionEntity.setInstructorEntities(instructorEntities);
+
         entityManager.persist(institutionEntity);
         entityManager.flush();
+
         Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
         return institution;
     }
@@ -50,16 +82,16 @@ public class InstitutionsRepository {
 
     public boolean deleteSpecificInstitution(UUID id) {
         String sqlQuery = "DELETE FROM institutions WHERE id = :id";
-         int deletedEntities = entityManager.createNativeQuery(sqlQuery,InstitutionEntity.class).setParameter("id",id).executeUpdate();
-         if(deletedEntities==0){
-             return false;
-         }
-         return true;
+        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).setParameter("id", id).executeUpdate();
+        if (deletedEntities == 0) {
+            return false;
+        }
+        return true;
 
 
     }
 
-    public Institution replaceInstitution(InstitutionCreate institutionCreate,UUID id){
+    public Institution replaceInstitution(InstitutionCreate institutionCreate, UUID id) {
         InstitutionEntity institutionEntity = new InstitutionEntity();
         institutionEntity.setId(id);
         institutionEntity.setName(institutionCreate.getName());
@@ -71,12 +103,12 @@ public class InstitutionsRepository {
             throw new NotFoundException("Institution with id: " + id + "doesn't exist");
         }
 
-        Institution institution = new Institution(id,institutionEntity.getName(),institutionEntity.getCountry(),institutionEntity.getCity());
+        Institution institution = new Institution(id, institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
         return institution;
     }
 
-    public Institution partiallyUpdateInstitution(InstitutionUpdate institutionUpdate,UUID id){
-        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class,id);
+    public Institution partiallyUpdateInstitution(InstitutionUpdate institutionUpdate, UUID id) {
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, id);
 
         if (institutionUpdate.getName() != null) {
             String newInstitutionName = institutionUpdate.getName();
@@ -92,7 +124,7 @@ public class InstitutionsRepository {
         }
         entityManager.merge(institutionEntity);
         entityManager.flush();
-        Institution institution = new Institution(institutionEntity.getId(),institutionEntity.getName(),institutionEntity.getCountry(),institutionEntity.getCity());
-        return  institution;
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        return institution;
     }
 }

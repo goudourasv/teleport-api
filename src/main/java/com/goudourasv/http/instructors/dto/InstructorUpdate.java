@@ -1,16 +1,21 @@
 package com.goudourasv.http.instructors.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goudourasv.domain.institutions.Institution;
+
+import java.util.List;
+import java.util.UUID;
 
 public class InstructorUpdate {
     private String firstName;
     private String lastName;
-    private Institution institution;
+    @JsonProperty("institutions")
+    private List<UUID> institutionIds;
 
-    public InstructorUpdate(String firstName, String lastName, Institution institution){
+    public InstructorUpdate(String firstName, String lastName, List<UUID> institutionIds){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.institution = institution;
+        this.institutionIds = institutionIds;
     }
 
     public String getFirstName() {
@@ -21,7 +26,7 @@ public class InstructorUpdate {
         return lastName;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public List<UUID> getInstitutionIds() {
+        return institutionIds;
     }
 }

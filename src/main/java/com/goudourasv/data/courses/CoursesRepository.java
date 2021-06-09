@@ -5,7 +5,6 @@ import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.ws.rs.NotFoundException;
@@ -41,11 +40,11 @@ public class CoursesRepository {
         courseEntity.setStartDate(courseCreate.getStartDate());
         courseEntity.setEndDAte(courseCreate.getEndDate());
         //TODO check if institution(id) exists
-        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class,courseCreate.getInstitutionId());
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
         courseEntity.setInstitutionEntity(institutionEntity);
         entityManager.persist(courseEntity);
         entityManager.flush();
-        Institution institution = new Institution(institutionEntity.getId(),institutionEntity.getName(),institutionEntity.getCountry(),institutionEntity.getCity());
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
         Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
@@ -69,8 +68,8 @@ public class CoursesRepository {
 //        return true;
 
         String sqlQuery = "DELETE FROM courses WHERE id = :id ";
-        int deletedEntities = entityManager.createNativeQuery(sqlQuery,CourseEntity.class).setParameter("id",id).executeUpdate();
-        if(deletedEntities == 0){
+        int deletedEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).setParameter("id", id).executeUpdate();
+        if (deletedEntities == 0) {
             return false;
         }
         return true;
@@ -93,7 +92,8 @@ public class CoursesRepository {
         return course;
 
     }
-    public Course partiallyUpdateCourse(CourseUpdate courseUpdate,UUID id) {
+
+    public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, id);
 
         if (courseUpdate.getTitle() != null) {
