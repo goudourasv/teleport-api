@@ -11,6 +11,7 @@ public class CourseUpdate {
     @JsonProperty("institution")
     private UUID institutionId;
     private String tag;
+    @JsonProperty("instructor")
     private UUID instructorId;
     private Instant startDate;
     private Instant endDate;

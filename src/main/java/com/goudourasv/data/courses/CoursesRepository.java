@@ -1,17 +1,19 @@
 package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
+import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @ApplicationScoped
@@ -27,12 +29,139 @@ public class CoursesRepository {
         List<Course> courses = new ArrayList<>();
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
+
         for (CourseEntity courseEntity : courseEntities) {
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+            InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+            InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
             courses.add(course);
         }
         return courses;
     }
+
+    public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
+        String sqlQuery = "SELECT * FROM courses";
+        if (institutionId != null || tag != null || instructorId != null) {
+            sqlQuery += " WHERE ";
+        }
+
+        Map<String, Object> parametersMap = new HashMap<>();
+
+        boolean isFirst = true;
+        if (institutionId != null) {
+            if (isFirst) {
+                sqlQuery += "institution_id =: institutionId";
+                isFirst = false;
+            } else {
+                sqlQuery += " AND institution_id =: institutionId";
+            }
+            parametersMap.put("institutionId", institutionId);
+        }
+        if (instructorId != null) {
+            if (isFirst) {
+                sqlQuery += "instructor_id =: instructorId";
+                isFirst = false;
+            } else {
+                sqlQuery += " AND instructor_id =: instructorId";
+            }
+            parametersMap.put("instructorId", instructorId);
+        }
+
+        Query query = entityManager.createNativeQuery(sqlQuery, CourseEntity.class);
+
+        for (String key : parametersMap.keySet()) {
+            query.setParameter(key, parametersMap.get(key));
+        }
+        @SuppressWarnings("unchecked")
+        List<CourseEntity> courseEntities = query.getResultList();
+        List<Course> filteredCourses = mapCourseEntities(courseEntities);
+
+        return filteredCourses;
+    }
+
+    private List<Course> mapCourseEntities(List<CourseEntity> courseEntities) {
+        List<Course> filteredCourses = new ArrayList<>();
+
+        for (CourseEntity courseEntity : courseEntities) {
+            InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+            InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+            filteredCourses.add(course);
+        }
+        return filteredCourses;
+    }
+
+//    public List<Course> getFilteredCourses(List<Course> courseList,UUID institutionId, String tag, UUID instructorId) {
+//        List<Course> filteredCourses = new ArrayList<>();
+//        String sqlQuery = "";
+//        if (institutionId == null && tag == null && instructorId == null) {
+//            sqlQuery = "SELECT * FROM courses";
+//            @SuppressWarnings("unchecked")//java generics
+//            List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
+//            for (CourseEntity courseEntity : courseEntities) {
+//                InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+//                Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+//                InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+//                Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+//
+//                Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+//                filteredCourses.add(course);
+//            }
+//            return filteredCourses;
+//        } else {
+//            if (institutionId != null) {
+//                sqlQuery = "SELECT * FROM courses WHERE institution_id = :institutionId";
+//                @SuppressWarnings("unchecked")
+//                List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).setParameter("institutionId", institutionId).getResultList();
+//                for (CourseEntity courseEntity : courseEntities) {
+//                    InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+//                    Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+//                    InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+//                    Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+//
+//                    Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+//                    filteredCourses.add(course);
+//                }
+//            } else {
+//                if (instructorId != null) {
+//                    sqlQuery = "SELECT * FROM courses WHERE instructor_id = :instructorId";
+//                    @SuppressWarnings("unchecked")
+//                    List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).setParameter("instructorId", instructorId).getResultList();
+//                    for (CourseEntity courseEntity : courseEntities) {
+//                        InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+//                        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+//                        InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+//                        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+//
+//                        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+//                        filteredCourses.add(course);
+//                    }
+//                } else {
+//                    if (tag != null) {
+//                        sqlQuery = "SELECT * FROM courses WHERE tag = :tag";
+//                        @SuppressWarnings("unchecked")
+//                        List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).setParameter("tag", tag).getResultList();
+//                        for (CourseEntity courseEntity : courseEntities) {
+//                            InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+//                            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+//                            InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+//                            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+//
+//                            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+//                            filteredCourses.add(course);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return filteredCourses;
+//    }
 
     public Course createCourse(CourseCreate courseCreate) {
         CourseEntity courseEntity = new CourseEntity();
@@ -42,10 +171,16 @@ public class CoursesRepository {
         //TODO check if institution(id) exists
         InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
         courseEntity.setInstitutionEntity(institutionEntity);
+        InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, courseCreate.getInstructorId());
+        courseEntity.setInstructorEntity(instructorEntity);
+
         entityManager.persist(courseEntity);
         entityManager.flush();
+
         Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
 
@@ -54,7 +189,12 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
+        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
 
     }
@@ -82,20 +222,27 @@ public class CoursesRepository {
         courseEntity.setStartDate(courseCreate.getStartDate());
         courseEntity.setEndDAte(courseCreate.getEndDate());
         courseEntity.setId(id);
+
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
+        courseEntity.setInstitutionEntity(institutionEntity);
+        InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, courseCreate.getInstructorId());
+        courseEntity.setInstructorEntity(instructorEntity);
         try {
             entityManager.merge(courseEntity);
         } catch (Exception ex) {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
 
         }
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
 
     }
 
     public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, id);
-
         if (courseUpdate.getTitle() != null) {
             String newTitle = courseUpdate.getTitle();
             courseEntity.setTitle(newTitle);
@@ -111,11 +258,30 @@ public class CoursesRepository {
             courseEntity.setEndDAte(newEndDate);
         }
 
+        Institution institution = null;
+
+        if (courseUpdate.getInstitutionId() != null) {
+            UUID newInstitutionId = courseUpdate.getInstitutionId();
+            InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, newInstitutionId);
+            courseEntity.setInstitutionEntity(institutionEntity);
+            institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+
+        }
+
+        Instructor instructor = null;
+
+        if (courseUpdate.getInstructorId() != null) {
+            UUID newInstructorId = courseUpdate.getInstructorId();
+            InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, newInstructorId);
+            courseEntity.setInstructorEntity(instructorEntity);
+            instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
+        }
 
         entityManager.merge(courseEntity);
         entityManager.flush();
 
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, null, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
         return course;
     }
 

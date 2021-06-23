@@ -1,5 +1,6 @@
 package com.goudourasv.data.instructors;
 
+import com.goudourasv.data.courses.CourseEntity;
 import com.goudourasv.data.institutions.InstitutionEntity;
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +22,8 @@ public class InstructorEntity {
             inverseJoinColumns = @JoinColumn(name = "institution_id"))
     private List<InstitutionEntity> institutionEntities;
 
+    @OneToMany(mappedBy = "instructorEntity" ,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<CourseEntity> courseEntities;
 
     public UUID getId() {
         return id;

@@ -1,10 +1,10 @@
 package com.goudourasv.data.institutions;
 
 
-import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.ws.rs.NotFoundException;
@@ -59,14 +59,6 @@ public class InstitutionsRepository {
         institutionEntity.setCity(institutionCreate.getCity());
         institutionEntity.setCountry(institutionCreate.getCountry());
 
-        List<InstructorEntity> instructorEntities = new ArrayList<>();
-        List<UUID> instructorIds = institutionCreate.getInstructorIds();
-        for (UUID id : instructorIds) {
-            InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, id);
-            instructorEntities.add(instructorEntity);
-        }
-        institutionEntity.setInstructorEntities(instructorEntities);
-
         entityManager.persist(institutionEntity);
         entityManager.flush();
 
@@ -81,18 +73,23 @@ public class InstitutionsRepository {
     }
 
     public boolean deleteSpecificInstitution(UUID id) {
-        String sqlQuery = "DELETE FROM institutions WHERE id = :id";
-        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).setParameter("id", id).executeUpdate();
-        if (deletedEntities == 0) {
+//        String sqlQuery = "DELETE FROM institutions WHERE id = :id";
+//        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).setParameter("id", id).executeUpdate();
+//        if (deletedEntities == 0) {
+//            return false;
+//        }
+//        return true;
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, id);
+        if (institutionEntity == null) {
             return false;
         }
+        entityManager.remove(institutionEntity);
         return true;
-
 
     }
 
     public Institution replaceInstitution(InstitutionCreate institutionCreate, UUID id) {
-        InstitutionEntity institutionEntity = new InstitutionEntity();
+        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, id);
         institutionEntity.setId(id);
         institutionEntity.setName(institutionCreate.getName());
         institutionEntity.setCountry(institutionCreate.getCountry());
@@ -124,6 +121,7 @@ public class InstitutionsRepository {
         }
         entityManager.merge(institutionEntity);
         entityManager.flush();
+
         Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
         return institution;
     }

@@ -29,38 +29,18 @@ public class CoursesService {
         this.institutionsService = institutionsService;
         this.instructorsService = instructorsService;
     }
-
+    @Transactional
     public List<Course> getCourses() {
         List<Course> courses = coursesRepository.getCourses();
         return courses;
     }
 
     //TODO check java Streams
-    public List<Course> getFilteredList(List<Course> coursesList, String institution, String tag, String instructor) {
-        List<Course> filteredList = new ArrayList<>();
-        if (institution == null && tag == null && instructor == null) {
-            filteredList.addAll(coursesList);
-        } else {
-            for (Course course : coursesList) {
-//                boolean isMatch = true;
-                if (instructor != null && !course.getInstructor().equals(instructor)) {
-//                    isMatch = false;
-                    continue;
-                }
-                if (institution != null && !course.getInstitution().equals(institution)) {
-//                    isMatch = false;
-                    continue;
-                }
-                if (tag != null && !course.getTag().equals(tag)) {
-                    //                    isMatch = false;
-                    continue;
-                }
-//                if (isMatch) {
-                filteredList.add(course);
-//                }
-            }
-        }
-        return filteredList;
+    @Transactional
+    public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
+        List<Course> filteredCourses= coursesRepository.getFilteredCourses(institutionId,tag,instructorId);
+        return filteredCourses;
+
     }
 
     @Transactional

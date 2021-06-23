@@ -33,11 +33,12 @@ public class CoursesResource {
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Course> getCourses(@QueryParam("institution") String institution, @QueryParam("tag") String tag, @QueryParam("instructor") String instructor) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tag") String tag, @QueryParam("instructor") UUID instructorId) {
         try {
-            List<Course> coursesList = coursesService.getCourses();
-            List<Course> filteredList = coursesService.getFilteredList(coursesList, institution, tag, instructor);
-            return filteredList;
+
+            List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tag, instructorId);
+            return filteredCourses;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }

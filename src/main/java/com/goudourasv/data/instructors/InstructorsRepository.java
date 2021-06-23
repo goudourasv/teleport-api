@@ -88,18 +88,23 @@ public class InstructorsRepository {
         }
 
 
-
         Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
         return instructor;
 
     }
 
     public boolean deleteSpecificInstructor(UUID id) {
-        String sqlQuery = "DELETE FROM instructors WHERE id = :id";
-        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).setParameter("id", id).executeUpdate();
-        if (deletedEntities == 0) {
+//        String sqlQuery = "DELETE FROM instructors WHERE id = :id";
+//        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).setParameter("id", id).executeUpdate();
+//        if (deletedEntities == 0) {
+//            return false;
+//        }
+//        return true;
+        InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, id);
+        if (instructorEntity == null) {
             return false;
         }
+        entityManager.remove(instructorEntity);
         return true;
     }
 

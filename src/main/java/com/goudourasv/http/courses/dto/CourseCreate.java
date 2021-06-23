@@ -16,15 +16,16 @@ public class CourseCreate {
     @JsonProperty("institution")
     private UUID institutionId;
     private Tag tag;
-    private Instructor instructor;
+    @JsonProperty("instructor")
+    private UUID instructorId;
     private Instant startDate;
     private Instant endDate;
 
-    public CourseCreate(String title, UUID institutionId, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
+    public CourseCreate(String title, UUID institutionId, Tag tag, UUID instructorId, Instant startDate, Instant endDate) {
         this.title = title;
         this.institutionId = institutionId;
         this.tag = tag;
-        this.instructor = instructor;
+        this.instructorId = instructorId;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -42,8 +43,8 @@ public class CourseCreate {
         return tag;
     }
 
-    public Instructor getInstructor() {
-        return instructor;
+    public UUID getInstructorId() {
+        return instructorId;
     }
 
     public Instant getStartDate() {

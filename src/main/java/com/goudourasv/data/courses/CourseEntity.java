@@ -1,6 +1,8 @@
 package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
+import com.goudourasv.data.instructors.InstructorEntity;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -20,6 +22,10 @@ public class CourseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institution_id")
     private InstitutionEntity institutionEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instructor_id")
+    private InstructorEntity instructorEntity;
 
 
 
@@ -43,6 +49,10 @@ public class CourseEntity {
         return institutionEntity;
     }
 
+    public InstructorEntity getInstructorEntity() {
+        return instructorEntity;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -61,5 +71,9 @@ public class CourseEntity {
 
     public void setInstitutionEntity(InstitutionEntity institutionEntity) {
         this.institutionEntity = institutionEntity;
+    }
+
+    public void setInstructorEntity(InstructorEntity instructorEntity) {
+        this.instructorEntity = instructorEntity;
     }
 }
