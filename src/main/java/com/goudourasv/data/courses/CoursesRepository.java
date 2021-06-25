@@ -7,13 +7,20 @@ import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 @ApplicationScoped
@@ -43,44 +50,76 @@ public class CoursesRepository {
     }
 
     public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
-        String sqlQuery = "SELECT * FROM courses";
-        if (institutionId != null || tag != null || instructorId != null) {
-            sqlQuery += " WHERE ";
-        }
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CourseEntity> criteria = builder.createQuery(CourseEntity.class);
 
-        Map<String, Object> parametersMap = new HashMap<>();
+        //get all items
+        Root<CourseEntity> root = criteria.from(CourseEntity.class);
+        criteria.select(root);
 
         boolean isFirst = true;
         if (institutionId != null) {
             if (isFirst) {
-                sqlQuery += "institution_id =: institutionId";
+                criteria.where(builder.equal(root.get("institutionEntity"), institutionId.toString()));
                 isFirst = false;
-            } else {
-                sqlQuery += " AND institution_id =: institutionId";
+            }else {
+                criteria.where(builder.and(builder.equal(root.get("institutionEntity"),institutionId.toString())));
             }
-            parametersMap.put("institutionId", institutionId);
         }
         if (instructorId != null) {
             if (isFirst) {
-                sqlQuery += "instructor_id =: instructorId";
+                criteria.where(builder.equal(root.get("instructorEntity"), instructorId.toString()));
                 isFirst = false;
-            } else {
-                sqlQuery += " AND instructor_id =: instructorId";
+
+            }else {
+                criteria.where(builder.and(builder.equal(root.get("instructorEntity"),institutionId.toString())));
             }
-            parametersMap.put("instructorId", instructorId);
-        }
-
-        Query query = entityManager.createNativeQuery(sqlQuery, CourseEntity.class);
-
-        for (String key : parametersMap.keySet()) {
-            query.setParameter(key, parametersMap.get(key));
         }
         @SuppressWarnings("unchecked")
-        List<CourseEntity> courseEntities = query.getResultList();
-        List<Course> filteredCourses = mapCourseEntities(courseEntities);
-
+        List<CourseEntity> courseEntities = entityManager.createQuery(criteria).getResultList();
+        mapCourseEntities(courseEntities);
+        List<Course> filteredCourses = new ArrayList<>();
         return filteredCourses;
     }
+//    public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
+//        String sqlQuery = "SELECT * FROM courses";
+//        if (institutionId != null || tag != null || instructorId != null) {
+//            sqlQuery += " WHERE ";
+//        }
+//
+//        Map<String, Object> parametersMap = new HashMap<>();
+//
+//        boolean isFirst = true;
+//        if (institutionId != null) {
+//            if (isFirst) {
+//                sqlQuery += "institution_id =: institutionId";
+//                isFirst = false;
+//            } else {
+//                sqlQuery += " AND institution_id =: institutionId";
+//            }
+//            parametersMap.put("institutionId", institutionId);
+//        }
+//        if (instructorId != null) {
+//            if (isFirst) {
+//                sqlQuery += "instructor_id =: instructorId";
+//                isFirst = false;
+//            } else {
+//                sqlQuery += " AND instructor_id =: instructorId";
+//            }
+//            parametersMap.put("instructorId", instructorId);
+//        }
+//
+//        Query query = entityManager.createNativeQuery(sqlQuery, CourseEntity.class);
+//
+//        for (String key : parametersMap.keySet()) {
+//            query.setParameter(key, parametersMap.get(key));
+//        }
+//        @SuppressWarnings("unchecked")
+//        List<CourseEntity> courseEntities = query.getResultList();
+//        List<Course> filteredCourses = mapCourseEntities(courseEntities);
+//
+//        return filteredCourses;
+//    }
 
     private List<Course> mapCourseEntities(List<CourseEntity> courseEntities) {
         List<Course> filteredCourses = new ArrayList<>();
