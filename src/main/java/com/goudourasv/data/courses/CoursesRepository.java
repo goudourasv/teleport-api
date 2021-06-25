@@ -96,8 +96,7 @@ public class CoursesRepository {
         }
         return filteredCourses;
     }
-
-
+    
     public Course createCourse(CourseCreate courseCreate) {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
