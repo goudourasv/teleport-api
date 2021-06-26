@@ -2,6 +2,7 @@ package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
+import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -20,10 +21,12 @@ public class CourseEntity {
     private Instant endDAte;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Nullable
     @JoinColumn(name = "institution_id")
     private InstitutionEntity institutionEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Nullable
     @JoinColumn(name = "instructor_id")
     private InstructorEntity instructorEntity;
 

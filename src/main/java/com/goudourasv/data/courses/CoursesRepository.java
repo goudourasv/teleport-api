@@ -13,7 +13,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 @ApplicationScoped
@@ -43,38 +45,12 @@ public class CoursesRepository {
     }
 
     public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
-        String sqlQuery = "SELECT * FROM courses";
-        if (institutionId != null || tag != null || instructorId != null) {
-            sqlQuery += " WHERE ";
-        }
-
-        Map<String, Object> parametersMap = new HashMap<>();
-
-        boolean isFirst = true;
-        if (institutionId != null) {
-            if (isFirst) {
-                sqlQuery += "institution_id = :institutionId";
-                isFirst = false;
-            } else {
-                sqlQuery += " AND institution_id = :institutionId";
-            }
-            parametersMap.put("institutionId", institutionId);
-        }
-        if (instructorId != null) {
-            if (isFirst) {
-                sqlQuery += "instructor_id = :instructorId";
-                isFirst = false;
-            } else {
-                sqlQuery += " AND instructor_id = :instructorId";
-            }
-            parametersMap.put("instructorId", instructorId);
-        }
-
+        String sqlQuery = "SELECT * FROM courses WHERE :institutionId IS NULL OR institution_id = :institutionId AND :instructorId IS NULL OR instructor_id = :instructorId";
         Query query = entityManager.createNativeQuery(sqlQuery, CourseEntity.class);
+        query.setParameter("institutionId", institutionId);
+        query.setParameter("instructorId", instructorId);
 
-        for (String key : parametersMap.keySet()) {
-            query.setParameter(key, parametersMap.get(key));
-        }
+
         @SuppressWarnings("unchecked")
         List<CourseEntity> courseEntities = query.getResultList();
         List<Course> filteredCourses = mapCourseEntities(courseEntities);
@@ -96,7 +72,7 @@ public class CoursesRepository {
         }
         return filteredCourses;
     }
-    
+
     public Course createCourse(CourseCreate courseCreate) {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
