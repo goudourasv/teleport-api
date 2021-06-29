@@ -18,7 +18,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-
 @ApplicationScoped
 @Path("/courses")
 public class CoursesResource {
@@ -36,7 +35,6 @@ public class CoursesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tag") String tag, @QueryParam("instructor") UUID instructorId) {
         try {
-
             List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tag, instructorId);
             return filteredCourses;
         } catch (Exception ex) {
@@ -75,7 +73,6 @@ public class CoursesResource {
         if (!deleted) {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
         }
-
     }
 
     @Blocking

@@ -1,21 +1,21 @@
 package com.goudourasv.domain.lectures;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 public class Lecture {
     private UUID id;
     private String title;
-    private LocalDateTime date;
-    private LocalDateTime startΤime;
-    private LocalDateTime endΤime;
+    private Instant date;
+    private Instant startTime;
+    private Instant endTime;
 
-    public Lecture(UUID id, String title, LocalDateTime date, LocalDateTime startΤime, LocalDateTime endΤime) {
+    public Lecture(UUID id, String title, Instant date, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
         this.date = date;
-        this.startΤime = startΤime;
-        this.endΤime = endΤime;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public UUID getId() {
@@ -26,27 +26,17 @@ public class Lecture {
         return title;
     }
 
-    public LocalDateTime getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public LocalDateTime getEndΤime() {
-        return endΤime;
+    public Instant getEndTime() {
+        return endTime;
     }
 
-    public LocalDateTime getStartΤime() {
-        return startΤime;
+    public Instant getStartTime() {
+        return startTime;
     }
 
-    public void setStartΤime(LocalDateTime startΤime) {
-        this.startΤime = startΤime;
-    }
 
-    public void setEndΤime(LocalDateTime endΤime) {
-        this.endΤime = endΤime;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 }

@@ -2,9 +2,7 @@ package com.goudourasv.domain.courses;
 
 import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.institutions.InstitutionsService;
-import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorsService;
-import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
@@ -19,16 +17,17 @@ import java.util.UUID;
 public class CoursesService {
 
     private InstitutionsService institutionsService;
-    private InstructorsService instructorsService ;
+    private InstructorsService instructorsService;
     private TagsService tagsService;
     private CoursesRepository coursesRepository;
 
-    public CoursesService(TagsService tagsService, CoursesRepository coursesRepository, InstitutionsService institutionsService,InstructorsService instructorsService) {
+    public CoursesService(TagsService tagsService, CoursesRepository coursesRepository, InstitutionsService institutionsService, InstructorsService instructorsService) {
         this.tagsService = tagsService;
         this.coursesRepository = coursesRepository;
         this.institutionsService = institutionsService;
         this.instructorsService = instructorsService;
     }
+
     @Transactional
     public List<Course> getCourses() {
         List<Course> courses = coursesRepository.getCourses();
@@ -38,7 +37,7 @@ public class CoursesService {
     //TODO check java Streams
     @Transactional
     public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
-        List<Course> filteredCourses= coursesRepository.getFilteredCourses(institutionId,tag,instructorId);
+        List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tag, instructorId);
         return filteredCourses;
 
     }
