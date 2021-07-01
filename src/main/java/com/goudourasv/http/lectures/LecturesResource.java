@@ -6,6 +6,7 @@ import com.goudourasv.http.lectures.dto.LectureCreate;
 import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -50,14 +51,25 @@ public class LecturesResource {
 
     @Blocking
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createLecture(LectureCreate lectureCreate, UriInfo uriInfo) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createLecture(@Valid LectureCreate lectureCreate, UriInfo uriInfo) {
         Lecture lecture = lecturesService.createLecture(lectureCreate);
         String path = uriInfo.getPath();
-        String location =  path + "/" + lecture.getId();
+        String location = path + "/" + lecture.getId();
         return Response.created(URI.create(location)).entity(lecture).build();
+    }
 
+    @Blocking
+    @DELETE
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteLecture(@PathParam("id") UUID id) {
+        boolean deleted = lecturesService.deleteSpecificLecture(id);
+        if (!deleted) {
+            throw new NotFoundException("Lecture with id: " + id + "doesn't exist");
+        }
     }
 
 

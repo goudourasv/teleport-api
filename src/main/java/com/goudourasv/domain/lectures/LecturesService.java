@@ -29,8 +29,15 @@ public class LecturesService {
         return lecture;
     }
 
+    @Transactional
     public Lecture createLecture(LectureCreate lectureCreate) {
         Lecture lecture = lecturesRepository.createLecture(lectureCreate);
         return lecture;
+    }
+
+    @Transactional
+    public boolean deleteSpecificLecture(UUID id) {
+        boolean deleted = lecturesRepository.deleteSpecificLecture(id);
+        return deleted;
     }
 }

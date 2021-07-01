@@ -48,4 +48,13 @@ public class LecturesRepository {
         return lecture;
 
     }
+
+    public boolean deleteSpecificLecture(UUID id) {
+        String sqlQuery = "DELETE FROM lectures WHERE id = :id ";
+        int deletedEntities = entityManager.createNativeQuery(sqlQuery,LectureEntity.class).setParameter("id",id).executeUpdate();
+        if(deletedEntities == 0){
+            return  false;
+        }
+        return true;
+    }
 }
