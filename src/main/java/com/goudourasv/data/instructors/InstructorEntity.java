@@ -22,7 +22,7 @@ public class InstructorEntity {
             inverseJoinColumns = @JoinColumn(name = "institution_id"))
     private List<InstitutionEntity> institutionEntities;
 
-    @OneToMany(mappedBy = "instructorEntity" ,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "instructorEntity" )
     private List<CourseEntity> courseEntities;
 
     public UUID getId() {
