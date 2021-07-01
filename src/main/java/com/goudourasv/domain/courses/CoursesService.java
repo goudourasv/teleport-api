@@ -62,7 +62,7 @@ public class CoursesService {
     }
 
     @Transactional
-    public Course createNewCourse(CourseCreate courseCreate) {
+    public Course createCourse(CourseCreate courseCreate) {
         Course course = coursesRepository.createCourse(courseCreate);
         return course;
     }

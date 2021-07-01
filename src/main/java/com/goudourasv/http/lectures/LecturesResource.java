@@ -2,13 +2,17 @@ package com.goudourasv.http.lectures;
 
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.lectures.LecturesService;
+import com.goudourasv.http.lectures.dto.LectureCreate;
 import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 
 @ApplicationScoped
@@ -25,12 +29,36 @@ public class LecturesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Lecture> getLectures() {
+    public List<Lecture> getLectures(@QueryParam("Course") UUID courseId) {
         try {
-            List<Lecture> filteredLectures = lecturesService.getFilteredLectures();
+            List<Lecture> filteredLectures = lecturesService.getFilteredLectures(courseId);
             return filteredLectures;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Blocking
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Lecture getSpecificLecture(@PathParam("id") UUID lectureId) {
+        Lecture lecture = lecturesService.getSpecificLecture(lectureId);
+        return lecture;
+    }
+
+    @Blocking
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createLecture(LectureCreate lectureCreate, UriInfo uriInfo) {
+        Lecture lecture = lecturesService.createLecture(lectureCreate);
+        String path = uriInfo.getPath();
+        String location =  path + "/" + lecture.getId();
+        return Response.created(URI.create(location)).entity(lecture).build();
+
+    }
+
+
 }

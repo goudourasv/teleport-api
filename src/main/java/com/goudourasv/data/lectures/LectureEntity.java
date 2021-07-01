@@ -14,8 +14,6 @@ public class LectureEntity {
     private UUID id;
     @Column
     private String title;
-    @Column
-    private Instant date;
     @Column(name = "start_time")
     private Instant startTime;
     @Column(name = "end_time")
@@ -28,10 +26,6 @@ public class LectureEntity {
 
     public String getTitle() {
         return title;
-    }
-
-    public Instant getDate() {
-        return date;
     }
 
     public Instant getStartTime() {
@@ -48,10 +42,6 @@ public class LectureEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setDate(Instant date) {
-        this.date = date;
     }
 
     public void setStartTime(Instant startTime) {

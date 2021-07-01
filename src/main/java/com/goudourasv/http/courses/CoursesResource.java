@@ -56,7 +56,7 @@ public class CoursesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCourse(@Valid CourseCreate courseCreate, UriInfo uriInfo) {
-        Course createdCourse = coursesService.createNewCourse(courseCreate);
+        Course createdCourse = coursesService.createCourse(courseCreate);
 
         String path = uriInfo.getPath();
         String location = path + "/" + createdCourse.getId();
