@@ -2,6 +2,7 @@ package com.goudourasv.domain.lectures;
 
 import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.http.lectures.dto.LectureCreate;
+import com.goudourasv.http.lectures.dto.LectureUpdate;
 
 
 import javax.enterprise.context.ApplicationScoped;
@@ -39,5 +40,10 @@ public class LecturesService {
     public boolean deleteSpecificLecture(UUID id) {
         boolean deleted = lecturesRepository.deleteSpecificLecture(id);
         return deleted;
+    }
+    @Transactional
+    public Lecture updateLecture(UUID id, LectureUpdate lectureUpdate) {
+        Lecture lecture = lecturesRepository.replaceLecture(id,lectureUpdate);
+        return lecture;
     }
 }

@@ -3,6 +3,7 @@ package com.goudourasv.http.lectures;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.lectures.LecturesService;
 import com.goudourasv.http.lectures.dto.LectureCreate;
+import com.goudourasv.http.lectures.dto.LectureUpdate;
 import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -70,6 +71,16 @@ public class LecturesResource {
         if (!deleted) {
             throw new NotFoundException("Lecture with id: " + id + "doesn't exist");
         }
+    }
+
+    @Blocking
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Lecture updateLecture(@PathParam("id") UUID id, LectureUpdate lectureUpdate){
+        Lecture lecture = lecturesService.updateLecture(id,lectureUpdate);
+        return lecture;
     }
 
 
