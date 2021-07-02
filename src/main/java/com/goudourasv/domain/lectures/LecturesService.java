@@ -46,4 +46,9 @@ public class LecturesService {
         Lecture lecture = lecturesRepository.replaceLecture(id,lectureUpdate);
         return lecture;
     }
+    @Transactional
+    public Lecture partiallyUpdateLecture(UUID id,LectureUpdate lectureUpdate) {
+        Lecture lecture = lecturesRepository.partiallyUpdateLecture(id,lectureUpdate);
+        return lecture;
+    }
 }

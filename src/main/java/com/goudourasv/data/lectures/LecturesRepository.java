@@ -7,6 +7,7 @@ import com.goudourasv.http.lectures.dto.LectureUpdate;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.ws.rs.NotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,5 +75,30 @@ public class LecturesRepository {
 
         Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), null, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
+    }
+
+    public Lecture partiallyUpdateLecture(UUID id, LectureUpdate lectureUpdate) {
+        LectureEntity lectureEntity = entityManager.getReference(LectureEntity.class,id);
+
+        if (lectureUpdate.getTitle() != null) {
+            String newLectureTitle = lectureUpdate.getTitle();
+            lectureEntity.setTitle(newLectureTitle);
+        }
+        if (lectureUpdate.getStartTime() != null) {
+            Instant newLectureStartTime = lectureUpdate.getStartTime();
+            lectureEntity.setStartTime(newLectureStartTime);
+        }
+        if (lectureUpdate.getEndTime() != null) {
+            Instant newLectureEndTime = lectureUpdate.getEndTime();
+            lectureEntity.setEndTime(newLectureEndTime);
+        }
+
+        entityManager.merge(lectureEntity);
+        entityManager.flush();
+
+        Lecture lecture = new Lecture(lectureEntity.getId(),lectureEntity.getTitle(),null,lectureEntity.getStartTime(),lectureEntity.getEndTime());
+        return lecture;
+
+
     }
 }

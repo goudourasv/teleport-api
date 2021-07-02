@@ -83,5 +83,16 @@ public class LecturesResource {
         return lecture;
     }
 
+    @Blocking
+    @PATCH
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Lecture partiallyUpdateLecture(@PathParam("id") UUID id,LectureUpdate lectureUpdate){
+        Lecture lecture =lecturesService.partiallyUpdateLecture(id,lectureUpdate);
+        return lecture;
+
+    }
+
 
 }
