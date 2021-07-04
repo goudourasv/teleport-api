@@ -4,7 +4,6 @@ import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.http.lectures.dto.LectureCreate;
 import com.goudourasv.http.lectures.dto.LectureUpdate;
 
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -41,14 +40,16 @@ public class LecturesService {
         boolean deleted = lecturesRepository.deleteSpecificLecture(id);
         return deleted;
     }
+
     @Transactional
     public Lecture updateLecture(UUID id, LectureUpdate lectureUpdate) {
-        Lecture lecture = lecturesRepository.replaceLecture(id,lectureUpdate);
+        Lecture lecture = lecturesRepository.replaceLecture(id, lectureUpdate);
         return lecture;
     }
+
     @Transactional
-    public Lecture partiallyUpdateLecture(UUID id,LectureUpdate lectureUpdate) {
-        Lecture lecture = lecturesRepository.partiallyUpdateLecture(id,lectureUpdate);
+    public Lecture partiallyUpdateLecture(UUID id, LectureUpdate lectureUpdate) {
+        Lecture lecture = lecturesRepository.partiallyUpdateLecture(id, lectureUpdate);
         return lecture;
     }
 }

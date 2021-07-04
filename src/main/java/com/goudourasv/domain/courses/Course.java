@@ -25,8 +25,7 @@ public class Course {
     private List<Lecture> lectures = new ArrayList<>();
 
 
-
-    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor,Instant startDate,Instant endDate) {
+    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
         this.id = id;
         this.title = title;
         this.institution = institution;
@@ -42,6 +41,11 @@ public class Course {
         this.tag = tag;
         this.instructor = instructor;
 
+    }
+
+    public Course(UUID id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public String getTitle() {

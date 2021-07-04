@@ -2,15 +2,18 @@ package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
+import com.goudourasv.data.lectures.LectureEntity;
+import com.goudourasv.domain.tags.Tag;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "Courses")
 public class CourseEntity {
     @Id //Shows that id is the PK
-    @GeneratedValue // Shows tha it generated automatically
+    @GeneratedValue // Shows that it generated automatically
     private UUID id;
     @Column
     private String title;
@@ -27,6 +30,17 @@ public class CourseEntity {
     @JoinColumn(name = "instructor_id")
     private InstructorEntity instructorEntity;
 
+    @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LectureEntity> lectureEntities;
+
+
+    public CourseEntity() {
+    }
+    public CourseEntity(UUID id,String title) {
+        this.id = id;
+        this.title = title;
+
+    }
 
 
     public UUID getId() {
@@ -53,6 +67,10 @@ public class CourseEntity {
         return instructorEntity;
     }
 
+    public List<LectureEntity> getLectureEntities() {
+        return lectureEntities;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -75,5 +93,9 @@ public class CourseEntity {
 
     public void setInstructorEntity(InstructorEntity instructorEntity) {
         this.instructorEntity = instructorEntity;
+    }
+
+    public void setLectureEntities(List<LectureEntity> lectureEntities) {
+        this.lectureEntities = lectureEntities;
     }
 }

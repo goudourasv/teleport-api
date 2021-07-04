@@ -1,9 +1,8 @@
 package com.goudourasv.data.lectures;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.goudourasv.data.courses.CourseEntity;
+
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -18,6 +17,10 @@ public class LectureEntity {
     private Instant startTime;
     @Column(name = "end_time")
     private Instant endTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private CourseEntity courseEntity;
 
 
     public UUID getId() {
@@ -36,6 +39,10 @@ public class LectureEntity {
         return endTime;
     }
 
+    public CourseEntity getCourseEntity() {
+        return courseEntity;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -50,6 +57,10 @@ public class LectureEntity {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public void setCourseEntity(CourseEntity courseEntity) {
+        this.courseEntity = courseEntity;
     }
 }
 

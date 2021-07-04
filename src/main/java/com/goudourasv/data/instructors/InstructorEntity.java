@@ -41,6 +41,10 @@ public class InstructorEntity {
         return institutionEntities;
     }
 
+    public List<CourseEntity> getCourseEntities() {
+        return courseEntities;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -55,5 +59,9 @@ public class InstructorEntity {
 
     public void setInstitutionEntities(List<InstitutionEntity> institutionEntities) {
         this.institutionEntities = institutionEntities;
+    }
+
+    public void setCourseEntities(List<CourseEntity> courseEntities) {
+        this.courseEntities = courseEntities;
     }
 }

@@ -1,21 +1,21 @@
 package com.goudourasv.http.lectures.dto;
-import com.goudourasv.domain.courses.Course;
 
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.UUID;
 
 public class LectureUpdate {
     @NotBlank
     private String title;
     private Instant startTime;
     private Instant endTime;
-    private Course course;
+    private UUID courseId;
 
-    public LectureUpdate(String title,Instant startTime,Instant endTime,Course course){
+    public LectureUpdate(String title, Instant startTime, Instant endTime, UUID courseId) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.course = course;
+        this.courseId = courseId;
     }
 
     public String getTitle() {
@@ -30,7 +30,7 @@ public class LectureUpdate {
         return endTime;
     }
 
-    public Course getCourse() {
-        return course;
+    public UUID getCourseId() {
+        return courseId;
     }
 }
