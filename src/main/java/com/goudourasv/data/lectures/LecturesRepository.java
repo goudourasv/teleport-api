@@ -2,6 +2,7 @@ package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.http.lectures.dto.LectureCreate;
 import com.goudourasv.http.lectures.dto.LectureUpdate;
@@ -33,7 +34,7 @@ public class LecturesRepository {
         List<LectureEntity> lectureEntities = entityManager.createNativeQuery(sqlQuery, LectureEntity.class).getResultList();
         for (LectureEntity lectureEntity : lectureEntities) {
             CourseEntity courseEntity = lectureEntity.getCourseEntity();
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle());
+            CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
             Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
             lectures.add(lecture);
         }
@@ -43,7 +44,7 @@ public class LecturesRepository {
     public Lecture getSpecificLecture(UUID lectureId) {
         LectureEntity lectureEntity = entityManager.find(LectureEntity.class, lectureId);
         CourseEntity courseEntity = lectureEntity.getCourseEntity();
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle());
+        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
         Lecture lecture = new Lecture(lectureId, lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
     }
@@ -59,7 +60,7 @@ public class LecturesRepository {
         entityManager.persist(lectureEntity);
         entityManager.flush();
 
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle());
+        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
         Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
@@ -89,7 +90,7 @@ public class LecturesRepository {
         } catch (Exception ex) {
             throw new NotFoundException("Lecture with id: " + id + "doesn't exist");
         }
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle());
+        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
         Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
@@ -110,12 +111,12 @@ public class LecturesRepository {
             Instant newLectureEndTime = lectureUpdate.getEndTime();
             lectureEntity.setEndTime(newLectureEndTime);
         }
-        Course course = null;
+        CourseLecture course = null;
         if (lectureUpdate.getCourseId() != null) {
             UUID newCourseId = lectureUpdate.getCourseId();
             CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, newCourseId);
             lectureEntity.setCourseEntity(courseEntity);
-            course = new Course(courseEntity.getId(), courseEntity.getTitle());
+            course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
         }
 

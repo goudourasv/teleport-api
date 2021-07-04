@@ -1,6 +1,7 @@
 package com.goudourasv.domain.lectures;
 
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CourseLecture;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -10,9 +11,9 @@ public class Lecture {
     private String title;
     private Instant startTime;
     private Instant endTime;
-    private Course course;
+    private CourseLecture course;
 
-    public Lecture(UUID id, String title, Course course, Instant startTime, Instant endTime) {
+    public Lecture(UUID id, String title, CourseLecture course, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
         this.course = course;
@@ -36,7 +37,7 @@ public class Lecture {
         return startTime;
     }
 
-    public Course getCourse() {
+    public CourseLecture getCourse() {
         return course;
     }
 }
