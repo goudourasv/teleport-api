@@ -10,6 +10,7 @@ import com.goudourasv.domain.tags.Tag;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -85,11 +86,6 @@ public class Course {
         this.endDate = endDate;
     }
 
-    //Adds a lecture in a course
-    public void addLecture(Lecture lecture) {
-        lectures.add(lecture);
-    }
-
     public List<Lecture> getLectures() {
         return lectures;
     }
@@ -116,9 +112,17 @@ public class Course {
     }
 
 
-    public void generateId() {
-        UUID id = UUID.randomUUID();
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id.equals(course.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

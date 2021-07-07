@@ -17,12 +17,7 @@ public class InstitutionsService {
     public InstitutionsService(InstitutionsRepository institutionsRepository) {
         this.institutionsRepository = institutionsRepository;
     }
-
-
-    public List<Institution> getInstitutions() {
-        List<Institution> institutions = institutionsRepository.getInstitutions();
-        return institutions;
-    }
+    
 
     public List<Institution> getFilteredList(List<Institution> institutionList, String country, String city) {
         List<Institution> filteredList = new ArrayList<>();

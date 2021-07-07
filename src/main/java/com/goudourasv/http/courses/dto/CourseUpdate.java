@@ -1,6 +1,7 @@
 package com.goudourasv.http.courses.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.goudourasv.domain.tags.Tag;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -15,6 +16,15 @@ public class CourseUpdate {
     private UUID instructorId;
     private Instant startDate;
     private Instant endDate;
+
+    public CourseUpdate(String title, UUID institutionId, String tag, UUID instructorId, Instant startDate, Instant endDate) {
+        this.title = title;
+        this.institutionId = institutionId;
+        this.tag = tag;
+        this.instructorId = instructorId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public String getTitle() {
         return title;

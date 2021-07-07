@@ -28,12 +28,6 @@ public class CoursesService {
         this.instructorsService = instructorsService;
     }
 
-    @Transactional
-    public List<Course> getCourses() {
-        List<Course> courses = coursesRepository.getCourses();
-        return courses;
-    }
-
     //TODO check java Streams
     @Transactional
     public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {

@@ -27,6 +27,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured")
     testImplementation("io.quarkus:quarkus-junit5-mockito")
     testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("org.assertj:assertj-core:3.20.2")
 
 }
 
