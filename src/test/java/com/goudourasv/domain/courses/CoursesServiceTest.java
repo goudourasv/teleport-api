@@ -8,7 +8,6 @@ import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.TextParsingException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -42,19 +41,19 @@ public class CoursesServiceTest {
         Course course = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Yoga", null, null, null, null, null);
         List<Course> filteredCourses = new ArrayList<>();
         filteredCourses.add(course);
-        UUID institutionId = UUID.randomUUID();
-        UUID instructorId = UUID.randomUUID();
+        //TODO create institution and instructor objects?
+        UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
+        UUID instructorId = UUID.fromString("278553ff-c001-4ac3-a5ea-71141e855704");
         String tag = "tag";
         when(coursesRepository.getFilteredCourses(institutionId, tag, instructorId)).thenReturn(filteredCourses);
-
 
         //when
         List<Course> expectedCourses = coursesService.getFilteredCourses(institutionId, tag, instructorId);
 
-
         //then
         verify(coursesRepository).getFilteredCourses(institutionId, tag, instructorId);
-        assertThat(expectedCourses).hasSameElementsAs(filteredCourses);
+        assertThat(expectedCourses).hasSize(filteredCourses.size()).hasSameElementsAs(filteredCourses);
+
     }
 
     @Test
@@ -77,6 +76,7 @@ public class CoursesServiceTest {
         CourseCreate courseCreate = new CourseCreate("yoga", null, null, null, null, null);
         Course expectedCourse = new Course(UUID.randomUUID(), "yoga", null, null, null, null, null);
         when(coursesRepository.createCourse(courseCreate)).thenReturn(expectedCourse);
+
         //when
         Course createdCourse = coursesService.createCourse(courseCreate);
 
@@ -91,7 +91,6 @@ public class CoursesServiceTest {
     public void shouldDeleteCourse() {
         //given
         UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
-        Course course = new Course(courseId, "Yoga", null, null, null, null, null);
         when(coursesRepository.deleteSpecificCourse(courseId)).thenReturn(true);
 
         //when
@@ -100,7 +99,6 @@ public class CoursesServiceTest {
         //then
         verify(coursesRepository).deleteSpecificCourse(courseId);
         assertTrue(deleted);
-        assertEquals(course.getId(), courseId);
 
 
     }
@@ -126,16 +124,16 @@ public class CoursesServiceTest {
     public void shouldPartiallyUpdateCourse() {
         //given
         UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
-        CourseUpdate courseUpdate = new CourseUpdate("yoga",null,null,null,null,null);
-        Course expectedCourse = new Course(courseId,"yoga",null,null,null,null,null);
-        when(coursesRepository.partiallyUpdateCourse(courseUpdate,courseId)).thenReturn(expectedCourse);
+        CourseUpdate courseUpdate = new CourseUpdate("yoga", null, null, null, null, null);
+        Course expectedCourse = new Course(courseId, "yoga", null, null, null, null, null);
+        when(coursesRepository.partiallyUpdateCourse(courseUpdate, courseId)).thenReturn(expectedCourse);
 
         //when
-        Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate,courseId);
+        Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, courseId);
 
         //then
-        verify(coursesRepository).partiallyUpdateCourse(courseUpdate,courseId);
-        assertEquals(updatedCourse,expectedCourse);
+        verify(coursesRepository).partiallyUpdateCourse(courseUpdate, courseId);
+        assertEquals(updatedCourse, expectedCourse);
 
 
     }

@@ -6,13 +6,12 @@ import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
 public class InstructorsService {
-    private final HashMap<UUID, Instructor> instructorsMap = new HashMap<>();
     private InstructorsRepository instructorsRepository;
 
     public InstructorsService(InstructorsRepository instructorsRepository) {

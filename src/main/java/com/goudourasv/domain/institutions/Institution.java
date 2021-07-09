@@ -1,6 +1,7 @@
 package com.goudourasv.domain.institutions;
 
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Institution {
@@ -63,6 +64,20 @@ public class Institution {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Institution that = (Institution) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 
