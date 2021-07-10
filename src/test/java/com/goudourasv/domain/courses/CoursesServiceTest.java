@@ -4,6 +4,7 @@ import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.domain.instructors.InstructorsService;
 import com.goudourasv.domain.tags.TagsService;
+import com.goudourasv.domain.utils.TestData;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.goudourasv.domain.utils.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,10 +40,7 @@ public class CoursesServiceTest {
     @Test
     public void shouldReturnAllCoursesFiltered() {
         //given
-        Course course = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Yoga", null, null, null, null, null);
-        List<Course> filteredCourses = new ArrayList<>();
-        filteredCourses.add(course);
-        //TODO create institution and instructor objects?
+        List<Course> filteredCourses = createCourses();
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId = UUID.fromString("278553ff-c001-4ac3-a5ea-71141e855704");
         String tag = "tag";
@@ -59,9 +58,9 @@ public class CoursesServiceTest {
     @Test
     public void shouldReturnSpecificCourse() {
         // given
-        UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
-        Course course = new Course(courseId, "Yoga", null, null, null, null, null);
-
+        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
+        Course course = createCourse();
+        when(coursesRepository.getSpecificCourse(courseId)).thenReturn(course);
         // when
         Course specificCourse = coursesService.getSpecificCourse(courseId);
 
@@ -73,8 +72,9 @@ public class CoursesServiceTest {
     @Test
     public void shouldCreateCourse() {
         //given
-        CourseCreate courseCreate = new CourseCreate("yoga", null, null, null, null, null);
-        Course expectedCourse = new Course(UUID.randomUUID(), "yoga", null, null, null, null, null);
+        CourseCreate courseCreate = createCourseCreate();
+        Course expectedCourse = createCourse();
+
         when(coursesRepository.createCourse(courseCreate)).thenReturn(expectedCourse);
 
         //when
@@ -83,7 +83,6 @@ public class CoursesServiceTest {
         //then
         verify(coursesRepository).createCourse(courseCreate);
         assertEquals(createdCourse.getTitle(), expectedCourse.getTitle());
-
 
     }
 
@@ -100,15 +99,15 @@ public class CoursesServiceTest {
         verify(coursesRepository).deleteSpecificCourse(courseId);
         assertTrue(deleted);
 
-
     }
 
     @Test
     public void shouldReplaceCourse() {
         //given
-        UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
-        CourseCreate courseCreate = new CourseCreate("yoga", null, null, null, null, null);
-        Course expectedCourse = new Course(courseId, "yoga", null, null, null, null, null);
+        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
+        CourseCreate courseCreate = createCourseCreate();
+        Course expectedCourse = createCourse();
+
         when(coursesRepository.replaceCourse(courseCreate, courseId)).thenReturn(expectedCourse);
 
         //when
@@ -123,9 +122,9 @@ public class CoursesServiceTest {
     @Test
     public void shouldPartiallyUpdateCourse() {
         //given
-        UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
-        CourseUpdate courseUpdate = new CourseUpdate("yoga", null, null, null, null, null);
-        Course expectedCourse = new Course(courseId, "yoga", null, null, null, null, null);
+        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
+        CourseUpdate courseUpdate = createCourseUpdate();
+        Course expectedCourse = createCourse();
         when(coursesRepository.partiallyUpdateCourse(courseUpdate, courseId)).thenReturn(expectedCourse);
 
         //when
@@ -134,7 +133,6 @@ public class CoursesServiceTest {
         //then
         verify(coursesRepository).partiallyUpdateCourse(courseUpdate, courseId);
         assertEquals(updatedCourse, expectedCourse);
-
 
     }
 

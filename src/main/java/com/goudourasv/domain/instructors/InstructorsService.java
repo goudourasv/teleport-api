@@ -6,7 +6,6 @@ import com.goudourasv.http.instructors.dto.InstructorUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +19,8 @@ public class InstructorsService {
 
     @Transactional
     public List<Instructor> getInstructors(UUID institutionId) {
-        return  instructorsRepository.getInstructors(institutionId);
-
+        List<Instructor> instructors = instructorsRepository.getInstructors(institutionId);
+        return instructors;
     }
 
     @Transactional
@@ -33,10 +32,11 @@ public class InstructorsService {
 
     @Transactional
     public Instructor createNewInstructor(InstructorCreate instructorCreate) {
-        Instructor instructor =instructorsRepository.createNewInstructor(instructorCreate);
+        Instructor instructor = instructorsRepository.createNewInstructor(instructorCreate);
         return instructor;
 
     }
+
     @Transactional
     public boolean deleteSpecificInstructor(UUID id) {
         boolean deleted = instructorsRepository.deleteSpecificInstructor(id);
@@ -45,14 +45,14 @@ public class InstructorsService {
 
     @Transactional
     public Instructor replaceInstructor(UUID id, InstructorCreate instructorCreate) {
-        Instructor instructor = instructorsRepository.replaceInstructor(id,instructorCreate);
+        Instructor instructor = instructorsRepository.replaceInstructor(id, instructorCreate);
         return instructor;
 
     }
 
     @Transactional
     public Instructor partiallyUpdateInstructor(InstructorUpdate instructorUpdate, UUID id) {
-        Instructor instructor = instructorsRepository.partiallyUpdateInstructor(instructorUpdate,id);
+        Instructor instructor = instructorsRepository.partiallyUpdateInstructor(instructorUpdate, id);
         return instructor;
     }
 

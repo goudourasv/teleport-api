@@ -3,6 +3,7 @@ package com.goudourasv.domain.instructors;
 import com.goudourasv.domain.institutions.Institution;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Instructor {
@@ -59,5 +60,18 @@ public class Instructor {
 
     public void setInstitutions(List<Institution> institutions) {
         this.institutions = institutions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Instructor that = (Instructor) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

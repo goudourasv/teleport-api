@@ -4,6 +4,7 @@ import com.goudourasv.data.institutions.InstitutionsRepository;
 import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.instructors.InstructorsService;
 import com.goudourasv.domain.tags.TagsService;
+import com.goudourasv.domain.utils.TestData;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.goudourasv.domain.utils.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,11 +41,8 @@ public class InstitutionsServiceTest {
     @Test
     public void shouldReturnAllInstitutions() {
         //given
-        List<Institution> institutions = new ArrayList<>();
-        UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        String institutionName = "AUTH";
-        Institution institution = new Institution(institutionId, institutionName);
-        institutions.add(institution);
+        List<Institution> institutions = createInstitutions();
+
         when(institutionsRepository.getInstitutions()).thenReturn(institutions);
 
         //when
@@ -59,8 +58,8 @@ public class InstitutionsServiceTest {
     public void shouldReturnSpecificInstitution() {
         //given
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        String institutionName = "AUTH";
-        Institution institution = new Institution(institutionId, institutionName);
+        Institution institution = createInstitution();
+
         when(institutionsRepository.getSpecificInstitution(institutionId)).thenReturn(institution);
 
         //when
@@ -74,9 +73,9 @@ public class InstitutionsServiceTest {
     @Test
     public void shouldCreateInstitution() {
         //given
-        String institutionName = "AUTH";
-        InstitutionCreate institutionCreate = new InstitutionCreate(institutionName, null, null, null);
-        Institution institution = new Institution(institutionName, null, null);
+        InstitutionCreate institutionCreate = createInstitutionCreate();
+        Institution institution = createInstitution();
+
         when(institutionsRepository.createInstitution(institutionCreate)).thenReturn(institution);
 
         //when
@@ -108,9 +107,8 @@ public class InstitutionsServiceTest {
     public void shouldReplaceInstitution() {
         //given
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        String institutionName = "AUTH";
-        InstitutionCreate institutionCreate = new InstitutionCreate(institutionName, null, null, null);
-        Institution institution = new Institution(institutionName, null, null);
+        InstitutionCreate institutionCreate = createInstitutionCreate();
+        Institution institution = createInstitution();
         when(institutionsRepository.replaceInstitution(institutionCreate, institutionId)).thenReturn(institution);
 
         //when
@@ -127,9 +125,9 @@ public class InstitutionsServiceTest {
     public void shouldPartiallyUpdateInstitution() {
         //given
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        String institutionName = "AUTH";
-        InstitutionUpdate institutionUpdate = new InstitutionUpdate(institutionName, null, null);
-        Institution institution = new Institution(institutionId, institutionName, null, null);
+        InstitutionUpdate institutionUpdate = createInstitutionUpdate();
+        Institution institution = createInstitution();
+
         when(institutionsRepository.partiallyUpdateInstitution(institutionUpdate, institutionId)).thenReturn(institution);
 
         //when
