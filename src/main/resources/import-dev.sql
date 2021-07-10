@@ -38,4 +38,14 @@ VALUES
 ('a030dc4e-6448-4d0f-b550-077bca64f533','Lecture 1','2021-05-27T15:13:22Z','2021-05-27T16:13:22Z','165f03a3-a4a3-48ca-8c8d-78ea591194cb'),
 ('6e7e34e0-56a5-45f6-a628-54f9d275ae24','Lecture 2','2021-06-04T15:13:22Z','2021-06-04T16:13:22Z','165f03a3-a4a3-48ca-8c8d-78ea591194cb');
 
+INSERT INTO tags(name)
+VALUES
+('Software'),
+('Engineering'),
+('Economics'),
+('Mathematics'),
+('Physics'),
+('Statistics');
+
+
 

@@ -1,0 +1,3 @@
+CREATE TABLE tags (
+name VARCHAR(250) PRIMARY KEY
+);
