@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.goudourasv.domain.utils.TestData.*;
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;

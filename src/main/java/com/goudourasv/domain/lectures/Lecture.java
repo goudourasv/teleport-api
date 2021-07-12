@@ -4,6 +4,7 @@ import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CourseLecture;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Lecture {
@@ -39,5 +40,18 @@ public class Lecture {
 
     public CourseLecture getCourse() {
         return course;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lecture lecture = (Lecture) o;
+        return id.equals(lecture.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

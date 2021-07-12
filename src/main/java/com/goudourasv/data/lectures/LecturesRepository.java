@@ -76,14 +76,14 @@ public class LecturesRepository {
         return true;
     }
 
-    public Lecture replaceLecture(UUID id, LectureUpdate lectureUpdate) {
+    public Lecture replaceLecture(UUID id, LectureCreate lectureCreate) {
         LectureEntity lectureEntity = new LectureEntity();
-        lectureEntity.setTitle(lectureUpdate.getTitle());
-        lectureEntity.setStartTime(lectureUpdate.getStartTime());
-        lectureEntity.setEndTime(lectureUpdate.getEndTime());
+        lectureEntity.setTitle(lectureCreate.getTitle());
+        lectureEntity.setStartTime(lectureCreate.getStartTime());
+        lectureEntity.setEndTime(lectureCreate.getEndTime());
         lectureEntity.setId(id);
 
-        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, lectureUpdate.getCourseId());
+        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, lectureCreate.getCourseId());
         lectureEntity.setCourseEntity(courseEntity);
         try {
             entityManager.merge(lectureEntity);

@@ -1,14 +1,18 @@
 package com.goudourasv.domain.utils;
 
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
+import com.goudourasv.http.lectures.dto.LectureCreate;
+import com.goudourasv.http.lectures.dto.LectureUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +105,16 @@ public class TestData {
 
     }
 
+    public static List<Lecture> createLectures(){
+        List<Lecture> lectures = new ArrayList<>();
+        CourseLecture courseLecture = new CourseLecture(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"),"Electrical Engines");
+        Lecture lecture1 = new Lecture(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"),"Lecture 1",courseLecture,null,null);
+        Lecture lecture2 = new Lecture(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"),"Lecture 2",courseLecture,null,null);
+        lectures.add(lecture1);
+        lectures.add(lecture2);
+        return lectures;
+    }
+
     public static Course createCourse() {
         List<Institution> institutions1 = new ArrayList<>();
         Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
@@ -183,4 +197,23 @@ public class TestData {
 
     }
 
+    public static Lecture createLecture(){
+        CourseLecture courseLecture = new CourseLecture(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"),"Electrical Engines");
+        Lecture lecture = new Lecture(UUID.fromString("7f0c944c-d9b7-41af-8840-516240cb4584"),"Lecture 3",courseLecture,null,null);
+        return lecture;
+
+    }
+
+    public static LectureCreate createLectureCreate(){
+        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
+        LectureCreate lectureCreate = new LectureCreate("Lecture 3",null,null,courseId);
+        return lectureCreate;
+    }
+
+    public static LectureUpdate createLectureUpdate(){
+        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
+        LectureUpdate lectureUpdate = new LectureUpdate("Lecture 4",null,null,courseId);
+        return lectureUpdate;
+
+    }
 }

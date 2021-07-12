@@ -78,8 +78,8 @@ public class LecturesResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Lecture updateLecture(@PathParam("id") UUID id, LectureUpdate lectureUpdate) {
-        Lecture lecture = lecturesService.updateLecture(id, lectureUpdate);
+    public Lecture updateLecture(@PathParam("id") UUID id, LectureCreate lectureCreate) {
+        Lecture lecture = lecturesService.updateLecture(id, lectureCreate);
         return lecture;
     }
 

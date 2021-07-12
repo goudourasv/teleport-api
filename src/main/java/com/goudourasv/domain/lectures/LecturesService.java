@@ -42,8 +42,8 @@ public class LecturesService {
     }
 
     @Transactional
-    public Lecture updateLecture(UUID id, LectureUpdate lectureUpdate) {
-        Lecture lecture = lecturesRepository.replaceLecture(id, lectureUpdate);
+    public Lecture updateLecture(UUID id, LectureCreate lectureCreate) {
+        Lecture lecture = lecturesRepository.replaceLecture(id, lectureCreate);
         return lecture;
     }
 
