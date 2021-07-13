@@ -14,7 +14,7 @@ val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    implementation("io.quarkus:quarkus-resteasy-reactive-jackson:")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation("io.quarkus:quarkus-hibernate-orm")
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-arc")
@@ -28,6 +28,9 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5-mockito")
     testImplementation("org.mockito:mockito-junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.20.2")
+    testImplementation("org.testcontainers:testcontainers:1.15.3")
+    testImplementation("org.testcontainers:junit-jupiter:1.15.3")
+    testImplementation("org.testcontainers:postgresql:1.15.3")
 
 }
 

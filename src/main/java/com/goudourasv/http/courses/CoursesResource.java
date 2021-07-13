@@ -1,7 +1,5 @@
 package com.goudourasv.http.courses;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.http.courses.dto.CourseCreate;
@@ -14,7 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.io.File;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +39,17 @@ public class CoursesResource {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    //TODO root for live course
+//    @Blocking
+//    @GET
+//    @Path("/{live}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public LiveCourse getLiveCourses(){
+//
+//
+//    }
 
     @Blocking
     @GET
@@ -96,18 +104,5 @@ public class CoursesResource {
         return updatedCourse;
     }
 
-
-    private List<Course> parseJsonFile() {
-        List<Course> coursesList;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String file = Thread.currentThread().getContextClassLoader().getResource("/courses.json").getFile();
-            coursesList = mapper.readValue(new File(file), new TypeReference<>() {
-            });
-        } catch (Exception ex) {
-            throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
-        }
-        return coursesList;
-    }
 }
 

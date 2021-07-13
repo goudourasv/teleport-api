@@ -42,22 +42,6 @@ public class LecturesServiceTest {
         assertThat(expectedLectures).hasSameSizeAs(lectures).hasSameElementsAs(lectures);
     }
 
-//    //TODO Change test assertion to an exception and then change service's logic(Test Driven)
-//    @Test
-//    public void shouldThrowWhenCourseIdIsNull() {
-//        //given
-//        List<Lecture> lectures = createLectures();
-//        UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
-//
-//        when(lecturesRepository.getFilteredLectures(null)).thenReturn(lectures);
-//
-//        //when
-//        List<Lecture> expectedLectures = lecturesService.getFilteredLectures(null);
-//
-//        //then
-//        verify(lecturesRepository).getFilteredLectures(null);
-//        assertThat(expectedLectures).isEmpty();
-//    }
 
     @Test
     public void shouldReturnSpecificLecture() {

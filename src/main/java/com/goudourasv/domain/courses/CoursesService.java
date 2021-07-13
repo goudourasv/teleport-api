@@ -8,6 +8,7 @@ import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.interceptor.AroundInvoke;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class CoursesService {
     }
 
     //TODO check java Streams
-    @Transactional
+
     public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
         List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tag, instructorId);
         return filteredCourses;

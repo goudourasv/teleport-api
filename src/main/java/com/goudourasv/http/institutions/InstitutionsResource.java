@@ -26,7 +26,7 @@ public class InstitutionsResource {
         this.institutionsService = institutionsService;
 
     }
-
+    //TODO proper filtering
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)

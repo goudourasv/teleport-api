@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goudourasv.domain.tags.Tag;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -11,16 +13,18 @@ public class CourseUpdate {
     private String title;
     @JsonProperty("institution")
     private UUID institutionId;
-    private String tag;
+    private List<String> tags = new ArrayList<>();
     @JsonProperty("instructor")
     private UUID instructorId;
     private Instant startDate;
     private Instant endDate;
 
-    public CourseUpdate(String title, UUID institutionId, String tag, UUID instructorId, Instant startDate, Instant endDate) {
+    public CourseUpdate(String title, UUID institutionId, List<String> tags, UUID instructorId, Instant startDate, Instant endDate) {
         this.title = title;
         this.institutionId = institutionId;
-        this.tag = tag;
+        if(tags != null) {
+            this.tags = tags;
+        }
         this.instructorId = instructorId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,8 +38,8 @@ public class CourseUpdate {
         return institutionId;
     }
 
-    public String getTag() {
-        return tag;
+    public List<String> getTags() {
+        return tags;
     }
 
     public UUID getInstructorId() {

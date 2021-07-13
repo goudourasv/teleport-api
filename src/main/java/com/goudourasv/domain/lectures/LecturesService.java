@@ -25,6 +25,7 @@ public class LecturesService {
 
     @Transactional
     public Lecture getSpecificLecture(UUID lectureId) {
+
         Lecture lecture = lecturesRepository.getSpecificLecture(lectureId);
         return lecture;
     }

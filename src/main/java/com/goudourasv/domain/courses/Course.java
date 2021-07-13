@@ -19,27 +19,27 @@ public class Course {
     private String title;
     @JsonProperty("institution")
     private Institution institution;
-    private Tag tag;
+    private List<Tag> tags;
     private Instructor instructor;
     private Instant startDate;
     private Instant endDate;
     private List<Lecture> lectures = new ArrayList<>();
 
 
-    public Course(UUID id, String title, Institution institution, Tag tag, Instructor instructor, Instant startDate, Instant endDate) {
+    public Course(UUID id, String title, Institution institution, List<Tag> tags, Instructor instructor, Instant startDate, Instant endDate) {
         this.id = id;
         this.title = title;
         this.institution = institution;
-        this.tag = tag;
+        this.tags = tags;
         this.startDate = startDate;
         this.endDate = endDate;
         this.instructor = instructor;
     }
 
-    public Course(String title, Institution institution, Tag tag, Instructor instructor) {
+    public Course(String title, Institution institution,List<Tag> tags, Instructor instructor) {
         this.title = title;
         this.institution = institution;
-        this.tag = tag;
+        this.tags = tags;
         this.instructor = instructor;
 
     }
@@ -62,8 +62,8 @@ public class Course {
         return institution;
     }
 
-    public Tag getTag() {
-        return tag;
+    public List<Tag> getTags() {
+        return tags;
     }
 
     public Instructor getInstructor() {
@@ -90,9 +90,12 @@ public class Course {
         return lectures;
     }
 
-    public Tag setTag(Tag tag) {
-        this.tag = tag;
-        return tag;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     public Instructor setInstructor(Instructor instructor) {

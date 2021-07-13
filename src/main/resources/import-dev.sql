@@ -47,5 +47,16 @@ VALUES
 ('Physics'),
 ('Statistics');
 
+INSERT INTO course_tag(course_id,tag)
+VALUES
+('e5ca80f3-2e37-4bf6-bcc8-b506d3e62b00','Software'),
+('2c3b2709-73ba-47f2-b4e2-3f0979ea0600','Engineering'),
+('d946bc18-e92a-407b-980c-301c2bf3b44b','Economics'),
+('165f03a3-a4a3-48ca-8c8d-78ea591194cb','Economics'),
+('24c74444-fadb-4e91-8604-f299ad6189ed','Engineering'),
+('165f03a3-a4a3-48ca-8c8d-78ea591194cb','Mathematics'),
+('e5ca80f3-2e37-4bf6-bcc8-b506d3e62b00','Engineering');
+
+
 
 

@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+
+//TODO Create URL property for lectures to link with (ex.ZOOM APP)
 public class Lecture {
     private UUID id;
     private String title;

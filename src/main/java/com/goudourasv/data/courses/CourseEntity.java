@@ -3,6 +3,7 @@ package com.goudourasv.data.courses;
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
+import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.tags.Tag;
 
 import javax.persistence.*;
@@ -32,6 +33,12 @@ public class CourseEntity {
 
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LectureEntity> lectureEntities;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "course_tag",
+            joinColumns = @JoinColumn (name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag"))
+    private List<TagEntity> tagEntities;
 
 
     public CourseEntity() {
@@ -71,6 +78,10 @@ public class CourseEntity {
         return lectureEntities;
     }
 
+    public List<TagEntity> getTagEntities() {
+        return tagEntities;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -97,5 +108,9 @@ public class CourseEntity {
 
     public void setLectureEntities(List<LectureEntity> lectureEntities) {
         this.lectureEntities = lectureEntities;
+    }
+
+    public void setTagEntities(List<TagEntity> tagEntities) {
+        this.tagEntities = tagEntities;
     }
 }
