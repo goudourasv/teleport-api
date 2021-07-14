@@ -31,8 +31,8 @@ public class CoursesService {
 
     //TODO check java Streams
 
-    public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
-        List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tag, instructorId);
+    public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
+        List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tags, instructorId);
         return filteredCourses;
 
     }
@@ -70,7 +70,7 @@ public class CoursesService {
 
     //TODO live course list
     public List<LiveCourse> getLiveCourses() {
-        List<LiveCourse> liveCourses = new ArrayList<>();
+        List<LiveCourse> liveCourses = coursesRepository.getLiveCourses();
         return liveCourses;
 
 

@@ -4,7 +4,6 @@ import com.goudourasv.data.institutions.InstitutionsRepository;
 import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.instructors.InstructorsService;
 import com.goudourasv.domain.tags.TagsService;
-import com.goudourasv.domain.utils.TestData;
 import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import org.junit.jupiter.api.Test;
@@ -13,11 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.goudourasv.domain.utils.TestData.*;
+import static com.goudourasv.utils.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

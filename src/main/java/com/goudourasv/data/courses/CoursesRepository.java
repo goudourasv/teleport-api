@@ -4,6 +4,7 @@ import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.tags.Tag;
@@ -29,20 +30,21 @@ public class CoursesRepository {
 
     public List<Course> getCourses() {
         String sqlQuery = "SELECT * FROM courses";
-        List<Course> courses = new ArrayList<>();
+
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
-        courses = mapCourseEntities(courseEntities);
+        List<Course> courses = mapCourseEntities(courseEntities);
         return courses;
     }
 
 
-    public List<Course> getFilteredCourses(UUID institutionId, String tag, UUID instructorId) {
+    public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
         String sqlQuery = "SELECT * FROM courses";
-        if (tag != null) {
+        if (tags != null) {
             sqlQuery += " JOIN course_tag ON courses.id = course_tag.course_id";
         }
-        if (institutionId != null || instructorId != null || tag != null) {
+        if (institutionId != null || instructorId != null || tags != null) {
+
             sqlQuery += " WHERE ";
         }
 
@@ -67,14 +69,14 @@ public class CoursesRepository {
             }
             parametersMap.put("instructorId", instructorId);
         }
-        if (tag != null) {
+        if (tags != null) {
             if (isFirst) {
-                sqlQuery += "tag = :tag";
+                sqlQuery += "tags = :tags";
                 isFirst = false;
             } else {
-                sqlQuery += " AND tag = :tag";
+                sqlQuery += " AND tags = :tags";
             }
-            parametersMap.put("tag", tag);
+            parametersMap.put("tags", tags);
         }
 
 
@@ -281,5 +283,9 @@ public class CoursesRepository {
         return course;
     }
 
+    public List<LiveCourse> getLiveCourses() {
+        List<LiveCourse> liveCourses = new ArrayList<>();
+        return liveCourses;
+    }
 }
 

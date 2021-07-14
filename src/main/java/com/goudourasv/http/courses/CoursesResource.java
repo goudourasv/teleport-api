@@ -2,6 +2,7 @@ package com.goudourasv.http.courses;
 
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CoursesService;
+import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import io.smallrye.common.annotation.Blocking;
@@ -31,25 +32,26 @@ public class CoursesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tag") String tag, @QueryParam("instructor") UUID instructorId) {
+    public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tags") List<String> tags, @QueryParam("instructor") UUID instructorId) {
         try {
-            List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tag, instructorId);
+            List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tags, instructorId);
             return filteredCourses;
         } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    //TODO root for live course
-//    @Blocking
-//    @GET
-//    @Path("/{live}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public LiveCourse getLiveCourses(){
-//
-//
-//    }
+    //TODO root for live course
+    @Blocking
+    @GET
+    @Path("/live")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<LiveCourse> getLiveCourses(){
+        List<LiveCourse> liveCourses = coursesService.getLiveCourses();
+
+        return  liveCourses;
+    }
 
     @Blocking
     @GET

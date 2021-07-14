@@ -3,8 +3,8 @@ package com.goudourasv.domain.courses;
 import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.domain.instructors.InstructorsService;
+import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.tags.TagsService;
-import com.goudourasv.domain.utils.TestData;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import org.junit.jupiter.api.Test;
@@ -13,11 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.goudourasv.domain.utils.TestData.*;
+import static com.goudourasv.utils.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,15 +41,15 @@ public class CoursesServiceTest {
         //given
         List<Course> filteredCourses = createCourses();
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        UUID instructorId = UUID.fromString("278553ff-c001-4ac3-a5ea-71141e855704");
-        String tag = "tag";
-        when(coursesRepository.getFilteredCourses(institutionId, tag, instructorId)).thenReturn(filteredCourses);
+        UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
+        List<String> tags = createTags();
+        when(coursesRepository.getFilteredCourses(institutionId,tags, instructorId)).thenReturn(filteredCourses);
 
         //when
-        List<Course> expectedCourses = coursesService.getFilteredCourses(institutionId, tag, instructorId);
+        List<Course> expectedCourses = coursesService.getFilteredCourses(institutionId,tags,instructorId);
 
         //then
-        verify(coursesRepository).getFilteredCourses(institutionId, tag, instructorId);
+        verify(coursesRepository).getFilteredCourses(institutionId, tags, instructorId);
         assertThat(expectedCourses).hasSize(filteredCourses.size()).hasSameElementsAs(filteredCourses);
 
     }
