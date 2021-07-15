@@ -5,6 +5,7 @@ import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.tags.Tag;
+import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -20,6 +21,7 @@ public class CourseEntity {
     private String title;
     @Column(name = "start_date")
     private Instant startDate;
+
     @Column(name = "end_date")
     private Instant endDAte;
 

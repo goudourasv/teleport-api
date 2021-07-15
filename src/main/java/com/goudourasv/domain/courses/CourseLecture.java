@@ -3,28 +3,28 @@ package com.goudourasv.domain.courses;
 import java.util.UUID;
 
 public class CourseLecture {
-    private UUID courseLectureId;
-    private String courseLectureTitle;
+    private UUID courseIdOfLecture;
+    private String courseTitleOfLecture;
 
-    public CourseLecture(UUID courseLectureId, String courseLectureTitle) {
-        this.courseLectureId = courseLectureId;
-        this.courseLectureTitle = courseLectureTitle;
+    public CourseLecture(UUID CourseIdOfLecture, String courseTitleOfLecture) {
+        this.courseIdOfLecture = CourseIdOfLecture;
+        this.courseTitleOfLecture = courseTitleOfLecture;
 
     }
 
-    public UUID getCourseLectureId() {
-        return courseLectureId;
+    public UUID getCourseIdOfLecture() {
+        return courseIdOfLecture;
     }
 
-    public String getCourseLectureTitle() {
-        return courseLectureTitle;
+    public String getCourseTitleOfLecture() {
+        return courseTitleOfLecture;
     }
 
-    public void setCourseLectureId(UUID courseLectureId) {
-        this.courseLectureId = courseLectureId;
+    public void setCourseIdOfLecture(UUID courseIdOfLecture) {
+        this.courseIdOfLecture = courseIdOfLecture;
     }
 
-    public void setCourseLectureTitle(String courseLectureTitle) {
-        this.courseLectureTitle = courseLectureTitle;
+    public void setCourseTitleOfLecture(String courseTitleOfLecture) {
+        this.courseTitleOfLecture = courseTitleOfLecture;
     }
 }

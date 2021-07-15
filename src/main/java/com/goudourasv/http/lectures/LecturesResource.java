@@ -32,7 +32,7 @@ public class LecturesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Lecture> getLectures(@NotNull @QueryParam("Course") UUID courseId) {
+    public List<Lecture> getLectures(@QueryParam("courseId") UUID courseId) {
         try {
             List<Lecture> filteredLectures = lecturesService.getFilteredLectures(courseId);
             return filteredLectures;
@@ -46,7 +46,7 @@ public class LecturesResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Lecture getSpecificLecture(@NotNull @PathParam("id") UUID lectureId) {
+    public Lecture getSpecificLecture(@PathParam("id") UUID lectureId) {
         Lecture lecture = lecturesService.getSpecificLecture(lectureId);
         return lecture;
     }

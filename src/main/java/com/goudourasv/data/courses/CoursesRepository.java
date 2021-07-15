@@ -2,11 +2,15 @@ package com.goudourasv.data.courses;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
+import com.goudourasv.data.lectures.LectureEntity;
+import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
@@ -23,9 +27,11 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class CoursesRepository {
     private final EntityManager entityManager;
+    private final LecturesRepository lecturesRepository;
 
-    public CoursesRepository(EntityManager entityManager) {
+    public CoursesRepository(EntityManager entityManager, LecturesRepository lecturesRepository) {
         this.entityManager = entityManager;
+        this.lecturesRepository = lecturesRepository;
     }
 
     public List<Course> getCourses() {
@@ -38,12 +44,13 @@ public class CoursesRepository {
     }
 
 
+    //TODO TagList in sqlQuery!!
     public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
         String sqlQuery = "SELECT * FROM courses";
-        if (tags != null) {
+        if (!tags.isEmpty()) {
             sqlQuery += " JOIN course_tag ON courses.id = course_tag.course_id";
         }
-        if (institutionId != null || instructorId != null || tags != null) {
+        if (institutionId != null || instructorId != null || !tags.isEmpty()) {
 
             sqlQuery += " WHERE ";
         }
@@ -53,7 +60,7 @@ public class CoursesRepository {
         boolean isFirst = true;
         if (institutionId != null) {
             if (isFirst) {
-                sqlQuery += " institution_id = :institutionId";
+                sqlQuery += "institution_id = :institutionId";
                 isFirst = false;
             } else {
                 sqlQuery += " AND institution_id = :institutionId";
@@ -69,7 +76,7 @@ public class CoursesRepository {
             }
             parametersMap.put("instructorId", instructorId);
         }
-        if (tags != null) {
+        if (!tags.isEmpty()) {
             if (isFirst) {
                 sqlQuery += "tags = :tags";
                 isFirst = false;
@@ -284,7 +291,40 @@ public class CoursesRepository {
     }
 
     public List<LiveCourse> getLiveCourses() {
+        String courseSqlQuery = "SELECT * FROM courses JOIN lectures ON courses.id = lectures.course_id WHERE CURRENT_TIMESTAMP BETWEEN lectures.start_time AND lectures.end_Time";
+        @SuppressWarnings("unchecked")
+        List<CourseEntity> currentCourseEntities = entityManager.createNativeQuery(courseSqlQuery, CourseEntity.class).getResultList();
+
+        List<Course> currentCourses = mapCourseEntities(currentCourseEntities);
+        List<LiveCourse> liveCourses = mapCoursesToLiveCourses(currentCourses);
+
+        return liveCourses;
+    }
+
+    private List<Lecture> mapLectureEntities(List<LectureEntity> currentLectureEntities) {
+        List<Lecture> currentLectures = new ArrayList<>();
+        for (LectureEntity lectureEntity : currentLectureEntities) {
+            CourseEntity courseEntity = lectureEntity.getCourseEntity();
+            CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
+            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+            currentLectures.add(lecture);
+        }
+        return currentLectures;
+    }
+
+    private List<LiveCourse> mapCoursesToLiveCourses(List<Course> currentCourses) {
         List<LiveCourse> liveCourses = new ArrayList<>();
+        Lecture currentLecture = new Lecture(null, null, null, null, null);
+        for (Course course : currentCourses) {
+            UUID courseId = course.getId();
+            List<Lecture> filteredLectures = lecturesRepository.getFilteredLectures(courseId);
+            for (Lecture lecture : filteredLectures) {
+                UUID currentLectureId = lecture.getId();
+                currentLecture = lecturesRepository.getSpecificLecture(currentLectureId);
+            }
+            LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructor(), course.getInstitution(), course.getTags(), currentLecture);
+            liveCourses.add(liveCourse);
+        }
         return liveCourses;
     }
 }

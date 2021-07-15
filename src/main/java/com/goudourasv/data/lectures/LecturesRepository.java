@@ -26,12 +26,12 @@ public class LecturesRepository {
     public List<Lecture> getFilteredLectures(UUID courseId) {
         String sqlQuery = "SELECT * FROM lectures";
         if (courseId != null) {
-            sqlQuery += "WHERE course_id = :courseId";
+            sqlQuery += " WHERE course_id = :courseId";
 
         }
         List<Lecture> lectures = new ArrayList<>();
         @SuppressWarnings("unchecked")
-        List<LectureEntity> lectureEntities = entityManager.createNativeQuery(sqlQuery, LectureEntity.class).getResultList();
+        List<LectureEntity> lectureEntities = entityManager.createNativeQuery(sqlQuery, LectureEntity.class).setParameter("courseId",courseId).getResultList();
         for (LectureEntity lectureEntity : lectureEntities) {
             CourseEntity courseEntity = lectureEntity.getCourseEntity();
             CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());

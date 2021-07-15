@@ -1,6 +1,7 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
+import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
