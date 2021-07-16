@@ -48,6 +48,16 @@ public class Course {
         this.id = id;
         this.title = title;
     }
+    public Course(UUID id, String title, Institution institution, List<Tag> tags, Instructor instructor, Instant startDate, Instant endDate,List<Lecture> lectures) {
+        this.id = id;
+        this.title = title;
+        this.institution = institution;
+        this.tags = tags;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.instructor = instructor;
+        this.lectures = lectures;
+    }
 
     public String getTitle() {
         return title;

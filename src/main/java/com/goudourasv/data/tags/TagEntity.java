@@ -1,12 +1,11 @@
 package com.goudourasv.data.tags;
 
 import com.goudourasv.data.courses.CourseEntity;
-import com.goudourasv.data.instructors.InstructorEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
+import javax.persistence.*;
 import java.util.List;
+
 
 @Entity(name = "Tags")
 public class TagEntity {

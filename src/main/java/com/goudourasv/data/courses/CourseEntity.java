@@ -4,14 +4,24 @@ import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;
-import com.goudourasv.domain.tags.Tag;
-import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+// TODO : check how to improve the fetching of the tags when running the below query
+@NamedQueries({
+        @NamedQuery(name = "list_live_courses",
+                query = """
+                         select c from Courses c
+                         inner join fetch c.lectureEntities l
+                         inner join fetch c.institutionEntity 
+                         inner join fetch c.instructorEntity
+                         where l.startTime <= :current_timestamp
+                         and l.endTime > :current_timestamp
+                        """)
+})
 @Entity(name = "Courses")
 public class CourseEntity {
     @Id //Shows that id is the PK
@@ -38,14 +48,15 @@ public class CourseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "course_tag",
-            joinColumns = @JoinColumn (name = "course_id"),
+            joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "tag"))
     private List<TagEntity> tagEntities;
 
 
     public CourseEntity() {
     }
-    public CourseEntity(UUID id,String title) {
+
+    public CourseEntity(UUID id, String title) {
         this.id = id;
         this.title = title;
 

@@ -6,11 +6,11 @@ import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
-import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
@@ -105,8 +105,10 @@ public class CoursesRepository {
         for (CourseEntity courseEntity : courseEntities) {
             InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
             Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+
             InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
             Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+
             List<TagEntity> tagEntities = courseEntity.getTagEntities();
             List<Tag> tags = new ArrayList<>();
             for (TagEntity tagEntity : tagEntities) {
@@ -114,7 +116,14 @@ public class CoursesRepository {
                 tags.add(tag);
             }
 
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte());
+            List<LectureEntity> lectureEntities = courseEntity.getLectureEntities();
+            List<Lecture> lectures = new ArrayList<>();
+            for (LectureEntity lectureEntity : lectureEntities) {
+                Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), null, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+                lectures.add(lecture);
+            }
+
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte(),lectures);
             filteredCourses.add(course);
         }
         return filteredCourses;
@@ -290,42 +299,31 @@ public class CoursesRepository {
         return course;
     }
 
+    // TODO: LiveCourse.lectureTitle, LiveCourse.LectureStartTime, LiveCourse.LectureEndTime
     public List<LiveCourse> getLiveCourses() {
-        String courseSqlQuery = "SELECT * FROM courses JOIN lectures ON courses.id = lectures.course_id WHERE CURRENT_TIMESTAMP BETWEEN lectures.start_time AND lectures.end_Time";
-        @SuppressWarnings("unchecked")
-        List<CourseEntity> currentCourseEntities = entityManager.createNativeQuery(courseSqlQuery, CourseEntity.class).getResultList();
-
+        Instant currentTimestamp = Instant.now();
+        List<CourseEntity> currentCourseEntities = entityManager.createNamedQuery("list_live_courses", CourseEntity.class)
+                .setParameter("current_timestamp",currentTimestamp)
+                .getResultList();
         List<Course> currentCourses = mapCourseEntities(currentCourseEntities);
-        List<LiveCourse> liveCourses = mapCoursesToLiveCourses(currentCourses);
+        List<LiveCourse> liveCourses = getLiveCourses(currentCourses);
 
         return liveCourses;
     }
 
-    private List<Lecture> mapLectureEntities(List<LectureEntity> currentLectureEntities) {
-        List<Lecture> currentLectures = new ArrayList<>();
-        for (LectureEntity lectureEntity : currentLectureEntities) {
-            CourseEntity courseEntity = lectureEntity.getCourseEntity();
-            CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
-            currentLectures.add(lecture);
-        }
-        return currentLectures;
-    }
-
-    private List<LiveCourse> mapCoursesToLiveCourses(List<Course> currentCourses) {
+    private List<LiveCourse> getLiveCourses(List<Course> currentCourses) {
         List<LiveCourse> liveCourses = new ArrayList<>();
-        Lecture currentLecture = new Lecture(null, null, null, null, null);
         for (Course course : currentCourses) {
-            UUID courseId = course.getId();
-            List<Lecture> filteredLectures = lecturesRepository.getFilteredLectures(courseId);
-            for (Lecture lecture : filteredLectures) {
-                UUID currentLectureId = lecture.getId();
-                currentLecture = lecturesRepository.getSpecificLecture(currentLectureId);
-            }
-            LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructor(), course.getInstitution(), course.getTags(), currentLecture);
+            Lecture lecture = course.getLectures().get(0);
+            LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(),lecture.getStartTime(),lecture.getEndTime());
+            LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructor(), course.getInstitution(), course.getTags(), lectureData);
             liveCourses.add(liveCourse);
         }
         return liveCourses;
     }
+
+
+
+
 }
 
