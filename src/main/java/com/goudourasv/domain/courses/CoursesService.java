@@ -8,9 +8,7 @@ import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.interceptor.AroundInvoke;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

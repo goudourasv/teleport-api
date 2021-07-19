@@ -58,8 +58,9 @@ public class CoursesResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Course getCourse(@PathParam("id") UUID id) {
-        Course course = coursesService.getSpecificCourse(id);
-        return course;
+        Course specificCourse= coursesService.getSpecificCourse(id);
+
+        return specificCourse;
     }
 
     @Blocking

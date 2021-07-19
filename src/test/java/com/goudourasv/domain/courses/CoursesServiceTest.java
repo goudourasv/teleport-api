@@ -3,7 +3,6 @@ package com.goudourasv.domain.courses;
 import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.domain.instructors.InstructorsService;
-import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;

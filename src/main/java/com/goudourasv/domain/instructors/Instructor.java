@@ -13,23 +13,11 @@ public class Instructor {
     private List<Institution> institutions;
 
 
-    public Instructor(UUID id, String firstName, String lastName,List<Institution> institutions) {
+    public Instructor(UUID id, String firstName, String lastName, List<Institution> institutions) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.institutions = institutions;
-    }
-
-    public Instructor(String firstName, String lastName, List<Institution> institutions) {
-        this.generateNewId();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.institutions = institutions;
-    }
-
-    private void generateNewId() {
-        UUID id = UUID.randomUUID();
-        this.id = id;
     }
 
 

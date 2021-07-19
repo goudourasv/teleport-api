@@ -4,19 +4,31 @@ import java.util.UUID;
 
 public class InstructorData {
     private UUID id;
-    private String title;
+    private String firstName;
+    private String lastName;
+    private String name;
 
-    public InstructorData(UUID id,String title){
+
+    public InstructorData(UUID id,String firstName,String lastName){
         this.id = id;
-        this.title = title;
+        this.name = firstName + lastName;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 

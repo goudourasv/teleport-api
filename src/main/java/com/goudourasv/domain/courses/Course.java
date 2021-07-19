@@ -3,8 +3,11 @@ package com.goudourasv.domain.courses;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
 import java.time.Instant;
@@ -24,6 +27,9 @@ public class Course {
     private Instant startDate;
     private Instant endDate;
     private List<Lecture> lectures = new ArrayList<>();
+//    private InstructorData instructorData;
+//    private InstitutionData institutionData;
+//    private List<LectureData> lectureData;
 
 
     public Course(UUID id, String title, Institution institution, List<Tag> tags, Instructor instructor, Instant startDate, Instant endDate) {
@@ -58,6 +64,17 @@ public class Course {
         this.instructor = instructor;
         this.lectures = lectures;
     }
+
+//    public Course(UUID id, String title, InstitutionData institutionData, List<Tag> tags, Instant startDate, Instant endDate, List<LectureData> lectureData, InstructorData instructorData) {
+//        this.id = id;
+//        this.title = title;
+//        this.institutionData = institutionData;
+//        this.tags = tags;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.lectureData= lectureData;
+//        this.instructorData = instructorData;
+//    }
 
     public String getTitle() {
         return title;

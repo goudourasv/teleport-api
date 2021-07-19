@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class InstitutionData {
     private UUID id;
-    private String title;
+    private String name;
 
     public InstitutionData(UUID id,String title){
         this.id = id;
-        this.title = title;
+        this.name = title;
     }
 
     public UUID getId() {
@@ -16,7 +16,7 @@ public class InstitutionData {
     }
 
     public String getTitle() {
-        return title;
+        return name;
     }
 }
 
