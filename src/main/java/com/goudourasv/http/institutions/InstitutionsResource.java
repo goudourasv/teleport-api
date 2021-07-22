@@ -31,9 +31,14 @@ public class InstitutionsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Institution> getInstitutions(@QueryParam("country") String country, @QueryParam("city") String city) {
-        List<Institution> institutionList = institutionsService.getInstitutions();
-        List<Institution> filteredList = institutionsService.getFilteredList(institutionList, country, city);
-        return filteredList;
+        try {
+            List<Institution> filteredInstitutions = institutionsService.getFilteredInstitutions(country, city);
+            return filteredInstitutions;
+        }catch (Exception ex){
+            throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
+
     }
 
     @Blocking

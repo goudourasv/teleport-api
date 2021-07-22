@@ -6,12 +6,12 @@ public class InstructorData {
     private UUID id;
     private String firstName;
     private String lastName;
-    private String name;
 
 
-    public InstructorData(UUID id,String firstName,String lastName){
+    public InstructorData(UUID id, String firstName, String lastName) {
         this.id = id;
-        this.name = firstName + lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public UUID getId() {
@@ -27,8 +27,6 @@ public class InstructorData {
         return lastName;
     }
 
-    public String getName() {
-        return name;
-    }
+
 }
 

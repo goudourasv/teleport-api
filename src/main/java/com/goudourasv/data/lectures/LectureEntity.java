@@ -1,7 +1,6 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
-import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -22,6 +21,18 @@ public class LectureEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private CourseEntity courseEntity;
+
+    public LectureEntity() {
+
+    }
+
+    public LectureEntity(UUID id, String title, Instant startTime, Instant endTime) {
+        this.id = id;
+        this.title = title;
+        this.startTime = startTime;
+        this.endTime = endTime;
+
+    }
 
 
     public UUID getId() {

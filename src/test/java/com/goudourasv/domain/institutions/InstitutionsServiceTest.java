@@ -40,14 +40,16 @@ public class InstitutionsServiceTest {
     public void shouldReturnAllInstitutions() {
         //given
         List<Institution> institutions = createInstitutions();
+        String country = "Greece";
+        String city = "Thessaloniki";
 
-        when(institutionsRepository.getInstitutions()).thenReturn(institutions);
+        when(institutionsRepository.getInstitutions(country,city)).thenReturn(institutions);
 
         //when
-        List<Institution> expectedInstitutions = institutionsService.getInstitutions();
+        List<Institution> expectedInstitutions = institutionsService.getFilteredInstitutions(country,city);
 
         //then
-        verify(institutionsRepository).getInstitutions();
+        verify(institutionsRepository).getInstitutions(country,city);
         assertThat(expectedInstitutions).hasSameSizeAs(institutions).hasSameElementsAs(institutions);
     }
 

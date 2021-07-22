@@ -11,90 +11,68 @@ import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Course {
     private UUID id;
     private String title;
-    @JsonProperty("institution")
-    private Institution institution;
-    private List<Tag> tags;
-    private Instructor instructor;
     private Instant startDate;
     private Instant endDate;
-    private List<Lecture> lectures = new ArrayList<>();
-//    private InstructorData instructorData;
-//    private InstitutionData institutionData;
-//    private List<LectureData> lectureData;
+    private Set<Tag> tags;
+    @JsonProperty("institution")
+    private InstitutionData institutionData;
+    @JsonProperty("instructor")
+    private InstructorData instructorData;
+    @JsonProperty("lectures")
+    private List<LectureData> lectureData;
 
 
-    public Course(UUID id, String title, Institution institution, List<Tag> tags, Instructor instructor, Instant startDate, Instant endDate) {
-        this.id = id;
-        this.title = title;
-        this.institution = institution;
-        this.tags = tags;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.instructor = instructor;
-    }
 
-    public Course(String title, Institution institution,List<Tag> tags, Instructor instructor) {
-        this.title = title;
-        this.institution = institution;
-        this.tags = tags;
-        this.instructor = instructor;
-
-    }
 
     public Course(UUID id, String title) {
         this.id = id;
         this.title = title;
     }
-    public Course(UUID id, String title, Institution institution, List<Tag> tags, Instructor instructor, Instant startDate, Instant endDate,List<Lecture> lectures) {
+
+
+
+    public Course(UUID id, String title, InstitutionData institutionData, Set<Tag> tags, Instant startDate, Instant endDate, List<LectureData> lectureData, InstructorData instructorData) {
         this.id = id;
         this.title = title;
-        this.institution = institution;
+        this.institutionData = institutionData;
         this.tags = tags;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.instructor = instructor;
-        this.lectures = lectures;
-    }
-
-//    public Course(UUID id, String title, InstitutionData institutionData, List<Tag> tags, Instant startDate, Instant endDate, List<LectureData> lectureData, InstructorData instructorData) {
-//        this.id = id;
-//        this.title = title;
-//        this.institutionData = institutionData;
-//        this.tags = tags;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.lectureData= lectureData;
-//        this.instructorData = instructorData;
-//    }
-
-    public String getTitle() {
-        return title;
+        this.lectureData= lectureData;
+        this.instructorData = instructorData;
     }
 
     public UUID getId() {
         return id;
     }
 
-
-    public Institution getInstitution() {
-        return institution;
+    public String getTitle() {
+        return title;
     }
 
-    public List<Tag> getTags() {
+    public InstitutionData getInstitutionData() {
+        return institutionData;
+    }
+
+    public InstructorData getInstructorData() {
+        return instructorData;
+    }
+
+    public List<LectureData> getLectureData() {
+        return lectureData;
+    }
+
+    public Set<Tag> getTags() {
         return tags;
-    }
-
-    public Instructor getInstructor() {
-        return instructor;
     }
 
     public Instant getStartDate() {
@@ -105,6 +83,30 @@ public class Course {
         return endDate;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setInstitutionData(InstitutionData institutionData) {
+        this.institutionData = institutionData;
+    }
+
+    public void setInstructorData(InstructorData instructorData) {
+        this.instructorData = instructorData;
+    }
+
+    public void setLectureData(List<LectureData> lectureData) {
+        this.lectureData = lectureData;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public void setStartDate(Instant startDate) {
         this.startDate = startDate;
     }
@@ -112,35 +114,6 @@ public class Course {
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
-
-    public List<Lecture> getLectures() {
-        return lectures;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void setLectures(List<Lecture> lectures) {
-        this.lectures = lectures;
-    }
-
-    public Instructor setInstructor(Instructor instructor) {
-        this.instructor = instructor;
-        return instructor;
-    }
-
-    public String setTitle(String title) {
-        this.title = title;
-        return title;
-    }
-
-    public Institution setInstitution(Institution institution) {
-
-        this.institution = institution;
-        return institution;
-    }
-
 
     @Override
     public boolean equals(Object o) {

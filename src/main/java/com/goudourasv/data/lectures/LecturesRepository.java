@@ -9,11 +9,10 @@ import com.goudourasv.http.lectures.dto.LectureUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class LecturesRepository {
@@ -25,13 +24,21 @@ public class LecturesRepository {
 
     public List<Lecture> getFilteredLectures(UUID courseId) {
         String sqlQuery = "SELECT * FROM lectures";
+        Map<String, Object> parametersMap = new HashMap<>();
+
         if (courseId != null) {
             sqlQuery += " WHERE course_id = :courseId";
-
+            parametersMap.put("courseId", courseId);
         }
+
+        Query query = entityManager.createNativeQuery(sqlQuery, LectureEntity.class);
+        for (String key : parametersMap.keySet()) {
+            query.setParameter(key, parametersMap.get(key));
+        }
+
         List<Lecture> lectures = new ArrayList<>();
         @SuppressWarnings("unchecked")
-        List<LectureEntity> lectureEntities = entityManager.createNativeQuery(sqlQuery, LectureEntity.class).setParameter("courseId",courseId).getResultList();
+        List<LectureEntity> lectureEntities = query.getResultList();
         for (LectureEntity lectureEntity : lectureEntities) {
             CourseEntity courseEntity = lectureEntity.getCourseEntity();
             CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());

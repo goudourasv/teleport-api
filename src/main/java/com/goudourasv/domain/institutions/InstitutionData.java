@@ -6,9 +6,9 @@ public class InstitutionData {
     private UUID id;
     private String name;
 
-    public InstitutionData(UUID id,String title){
+    public InstitutionData(UUID id,String name){
         this.id = id;
-        this.name = title;
+        this.name = name;
     }
 
     public UUID getId() {

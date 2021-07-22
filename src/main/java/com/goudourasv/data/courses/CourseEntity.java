@@ -8,6 +8,7 @@ import com.goudourasv.data.tags.TagEntity;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 // TODO : check how to improve the fetching of the tags when running the below query
@@ -50,17 +51,7 @@ public class CourseEntity {
     @JoinTable(name = "course_tag",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "tag"))
-    private List<TagEntity> tagEntities;
-
-
-    public CourseEntity() {
-    }
-
-    public CourseEntity(UUID id, String title) {
-        this.id = id;
-        this.title = title;
-
-    }
+    private Set<TagEntity> tagEntities;
 
 
     public UUID getId() {
@@ -91,7 +82,7 @@ public class CourseEntity {
         return lectureEntities;
     }
 
-    public List<TagEntity> getTagEntities() {
+    public Set<TagEntity> getTagEntities() {
         return tagEntities;
     }
 
@@ -120,10 +111,11 @@ public class CourseEntity {
     }
 
     public void setLectureEntities(List<LectureEntity> lectureEntities) {
-        this.lectureEntities = lectureEntities;
+        this.lectureEntities.clear();
+        this.lectureEntities.addAll(lectureEntities);
     }
 
-    public void setTagEntities(List<TagEntity> tagEntities) {
+    public void setTagEntities(Set<TagEntity> tagEntities) {
         this.tagEntities = tagEntities;
     }
 }

@@ -41,7 +41,6 @@ public class CoursesResource {
         }
     }
 
-    //TODO root for live course
     @Blocking
     @GET
     @Path("/live")

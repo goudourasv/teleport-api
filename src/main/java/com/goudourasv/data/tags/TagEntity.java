@@ -5,6 +5,7 @@ import com.goudourasv.data.courses.CourseEntity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity(name = "Tags")
@@ -13,7 +14,7 @@ public class TagEntity {
     private String name;
 
     @ManyToMany(mappedBy = "tagEntities")
-    private List<CourseEntity> courseEntities;
+    private Set<CourseEntity> courseEntities;
 
     public TagEntity() {
     }
@@ -30,11 +31,11 @@ public class TagEntity {
         this.name = name;
     }
 
-    public List<CourseEntity> getCourseEntities() {
+    public Set<CourseEntity> getCourseEntities() {
         return courseEntities;
     }
 
-    public void setCourseEntities(List<CourseEntity> courseEntities) {
+    public void setCourseEntities(Set<CourseEntity> courseEntities) {
         this.courseEntities = courseEntities;
     }
 }

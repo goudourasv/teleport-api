@@ -1,21 +1,24 @@
 package com.goudourasv.domain.courses;
 
 import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
+import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public class LiveCourse {
     private String title;
-    private Instructor instructor;
-    private Institution institution;
-    private List<Tag> tags;
+    private InstructorData instructor;
+    private InstitutionData institution;
+    private Set<Tag> tags;
     private LectureData liveLecture;
 
-    public LiveCourse(String title,Instructor instructor,Institution institution,List<Tag> tags,LectureData liveLecture){
+    public LiveCourse(String title,InstructorData instructor,InstitutionData institution,Set<Tag> tags,LectureData liveLecture){
         this.title = title;
         this.instructor = instructor;
         this.institution = institution;
@@ -30,11 +33,11 @@ public class LiveCourse {
         return title;
     }
 
-    public Instructor getInstructor() {
+    public InstructorData getInstructor() {
         return instructor;
     }
 
-    public Institution getInstitution() {
+    public InstitutionData getInstitution() {
         return institution;
     }
 
@@ -42,7 +45,7 @@ public class LiveCourse {
         return liveLecture;
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 }

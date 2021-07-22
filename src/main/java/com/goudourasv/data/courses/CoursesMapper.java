@@ -5,24 +5,26 @@ import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
-import com.goudourasv.domain.institutions.Institution;
-import com.goudourasv.domain.instructors.Instructor;
-import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.institutions.InstitutionData;
+import com.goudourasv.domain.instructors.InstructorData;
+import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CoursesMapper {
     public static Course mapCourseEntity(CourseEntity courseEntity) {
         InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
-        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        InstitutionData institution = new InstitutionData(institutionEntity.getId(), institutionEntity.getName());
 
         InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
-        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+        InstructorData instructor = new InstructorData(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName());
 
-        List<TagEntity> tagEntities = courseEntity.getTagEntities();
-        List<Tag> tags = new ArrayList<>();
+        Set<TagEntity> tagEntities = courseEntity.getTagEntities();
+        Set<Tag> tags = new HashSet<>();
         for (TagEntity tagEntity : tagEntities) {
             Tag tag = new Tag(tagEntity.getName());
             tags.add(tag);
@@ -30,13 +32,13 @@ public class CoursesMapper {
 
 
         List<LectureEntity> lectureEntities = courseEntity.getLectureEntities();
-        List<Lecture> lectures = new ArrayList<>();
+        List<LectureData> lectures = new ArrayList<>();
         for (LectureEntity lectureEntity : lectureEntities) {
-            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), null, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+            LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
             lectures.add(lecture);
         }
 
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures);
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures, instructor);
         return course;
 
     }
@@ -47,26 +49,26 @@ public class CoursesMapper {
 
         for (CourseEntity courseEntity : courseEntities) {
             InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+            InstitutionData institution = new InstitutionData(institutionEntity.getId(), institutionEntity.getName());
 
             InstructorEntity instructorEntity = courseEntity.getInstructorEntity();
-            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), new ArrayList<>());
+            InstructorData instructor = new InstructorData(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName());
 
-            List<TagEntity> tagEntities = courseEntity.getTagEntities();
-            List<Tag> tags = new ArrayList<>();
+            Set<TagEntity> tagEntities = courseEntity.getTagEntities();
+            Set<Tag> tags = new HashSet<>();
             for (TagEntity tagEntity : tagEntities) {
                 Tag tag = new Tag(tagEntity.getName());
                 tags.add(tag);
             }
 
             List<LectureEntity> lectureEntities = courseEntity.getLectureEntities();
-            List<Lecture> lectures = new ArrayList<>();
+            List<LectureData> lectures = new ArrayList<>();
             for (LectureEntity lectureEntity : lectureEntities) {
-                Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), null, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+                LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
                 lectures.add(lecture);
             }
 
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, instructor, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures);
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures, instructor);
             filteredCourses.add(course);
         }
         return filteredCourses;

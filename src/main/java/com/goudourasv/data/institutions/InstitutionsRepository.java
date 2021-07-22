@@ -7,10 +7,9 @@ import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class InstitutionsRepository {
@@ -20,11 +19,43 @@ public class InstitutionsRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Institution> getInstitutions() {
+    public List<Institution> getInstitutions(String country, String city) {
         String sqlQuery = "SELECT * FROM institutions";
+        if (country != null || city != null) {
+            sqlQuery += " WHERE ";
+        }
+
+        Map<String, Object> parametersMap = new HashMap<>();
+
+        boolean isFirst = true;
+        if (country != null) {
+            if (isFirst) {
+                sqlQuery += "country = :country";
+                isFirst = false;
+            } else {
+                sqlQuery += " AND country = :country";
+            }
+            parametersMap.put("country", country);
+        }
+        if (city != null) {
+            if (isFirst) {
+                sqlQuery += "city = :city";
+                isFirst = false;
+            } else {
+                sqlQuery += " AND city = :city";
+            }
+            parametersMap.put("city", city);
+        }
+
+        Query query = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class);
+        for (String key : parametersMap.keySet()) {
+            query.setParameter(key, parametersMap.get(key));
+        }
+
+        @SuppressWarnings("unchecked")
+        List<InstitutionEntity> institutionEntities = query.getResultList();
         List<Institution> institutions = new ArrayList<>();
-        @SuppressWarnings("unchecked") //java generics
-        List<InstitutionEntity> institutionEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).getResultList();
+
         for (InstitutionEntity institutionEntity : institutionEntities) {
             Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
             institutions.add(institution);
@@ -32,26 +63,12 @@ public class InstitutionsRepository {
         return institutions;
     }
 
-//    public List<Course> getCoursesFromSpecificInstitution() {
-//        String sqlQuery = "SELECT course FROM institutions";
-//        List<Course> courses = new ArrayList<>();
-//        @SuppressWarnings("unchecked")
-//        List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).getResultList();
-//        for (CourseEntity courseEntity : courseEntities) {
-//            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), null, null, null, courseEntity.getStartDate(), courseEntity.getEndDAte());
-//            courses.add(course);
-//        }
-//        return courses;
-//    }
-//    public List<Instructor> getInstructorsFromSpecificInstitution() {
-//        String sqlQuery = "SELECT instructor_id FROM institutions";
-//        List<Instructor> instructors = new ArrayList<>();
-//        @SuppressWarnings("unchecked")
-//        List<InstructorEntity> instructorEntities = entityManager.createNativeQuery(sqlQuery,InstructorEntity.class).getResultList();
-//        for(InstructorEntity instructorEntity : instructorEntities)
-//            Instructor instructor = new Instructor(instructorEntity.getId(),instructorEntity.getFirstName(),instructorEntity.getLastName(),instructorEntity.getInstitutionEntities());
-//            instructors.add(instructor);
-//    }
+    public Institution getSpecificInstitution(UUID id) {
+        InstitutionEntity institutionEntity = entityManager.find(InstitutionEntity.class, id);
+        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        return institution;
+    }
+
 
     public Institution createInstitution(InstitutionCreate institutionCreate) {
         InstitutionEntity institutionEntity = new InstitutionEntity();
@@ -66,19 +83,8 @@ public class InstitutionsRepository {
         return institution;
     }
 
-    public Institution getSpecificInstitution(UUID id) {
-        InstitutionEntity institutionEntity = entityManager.find(InstitutionEntity.class, id);
-        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-        return institution;
-    }
 
     public boolean deleteSpecificInstitution(UUID id) {
-//        String sqlQuery = "DELETE FROM institutions WHERE id = :id";
-//        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstitutionEntity.class).setParameter("id", id).executeUpdate();
-//        if (deletedEntities == 0) {
-//            return false;
-//        }
-//        return true;
         InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, id);
         if (institutionEntity == null) {
             return false;

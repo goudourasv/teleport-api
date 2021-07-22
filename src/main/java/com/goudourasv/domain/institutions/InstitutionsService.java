@@ -6,7 +6,6 @@ import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,34 +18,11 @@ public class InstitutionsService {
     }
 
     @Transactional
-    public List<Institution> getInstitutions() {
-        List<Institution> institutions = institutionsRepository.getInstitutions();
-        return institutions;
+    public List<Institution> getFilteredInstitutions(String country, String city) {
+        List<Institution> filteredInstitutions = institutionsRepository.getInstitutions(country, city);
+        return filteredInstitutions;
     }
 
-    @Transactional
-    public List<Institution> getFilteredList(List<Institution> institutionList, String country, String city) {
-        List<Institution> filteredList = new ArrayList<>();
-        if (country == null && city == null) {
-            filteredList.addAll(institutionList);
-        } else {
-            for (Institution institution : institutionList) {
-                boolean isMatch = true;
-
-                if (country != null && !institution.getCountry().equals(country)) {
-                    isMatch = false;
-                }
-
-                if (city != null && !institution.getCity().equals(city)) {
-                    isMatch = false;
-                }
-                if (isMatch == true) {
-                    filteredList.add(institution);
-                }
-            }
-        }
-        return filteredList;
-    }
 
     @Transactional
     public Institution getSpecificInstitution(UUID id) {
