@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.goudourasv.data.instructors.InstructorsMapper.toInstructor;
+import static com.goudourasv.data.instructors.InstructorsMapper.toInstructors;
+
+
 @ApplicationScoped
 public class InstructorsRepository {
     private final EntityManager entityManager;
@@ -31,36 +35,18 @@ public class InstructorsRepository {
             String sqlQuery = "SELECT * FROM instructors JOIN institution_instructor ON instructors.id = institution_instructor.instructor_id WHERE institution_id = :institutionId";
             instructorsQuery = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).setParameter("institutionId", institutionId);
         }
-
         @SuppressWarnings("unchecked")
         List<InstructorEntity> instructorEntities = instructorsQuery.getResultList();
-        List<Instructor> instructors = new ArrayList<>();
-
-        for (InstructorEntity instructorEntity : instructorEntities) {
-            List<Institution> institutions = new ArrayList<>();
-            List<InstitutionEntity> institutionEntities = instructorEntity.getInstitutionEntities();
-            for (InstitutionEntity institutionEntity : institutionEntities) {
-                Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-                institutions.add(institution);
-            }
-
-            Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
-            instructors.add(instructor);
-        }
-
+        List<Instructor> instructors = toInstructors(instructorEntities);
         return instructors;
     }
 
 
     public Instructor getSpecificInstructor(UUID id) {
         InstructorEntity instructorEntity = entityManager.find(InstructorEntity.class, id);
-        List<Institution> institutions = new ArrayList<>();
         List<InstitutionEntity> institutionEntities = instructorEntity.getInstitutionEntities();
-        for (InstitutionEntity institutionEntity : institutionEntities) {
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-            institutions.add(institution);
-        }
-        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
+
+        Instructor instructor = toInstructor(instructorEntity, institutionEntities);
         return instructor;
 
     }
@@ -81,25 +67,12 @@ public class InstructorsRepository {
         entityManager.persist(instructorEntity);
         entityManager.flush();
 
-        List<Institution> institutions = new ArrayList<>();
-        for (InstitutionEntity institutionEntity : institutionEntities) {
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-            institutions.add(institution);
-        }
-
-
-        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
+        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
         return instructor;
 
     }
 
     public boolean deleteSpecificInstructor(UUID id) {
-//        String sqlQuery = "DELETE FROM instructors WHERE id = :id";
-//        int deletedEntities = entityManager.createNativeQuery(sqlQuery, InstructorEntity.class).setParameter("id", id).executeUpdate();
-//        if (deletedEntities == 0) {
-//            return false;
-//        }
-//        return true;
         InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, id);
         if (instructorEntity == null) {
             return false;
@@ -125,14 +98,7 @@ public class InstructorsRepository {
         entityManager.merge(instructorEntity);
         entityManager.flush();
 
-        List<Institution> institutions = new ArrayList<>();
-        for (InstitutionEntity institutionEntity : institutionEntities) {
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-            institutions.add(institution);
-        }
-
-
-        Instructor instructor = new Instructor(id, instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
+        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
         return instructor;
     }
 
@@ -161,15 +127,9 @@ public class InstructorsRepository {
         entityManager.merge(instructorEntity);
         entityManager.flush();
 
-        List<Institution> institutions = new ArrayList<>();
         List<InstitutionEntity> institutionEntities = instructorEntity.getInstitutionEntities();
-        for (InstitutionEntity institutionEntity : institutionEntities) {
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-            institutions.add(institution);
-        }
-
-
-        Instructor instructor = new Instructor(instructorEntity.getId(), instructorEntity.getFirstName(), instructorEntity.getLastName(), institutions);
+        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
+        
         return instructor;
     }
 }
