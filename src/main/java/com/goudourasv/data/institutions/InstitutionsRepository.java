@@ -9,7 +9,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.goudourasv.data.institutions.InstitutionsMapper.toInstitution;
+import static com.goudourasv.data.institutions.InstitutionsMapper.toInstitutions;
 
 @ApplicationScoped
 public class InstitutionsRepository {
@@ -54,18 +60,14 @@ public class InstitutionsRepository {
 
         @SuppressWarnings("unchecked")
         List<InstitutionEntity> institutionEntities = query.getResultList();
-        List<Institution> institutions = new ArrayList<>();
+        List<Institution> institutions = toInstitutions(institutionEntities);
 
-        for (InstitutionEntity institutionEntity : institutionEntities) {
-            Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
-            institutions.add(institution);
-        }
         return institutions;
     }
 
     public Institution getSpecificInstitution(UUID id) {
         InstitutionEntity institutionEntity = entityManager.find(InstitutionEntity.class, id);
-        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        Institution institution = toInstitution(institutionEntity);
         return institution;
     }
 
@@ -79,7 +81,7 @@ public class InstitutionsRepository {
         entityManager.persist(institutionEntity);
         entityManager.flush();
 
-        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        Institution institution = toInstitution(institutionEntity);
         return institution;
     }
 
@@ -106,7 +108,7 @@ public class InstitutionsRepository {
             throw new NotFoundException("Institution with id: " + id + "doesn't exist");
         }
 
-        Institution institution = new Institution(id, institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        Institution institution = toInstitution(institutionEntity);
         return institution;
     }
 
@@ -128,7 +130,7 @@ public class InstitutionsRepository {
         entityManager.merge(institutionEntity);
         entityManager.flush();
 
-        Institution institution = new Institution(institutionEntity.getId(), institutionEntity.getName(), institutionEntity.getCountry(), institutionEntity.getCity());
+        Institution institution = toInstitution(institutionEntity);
         return institution;
     }
 }

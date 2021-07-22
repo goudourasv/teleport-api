@@ -147,7 +147,6 @@ public class InstructorsRepository {
             String newInstructorLastName = instructorUpdate.getLastName();
             instructorEntity.setLastName(newInstructorLastName);
         }
-        //TODO check in oldInstitutionList for other registrations or just delete the old and add the new one
         if (instructorUpdate.getInstitutionIds() != null) {
             List<UUID> newInstitutionIds = instructorUpdate.getInstitutionIds();
             List<InstitutionEntity> institutionEntities = new ArrayList<>();
