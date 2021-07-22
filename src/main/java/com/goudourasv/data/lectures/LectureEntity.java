@@ -1,6 +1,7 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import java.net.URI;
@@ -15,6 +16,7 @@ public class LectureEntity {
     @Column
     private String title;
     @Column(name = "URI")
+    @URL
     private URI uri;
     @Column(name = "start_time")
     private Instant startTime;
@@ -29,7 +31,7 @@ public class LectureEntity {
 
     }
 
-    public LectureEntity(UUID id, String title,URI uri, Instant startTime, Instant endTime) {
+    public LectureEntity(UUID id, String title, URI uri, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
         this.uri = uri;

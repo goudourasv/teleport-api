@@ -17,6 +17,7 @@ import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import com.goudourasv.http.lectures.dto.LectureCreate;
 import com.goudourasv.http.lectures.dto.LectureUpdate;
 
+import java.net.URI;
 import java.util.*;
 
 
@@ -125,8 +126,8 @@ public class TestData {
     public static List<Lecture> createLectures() {
         List<Lecture> lectures = new ArrayList<>();
         CourseLecture courseLecture = new CourseLecture(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines");
-        Lecture lecture1 = new Lecture(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"), "Lecture 1", courseLecture, null, null);
-        Lecture lecture2 = new Lecture(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"),  "Lecture 2", courseLecture, null, null);
+        Lecture lecture1 = new Lecture(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"), "Lecture 1",null, courseLecture, null, null);
+        Lecture lecture2 = new Lecture(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"),  "Lecture 2",null, courseLecture, null, null);
         lectures.add(lecture1);
         lectures.add(lecture2);
         return lectures;
@@ -231,20 +232,20 @@ public class TestData {
 
     public static Lecture createLecture() {
         CourseLecture courseLecture = new CourseLecture(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines");
-        Lecture lecture = new Lecture(UUID.fromString("7f0c944c-d9b7-41af-8840-516240cb4584"), "Lecture 3", courseLecture, null, null);
+        Lecture lecture = new Lecture(UUID.fromString("7f0c944c-d9b7-41af-8840-516240cb4584"),"Lecture 3",null, courseLecture, null, null);
         return lecture;
 
     }
 
     public static LectureCreate createLectureCreate() {
         UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
-        LectureCreate lectureCreate = new LectureCreate("Lecture 3", null, null, courseId);
+        LectureCreate lectureCreate = new LectureCreate("Lecture 3", null,null, null, courseId);
         return lectureCreate;
     }
 
     public static LectureUpdate createLectureUpdate() {
         UUID courseId = UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600");
-        LectureUpdate lectureUpdate = new LectureUpdate("Lecture 4", null, null, courseId);
+        LectureUpdate lectureUpdate = new LectureUpdate("Lecture 4",null,null, null, courseId);
         return lectureUpdate;
 
     }
