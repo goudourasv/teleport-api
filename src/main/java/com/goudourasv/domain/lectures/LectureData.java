@@ -1,17 +1,20 @@
 package com.goudourasv.domain.lectures;
 
+import java.net.URI;
 import java.time.Instant;
 import java.util.UUID;
 
 public class LectureData {
     private UUID id;
     private String title;
+    private URI uri;
     private Instant startTime;
     private Instant endTime;
 
-    public LectureData(UUID id, String title, Instant startTime, Instant endTime){
+    public LectureData(UUID id, String title,URI uri, Instant startTime, Instant endTime){
         this.id = id;
         this.title = title;
+        this.uri = uri;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -30,6 +33,10 @@ public class LectureData {
 
     public Instant getEndTime() {
         return endTime;
+    }
+
+    public URI getUri() {
+        return uri;
     }
 }
 

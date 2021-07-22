@@ -3,6 +3,7 @@ package com.goudourasv.data.lectures;
 import com.goudourasv.data.courses.CourseEntity;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ public class LectureEntity {
     private UUID id;
     @Column
     private String title;
+    @Column(name = "URI")
+    private URI uri;
     @Column(name = "start_time")
     private Instant startTime;
     @Column(name = "end_time")
@@ -26,9 +29,10 @@ public class LectureEntity {
 
     }
 
-    public LectureEntity(UUID id, String title, Instant startTime, Instant endTime) {
+    public LectureEntity(UUID id, String title,URI uri, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
+        this.uri = uri;
         this.startTime = startTime;
         this.endTime = endTime;
 
@@ -55,6 +59,10 @@ public class LectureEntity {
         return courseEntity;
     }
 
+    public URI getUri() {
+        return uri;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -73,6 +81,10 @@ public class LectureEntity {
 
     public void setCourseEntity(CourseEntity courseEntity) {
         this.courseEntity = courseEntity;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 }
 

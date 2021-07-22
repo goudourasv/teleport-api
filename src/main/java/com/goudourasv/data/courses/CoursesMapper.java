@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CoursesMapper {
-    public static Course mapCourseEntity(CourseEntity courseEntity) {
+    public static Course courseEntityToCourse(CourseEntity courseEntity) {
         InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
         InstitutionData institution = new InstitutionData(institutionEntity.getId(), institutionEntity.getName());
 
@@ -34,7 +34,7 @@ public class CoursesMapper {
         List<LectureEntity> lectureEntities = courseEntity.getLectureEntities();
         List<LectureData> lectures = new ArrayList<>();
         for (LectureEntity lectureEntity : lectureEntities) {
-            LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
+            LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
             lectures.add(lecture);
         }
 
@@ -44,7 +44,7 @@ public class CoursesMapper {
     }
 
 
-    public static List<Course> mapCourseEntities(List<CourseEntity> courseEntities) {
+    public static List<Course> CourseEntitiesToCourses(List<CourseEntity> courseEntities) {
         List<Course> filteredCourses = new ArrayList<>();
 
         for (CourseEntity courseEntity : courseEntities) {
@@ -64,7 +64,7 @@ public class CoursesMapper {
             List<LectureEntity> lectureEntities = courseEntity.getLectureEntities();
             List<LectureData> lectures = new ArrayList<>();
             for (LectureEntity lectureEntity : lectureEntities) {
-                LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
+                LectureData lecture = new LectureData(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), lectureEntity.getStartTime(), lectureEntity.getEndTime());
                 lectures.add(lecture);
             }
 

@@ -3,6 +3,8 @@ package com.goudourasv.domain.lectures;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CourseLecture;
 
+import java.net.URI;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -12,13 +14,15 @@ import java.util.UUID;
 public class Lecture {
     private UUID id;
     private String title;
+    private URI uri;
     private Instant startTime;
     private Instant endTime;
     private CourseLecture course;
 
-    public Lecture(UUID id, String title, CourseLecture course, Instant startTime, Instant endTime) {
+    public Lecture(UUID id, String title,URI uri, CourseLecture course, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
+        this.uri = uri;
         this.course = course;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -42,6 +46,10 @@ public class Lecture {
 
     public CourseLecture getCourse() {
         return course;
+    }
+
+    public URI getUri() {
+        return uri;
     }
 
     @Override

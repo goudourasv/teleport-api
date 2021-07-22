@@ -21,8 +21,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.goudourasv.data.courses.CoursesMapper.mapCourseEntities;
-import static com.goudourasv.data.courses.CoursesMapper.mapCourseEntity;
+import static com.goudourasv.data.courses.CoursesMapper.CourseEntitiesToCourses;
+import static com.goudourasv.data.courses.CoursesMapper.courseEntityToCourse;
 
 
 @ApplicationScoped
@@ -40,7 +40,7 @@ public class CoursesRepository {
 
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
-        List<Course> courses = mapCourseEntities(courseEntities);
+        List<Course> courses = CourseEntitiesToCourses(courseEntities);
         return courses;
     }
 
@@ -92,7 +92,7 @@ public class CoursesRepository {
         }
         @SuppressWarnings("unchecked")
         List<CourseEntity> courseEntities = query.getResultList();
-        List<Course> filteredCourses = mapCourseEntities(courseEntities);
+        List<Course> filteredCourses = CourseEntitiesToCourses(courseEntities);
 
         return filteredCourses;
     }
@@ -102,7 +102,7 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = mapCourseEntity(courseEntity);
+        Course course = courseEntityToCourse(courseEntity);
         return course;
     }
     // TODO: Check lecturesEntity
@@ -138,7 +138,7 @@ public class CoursesRepository {
         List<Lecture> lectures = courseCreate.getLectures();
         List<LectureEntity> lectureEntities = new ArrayList<>();
         for (Lecture lecture : lectures) {
-            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(), lecture.getStartTime(), lecture.getEndTime());
+            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
             lectureEntities.add(lectureEntity);
         }
         courseEntity.setLectureEntities(lectureEntities);
@@ -146,7 +146,7 @@ public class CoursesRepository {
 
         entityManager.persist(courseEntity);
         entityManager.flush();
-        Course course = mapCourseEntity(courseEntity);
+        Course course = courseEntityToCourse(courseEntity);
         return course;
     }
 
@@ -180,7 +180,7 @@ public class CoursesRepository {
         List<Lecture> lectures = courseCreate.getLectures();
         List<LectureEntity> lectureEntities = new ArrayList<>();
         for (Lecture lecture : lectures) {
-            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(), lecture.getStartTime(), lecture.getEndTime());
+            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
             lectureEntities.add(lectureEntity);
         }
         courseEntity.setLectureEntities(lectureEntities);
@@ -191,12 +191,13 @@ public class CoursesRepository {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
 
         }
-        Course course = mapCourseEntity(courseEntity);
+        Course course = courseEntityToCourse(courseEntity);
         return course;
 
     }
 
-    // TODO : Implement LectureData list(put logic on the implementation:alter list or delete and reform it?)
+    // TODO : Why tags are beeing deleted when i don't update them??
+
 
     public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         CourseEntity courseEntity = entityManager.find(CourseEntity.class, id);
@@ -248,7 +249,7 @@ public class CoursesRepository {
             List<LectureEntity> lectureEntities = new ArrayList<>();
             List<Lecture> lecturesToUpdate = courseUpdate.getLectures();
             for (Lecture lecture : lecturesToUpdate) {
-                LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(), lecture.getStartTime(), lecture.getEndTime());
+                LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
                 lectureEntities.add(lectureEntity);
             }
             courseEntity.setLectureEntities(lectureEntities);
@@ -257,7 +258,7 @@ public class CoursesRepository {
 
         entityManager.merge(courseEntity);
         entityManager.flush();
-        return mapCourseEntity(courseEntity);
+        return courseEntityToCourse(courseEntity);
     }
 
     public List<LiveCourse> getLiveCourses() {
@@ -265,7 +266,7 @@ public class CoursesRepository {
         List<CourseEntity> currentCourseEntities = entityManager.createNamedQuery("list_live_courses", CourseEntity.class)
                 .setParameter("current_timestamp", currentTimestamp)
                 .getResultList();
-        List<Course> currentCourses = mapCourseEntities(currentCourseEntities);
+        List<Course> currentCourses = CourseEntitiesToCourses(currentCourseEntities);
         List<LiveCourse> liveCourses = getLiveEntities(currentCourses);
 
         return liveCourses;
@@ -275,7 +276,7 @@ public class CoursesRepository {
         List<LiveCourse> liveCourses = new ArrayList<>();
         for (Course course : currentCourses) {
             LectureData lecture = course.getLectureData().get(0);
-            LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(), lecture.getStartTime(), lecture.getEndTime());
+            LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
             LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructorData(), course.getInstitutionData(), course.getTags(), lectureData);
             liveCourses.add(liveCourse);
         }

@@ -42,7 +42,7 @@ public class LecturesRepository {
         for (LectureEntity lectureEntity : lectureEntities) {
             CourseEntity courseEntity = lectureEntity.getCourseEntity();
             CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
             lectures.add(lecture);
         }
         return lectures;
@@ -52,7 +52,7 @@ public class LecturesRepository {
         LectureEntity lectureEntity = entityManager.find(LectureEntity.class, lectureId);
         CourseEntity courseEntity = lectureEntity.getCourseEntity();
         CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-        Lecture lecture = new Lecture(lectureId, lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = new Lecture(lectureId, lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
     }
 
@@ -69,17 +69,17 @@ public class LecturesRepository {
 
         CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
 
     }
 
     public boolean deleteSpecificLecture(UUID id) {
-        String sqlQuery = "DELETE FROM lectures WHERE id = :id ";
-        int deletedEntities = entityManager.createNativeQuery(sqlQuery, LectureEntity.class).setParameter("id", id).executeUpdate();
-        if (deletedEntities == 0) {
+        LectureEntity lectureEntity = entityManager.getReference(LectureEntity.class, id);
+        if (lectureEntity == null) {
             return false;
         }
+        entityManager.remove(lectureEntity);
         return true;
     }
 
@@ -99,7 +99,7 @@ public class LecturesRepository {
         }
         CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
     }
 
@@ -130,7 +130,7 @@ public class LecturesRepository {
         entityManager.merge(lectureEntity);
         entityManager.flush();
 
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
         return lecture;
 
 
