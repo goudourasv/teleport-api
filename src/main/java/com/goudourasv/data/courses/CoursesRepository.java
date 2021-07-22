@@ -111,7 +111,7 @@ public class CoursesRepository {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
-        courseEntity.setEndDAte(courseCreate.getEndDate());
+        courseEntity.setEndDate(courseCreate.getEndDate());
 
         try {
             InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
@@ -146,6 +146,7 @@ public class CoursesRepository {
 
         entityManager.persist(courseEntity);
         entityManager.flush();
+
         Course course = courseEntityToCourse(courseEntity);
         return course;
     }
@@ -165,7 +166,7 @@ public class CoursesRepository {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
-        courseEntity.setEndDAte(courseCreate.getEndDate());
+        courseEntity.setEndDate(courseCreate.getEndDate());
         courseEntity.setId(id);
 
         InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
@@ -196,8 +197,6 @@ public class CoursesRepository {
 
     }
 
-    // TODO : Why tags are beeing deleted when i don't update them??
-
 
     public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         CourseEntity courseEntity = entityManager.find(CourseEntity.class, id);
@@ -214,7 +213,7 @@ public class CoursesRepository {
 
         if (courseUpdate.getEndDate() != null) {
             Instant newEndDate = courseUpdate.getEndDate();
-            courseEntity.setEndDAte(newEndDate);
+            courseEntity.setEndDate(newEndDate);
         }
 
         if (courseUpdate.getInstitutionId() != null) {

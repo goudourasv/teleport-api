@@ -16,7 +16,7 @@ public class LectureEntity {
     @Column
     private String title;
     @Column(name = "URI")
-    @URL
+//    @URL
     private URI uri;
     @Column(name = "start_time")
     private Instant startTime;

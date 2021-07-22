@@ -1,7 +1,6 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
-import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.http.lectures.dto.LectureCreate;
@@ -12,7 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.goudourasv.data.lectures.LecturesMapper.toLecture;
+import static com.goudourasv.data.lectures.LecturesMapper.toLectures;
 
 @ApplicationScoped
 public class LecturesRepository {
@@ -36,23 +41,17 @@ public class LecturesRepository {
             query.setParameter(key, parametersMap.get(key));
         }
 
-        List<Lecture> lectures = new ArrayList<>();
         @SuppressWarnings("unchecked")
         List<LectureEntity> lectureEntities = query.getResultList();
-        for (LectureEntity lectureEntity : lectureEntities) {
-            CourseEntity courseEntity = lectureEntity.getCourseEntity();
-            CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-            Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
-            lectures.add(lecture);
-        }
+        List<Lecture> lectures = toLectures(lectureEntities);
+
         return lectures;
     }
 
     public Lecture getSpecificLecture(UUID lectureId) {
         LectureEntity lectureEntity = entityManager.find(LectureEntity.class, lectureId);
         CourseEntity courseEntity = lectureEntity.getCourseEntity();
-        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-        Lecture lecture = new Lecture(lectureId, lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = toLecture(lectureEntity, courseEntity);
         return lecture;
     }
 
@@ -67,9 +66,7 @@ public class LecturesRepository {
         entityManager.persist(lectureEntity);
         entityManager.flush();
 
-        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = toLecture(lectureEntity, courseEntity);
         return lecture;
 
     }
@@ -97,9 +94,7 @@ public class LecturesRepository {
         } catch (Exception ex) {
             throw new NotFoundException("Lecture with id: " + id + "doesn't exist");
         }
-        CourseLecture course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
-
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = toLecture(lectureEntity, courseEntity);
         return lecture;
     }
 
@@ -118,19 +113,13 @@ public class LecturesRepository {
             Instant newLectureEndTime = lectureUpdate.getEndTime();
             lectureEntity.setEndTime(newLectureEndTime);
         }
-        CourseLecture course = null;
-        if (lectureUpdate.getCourseId() != null) {
-            UUID newCourseId = lectureUpdate.getCourseId();
-            CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, newCourseId);
-            lectureEntity.setCourseEntity(courseEntity);
-            course = new CourseLecture(courseEntity.getId(), courseEntity.getTitle());
 
-        }
 
         entityManager.merge(lectureEntity);
         entityManager.flush();
+        CourseEntity courseEntity = lectureEntity.getCourseEntity();
 
-        Lecture lecture = new Lecture(lectureEntity.getId(), lectureEntity.getTitle(),lectureEntity.getUri(), course, lectureEntity.getStartTime(), lectureEntity.getEndTime());
+        Lecture lecture = toLecture(lectureEntity,courseEntity);
         return lecture;
 
 

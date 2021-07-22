@@ -38,7 +38,7 @@ public class CoursesMapper {
             lectures.add(lecture);
         }
 
-        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures, instructor);
+        Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDate(), lectures, instructor);
         return course;
 
     }
@@ -68,7 +68,7 @@ public class CoursesMapper {
                 lectures.add(lecture);
             }
 
-            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDAte(), lectures, instructor);
+            Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDate(), lectures, instructor);
             filteredCourses.add(course);
         }
         return filteredCourses;

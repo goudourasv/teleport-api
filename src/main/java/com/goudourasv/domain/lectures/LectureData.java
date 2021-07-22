@@ -9,7 +9,7 @@ import java.util.UUID;
 public class LectureData {
     private UUID id;
     private String title;
-    @URL
+//    @URL
     private URI uri;
     private Instant startTime;
     private Instant endTime;

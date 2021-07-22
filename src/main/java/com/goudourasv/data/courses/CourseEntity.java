@@ -34,7 +34,7 @@ public class CourseEntity {
     private Instant startDate;
 
     @Column(name = "end_date")
-    private Instant endDAte;
+    private Instant endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institution_id")
@@ -66,8 +66,8 @@ public class CourseEntity {
         return startDate;
     }
 
-    public Instant getEndDAte() {
-        return endDAte;
+    public Instant getEndDate() {
+        return endDate;
     }
 
     public InstitutionEntity getInstitutionEntity() {
@@ -98,8 +98,8 @@ public class CourseEntity {
         this.startDate = startDate;
     }
 
-    public void setEndDAte(Instant endDAte) {
-        this.endDAte = endDAte;
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
     }
 
     public void setInstitutionEntity(InstitutionEntity institutionEntity) {
@@ -111,8 +111,12 @@ public class CourseEntity {
     }
 
     public void setLectureEntities(List<LectureEntity> lectureEntities) {
-        this.lectureEntities.clear();
-        this.lectureEntities.addAll(lectureEntities);
+        if(this.lectureEntities != null) {
+            this.lectureEntities.clear();
+            this.lectureEntities.addAll(lectureEntities);
+        }else {
+            this.lectureEntities = lectureEntities;
+        }
     }
 
     public void setTagEntities(Set<TagEntity> tagEntities) {

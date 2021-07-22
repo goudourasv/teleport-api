@@ -1,7 +1,6 @@
 package com.goudourasv.data.instructors;
 
 import com.goudourasv.data.institutions.InstitutionEntity;
-import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
@@ -55,7 +54,6 @@ public class InstructorsRepository {
         InstructorEntity instructorEntity = new InstructorEntity();
         instructorEntity.setFirstName(instructorCreate.getFirstName());
         instructorEntity.setLastName(instructorCreate.getLastName());
-        //TODO mapping ids to institutionEntities
 
         List<InstitutionEntity> institutionEntities = new ArrayList<>();
         List<UUID> institutionIds = instructorCreate.getInstitutionIds();
@@ -64,10 +62,11 @@ public class InstructorsRepository {
             institutionEntities.add(institutionEntity);
         }
         instructorEntity.setInstitutionEntities(institutionEntities);
+
         entityManager.persist(instructorEntity);
         entityManager.flush();
 
-        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
+        Instructor instructor = toInstructor(instructorEntity, institutionEntities);
         return instructor;
 
     }
@@ -86,19 +85,18 @@ public class InstructorsRepository {
         instructorEntity.setFirstName(instructorCreate.getFirstName());
         instructorEntity.setLastName(instructorCreate.getLastName());
 
-
         List<InstitutionEntity> institutionEntities = new ArrayList<>();
         List<UUID> institutionIds = instructorCreate.getInstitutionIds();
         for (UUID uuid : institutionIds) {
             InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, uuid);
             institutionEntities.add(institutionEntity);
         }
-
         instructorEntity.setInstitutionEntities(institutionEntities);
+
         entityManager.merge(instructorEntity);
         entityManager.flush();
 
-        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
+        Instructor instructor = toInstructor(instructorEntity, institutionEntities);
         return instructor;
     }
 
@@ -128,8 +126,8 @@ public class InstructorsRepository {
         entityManager.flush();
 
         List<InstitutionEntity> institutionEntities = instructorEntity.getInstitutionEntities();
-        Instructor instructor = toInstructor(instructorEntity,institutionEntities);
-        
+        Instructor instructor = toInstructor(instructorEntity, institutionEntities);
+
         return instructor;
     }
 }

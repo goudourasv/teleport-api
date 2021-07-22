@@ -16,7 +16,7 @@ public class CourseUpdate {
     private Instant endDate;
     @JsonProperty("institution")
     private UUID institutionId;
-    private List<String> tags = new ArrayList<>();
+    private List<String> tags ;
     @JsonProperty("instructor")
     private UUID instructorId;
     @JsonProperty("lectures")
