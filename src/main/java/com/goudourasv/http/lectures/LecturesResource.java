@@ -8,7 +8,6 @@ import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -94,6 +93,4 @@ public class LecturesResource {
         return lecture;
 
     }
-
-
 }

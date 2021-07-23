@@ -35,9 +35,7 @@ public class CourseCreate {
         if (lectures != null) {
             this.lectures = lectures;
         }
-
     }
-
 
     public String getTitle() {
         return title;

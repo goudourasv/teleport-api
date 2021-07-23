@@ -1,7 +1,6 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import java.net.URI;
@@ -39,7 +38,6 @@ public class LectureEntity {
         this.endTime = endTime;
 
     }
-
 
     public UUID getId() {
         return id;

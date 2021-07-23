@@ -1,7 +1,6 @@
 package com.goudourasv.domain.lectures;
 
-import com.goudourasv.domain.courses.CourseLecture;
-import org.hibernate.validator.constraints.URL;
+import com.goudourasv.domain.courses.CourseData;
 
 import java.net.URI;
 import java.time.Instant;
@@ -13,13 +12,13 @@ import java.util.UUID;
 public class Lecture {
     private UUID id;
     private String title;
-//    @URL
+    //    @URL
     private URI uri;
     private Instant startTime;
     private Instant endTime;
-    private CourseLecture course;
+    private CourseData course;
 
-    public Lecture(UUID id, String title, URI uri, CourseLecture course, Instant startTime, Instant endTime) {
+    public Lecture(UUID id, String title, URI uri, CourseData course, Instant startTime, Instant endTime) {
         this.id = id;
         this.title = title;
         this.uri = uri;
@@ -44,7 +43,7 @@ public class Lecture {
         return startTime;
     }
 
-    public CourseLecture getCourse() {
+    public CourseData getCourse() {
         return course;
     }
 

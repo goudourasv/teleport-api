@@ -5,9 +5,9 @@ public class InstitutionUpdate {
     private String country;
     private String city;
 
-    public InstitutionUpdate(String name,String country,String city) {
+    public InstitutionUpdate(String name, String country, String city) {
         this.name = name;
-        this.country =country;
+        this.country = country;
         this.city = city;
     }
 

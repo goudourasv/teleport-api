@@ -26,7 +26,7 @@ public class InstitutionsResource {
         this.institutionsService = institutionsService;
 
     }
-    //TODO proper filtering
+
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,11 +34,9 @@ public class InstitutionsResource {
         try {
             List<Institution> filteredInstitutions = institutionsService.getFilteredInstitutions(country, city);
             return filteredInstitutions;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         }
-
-
     }
 
     @Blocking

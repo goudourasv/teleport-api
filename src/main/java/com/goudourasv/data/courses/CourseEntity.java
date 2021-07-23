@@ -111,15 +111,20 @@ public class CourseEntity {
     }
 
     public void setLectureEntities(List<LectureEntity> lectureEntities) {
-        if(this.lectureEntities != null) {
+        if (this.lectureEntities != null) {
             this.lectureEntities.clear();
             this.lectureEntities.addAll(lectureEntities);
-        }else {
+        } else {
             this.lectureEntities = lectureEntities;
         }
     }
 
     public void setTagEntities(Set<TagEntity> tagEntities) {
-        this.tagEntities = tagEntities;
+        if (this.tagEntities != null) {
+            this.tagEntities.clear();
+            this.tagEntities.addAll(tagEntities);
+        } else {
+            this.tagEntities = tagEntities;
+        }
     }
 }

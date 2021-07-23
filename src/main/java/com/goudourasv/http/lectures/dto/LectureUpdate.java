@@ -1,8 +1,5 @@
 package com.goudourasv.http.lectures.dto;
 
-import org.hibernate.validator.constraints.URL;
-
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.time.Instant;
@@ -11,13 +8,13 @@ import java.util.UUID;
 public class LectureUpdate {
     @NotBlank
     private String title;
-//    @URL
+    //    @URL
     private URI uri;
     private Instant startTime;
     private Instant endTime;
     private UUID courseId;
 
-    public LectureUpdate(String title,URI uri, Instant startTime, Instant endTime, UUID courseId) {
+    public LectureUpdate(String title, URI uri, Instant startTime, Instant endTime, UUID courseId) {
         this.title = title;
         this.uri = uri;
         this.startTime = startTime;

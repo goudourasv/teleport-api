@@ -47,8 +47,5 @@ public class TagsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void deleteTag(@PathParam("name") String name) {
         tagsService.deleteSpecificTag(name);
-
-
     }
-
 }

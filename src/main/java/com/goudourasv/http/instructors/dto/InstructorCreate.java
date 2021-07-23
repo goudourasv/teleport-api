@@ -1,8 +1,6 @@
 package com.goudourasv.http.instructors.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.goudourasv.domain.institutions.Institution;
-import com.goudourasv.domain.instructors.Instructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;

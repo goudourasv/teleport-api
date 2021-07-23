@@ -15,9 +15,9 @@ public class InstitutionCreate {
     private List<UUID> instructorIds;
 
 
-    public InstitutionCreate(String name,String country,String city,List<UUID> instructorIds) {
+    public InstitutionCreate(String name, String country, String city, List<UUID> instructorIds) {
         this.name = name;
-        this.country =country;
+        this.country = country;
         this.city = city;
         this.instructorIds = instructorIds;
     }

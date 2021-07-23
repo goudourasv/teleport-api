@@ -3,12 +3,12 @@ package com.goudourasv.data.courses;
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
+import com.goudourasv.data.lectures.LecturesMapper;
 import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.lectures.Lecture;
-import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 
@@ -19,10 +19,9 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.goudourasv.data.courses.CoursesMapper.CourseEntitiesToCourses;
-import static com.goudourasv.data.courses.CoursesMapper.courseEntityToCourse;
+import static com.goudourasv.data.courses.CoursesMapper.*;
+import static com.goudourasv.domain.courses.CoursesMapper.toLiveCourses;
 
 
 @ApplicationScoped
@@ -40,7 +39,7 @@ public class CoursesRepository {
 
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
-        List<Course> courses = CourseEntitiesToCourses(courseEntities);
+        List<Course> courses = toCourses(courseEntities);
         return courses;
     }
 
@@ -95,7 +94,7 @@ public class CoursesRepository {
 
         @SuppressWarnings("unchecked")
         List<CourseEntity> courseEntities = query.getResultList();
-        List<Course> filteredCourses = CourseEntitiesToCourses(courseEntities);
+        List<Course> filteredCourses = toCourses(courseEntities);
 
         return filteredCourses;
     }
@@ -105,7 +104,7 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = courseEntityToCourse(courseEntity);
+        Course course = toCourse(courseEntity);
         return course;
     }
 
@@ -118,50 +117,26 @@ public class CoursesRepository {
         }
     }
 
-    public Course createCourse(CourseCreate courseCreate) {
-        // TODO: Create CourseCreate -> CourseEntity mapper
-        CourseEntity courseEntity = new CourseEntity();
-        courseEntity.setTitle(courseCreate.getTitle());
-        courseEntity.setStartDate(courseCreate.getStartDate());
-        courseEntity.setEndDate(courseCreate.getEndDate());
-
-        InstitutionEntity institutionEntity = findInstitutionById(courseCreate.getInstitutionId());
-        courseEntity.setInstitutionEntity(institutionEntity);
-
+    private InstructorEntity findInstructorById(UUID id) {
         try {
-            InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, courseCreate.getInstructorId());
-            courseEntity.setInstructorEntity(instructorEntity);
+            InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, id);
+            return instructorEntity;
         } catch (Exception e) {
-            throw new BadRequestException("Instructor with id " + courseCreate.getInstructorId() + " doesn't exists ");
+            throw new BadRequestException("Instructor with id " + id + " doesn't exist");
         }
+    }
 
-        List<String> tags = courseCreate.getTags();
-//        List<TagEntity> tagEntities = new ArrayList<>();
-//        for (String tag : tags) {
-//            TagEntity tagEntity = new TagEntity(tag);
-//            tagEntities.add(tagEntity);
-//        }
-        Set<TagEntity> tagEntities = tags.stream().map(tag -> new TagEntity(tag)).collect(Collectors.toSet());
-        courseEntity.setTagEntities(tagEntities);
-
-        List<Lecture> lectures = courseCreate.getLectures();
-
-        // TODO: Use lecture entity mapper
-        List<LectureEntity> lectureEntities = new ArrayList<>();
-        for (Lecture lecture : lectures) {
-            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
-            lectureEntities.add(lectureEntity);
-        }
-
-        courseEntity.setLectureEntities(lectureEntities);
+    public Course createCourse(CourseCreate courseCreate) {
+        InstitutionEntity institutionEntity = findInstitutionById(courseCreate.getInstitutionId());
+        InstructorEntity instructorEntity = findInstructorById(courseCreate.getInstructorId());
+        CourseEntity courseEntity = toCourseEntity(courseCreate, institutionEntity, instructorEntity);
 
         entityManager.persist(courseEntity);
         entityManager.flush();
 
-        Course course = courseEntityToCourse(courseEntity);
+        Course course = toCourse(courseEntity);
         return course;
     }
-
 
     public boolean deleteSpecificCourse(UUID id) {
         CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, id);
@@ -173,42 +148,21 @@ public class CoursesRepository {
     }
 
     public Course replaceCourse(CourseCreate courseCreate, UUID id) {
-        // TODO: Use CourseCreate -> CourseEntity mapper
-        CourseEntity courseEntity = new CourseEntity();
-        courseEntity.setTitle(courseCreate.getTitle());
-        courseEntity.setStartDate(courseCreate.getStartDate());
-        courseEntity.setEndDate(courseCreate.getEndDate());
+        InstitutionEntity institutionEntity = findInstitutionById(courseCreate.getInstitutionId());
+        InstructorEntity instructorEntity = findInstructorById(courseCreate.getInstructorId());
+        CourseEntity courseEntity = toCourseEntity(courseCreate, institutionEntity, instructorEntity);
         courseEntity.setId(id);
-
-        InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
-        courseEntity.setInstitutionEntity(institutionEntity);
-        InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, courseCreate.getInstructorId());
-        courseEntity.setInstructorEntity(instructorEntity);
-
-        List<String> tags = courseCreate.getTags();
-        Set<TagEntity> tagEntities = tags.stream().map(TagEntity::new).collect(Collectors.toSet());
-        courseEntity.setTagEntities(tagEntities);
-
-        List<Lecture> lectures = courseCreate.getLectures();
-        // TODO: Use lectures mapper
-        List<LectureEntity> lectureEntities = new ArrayList<>();
-        for (Lecture lecture : lectures) {
-            LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
-            lectureEntities.add(lectureEntity);
-        }
-        courseEntity.setLectureEntities(lectureEntities);
 
         try {
             entityManager.merge(courseEntity);
         } catch (Exception ex) {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
-
         }
-        Course course = courseEntityToCourse(courseEntity);
+
+        Course course = toCourse(courseEntity);
         return course;
 
     }
-
 
     public Course partiallyUpdateCourse(CourseUpdate courseUpdate, UUID id) {
         CourseEntity courseEntity = entityManager.find(CourseEntity.class, id);
@@ -232,7 +186,6 @@ public class CoursesRepository {
             UUID newInstitutionId = courseUpdate.getInstitutionId();
             InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, newInstitutionId);
             courseEntity.setInstitutionEntity(institutionEntity);
-
         }
 
         if (courseUpdate.getInstructorId() != null) {
@@ -240,7 +193,6 @@ public class CoursesRepository {
             InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, newInstructorId);
             courseEntity.setInstructorEntity(instructorEntity);
         }
-
 
         if (courseUpdate.getTags() != null) {
             List<String> newTags = courseUpdate.getTags();
@@ -251,25 +203,17 @@ public class CoursesRepository {
                 tagEntities.add(tagEntity);
             }
             courseEntity.setTagEntities(tagEntities);
-
         }
 
         if (courseUpdate.getLectures() != null) {
-            //This create the new updated lectureEntity list
-            List<LectureEntity> lectureEntities = new ArrayList<>();
             List<Lecture> lecturesToUpdate = courseUpdate.getLectures();
-            // TODO: Use lectures mapper
-            for (Lecture lecture : lecturesToUpdate) {
-                LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
-                lectureEntities.add(lectureEntity);
-            }
+            List<LectureEntity> lectureEntities = LecturesMapper.toLectureEntities(lecturesToUpdate);
             courseEntity.setLectureEntities(lectureEntities);
-
         }
 
         entityManager.merge(courseEntity);
         entityManager.flush();
-        return courseEntityToCourse(courseEntity);
+        return toCourse(courseEntity);
     }
 
     public List<LiveCourse> getLiveCourses() {
@@ -277,26 +221,10 @@ public class CoursesRepository {
         List<CourseEntity> currentCourseEntities = entityManager.createNamedQuery("list_live_courses", CourseEntity.class)
                 .setParameter("current_timestamp", currentTimestamp)
                 .getResultList();
-        List<Course> currentCourses = CourseEntitiesToCourses(currentCourseEntities);
-        List<LiveCourse> liveCourses = getLiveEntities(currentCourses);
+        List<Course> currentCourses = toCourses(currentCourseEntities);
+        List<LiveCourse> liveCourses = toLiveCourses(currentCourses);
 
         return liveCourses;
     }
-
-    // TODO: Move to domain layer
-    // TODO: Rename to toLiveCourses() or something that indicates that we create a live course from a course.
-    private List<LiveCourse> getLiveEntities(List<Course> currentCourses) {
-        List<LiveCourse> liveCourses = new ArrayList<>();
-        for (Course course : currentCourses) {
-            // TODO: Reconsider this - if we keep it, we must check if the list has exactly one element, otherwise throw an error.
-            LectureData lecture = course.getLectureData().get(0);
-            LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
-            LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructorData(), course.getInstitutionData(), course.getTags(), lectureData);
-            liveCourses.add(liveCourse);
-        }
-        return liveCourses;
-    }
-
-
 }
 

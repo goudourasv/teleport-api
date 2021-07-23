@@ -2,11 +2,8 @@ package com.goudourasv.domain.courses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionData;
-import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
-import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
@@ -31,14 +28,10 @@ public class Course {
     private List<LectureData> lectureData;
 
 
-
-
     public Course(UUID id, String title) {
         this.id = id;
         this.title = title;
     }
-
-
 
     public Course(UUID id, String title, InstitutionData institutionData, Set<Tag> tags, Instant startDate, Instant endDate, List<LectureData> lectureData, InstructorData instructorData) {
         this.id = id;
@@ -47,7 +40,7 @@ public class Course {
         this.tags = tags;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.lectureData= lectureData;
+        this.lectureData = lectureData;
         this.instructorData = instructorData;
     }
 

@@ -1,7 +1,6 @@
 package com.goudourasv.data.lectures;
 
 import com.goudourasv.data.courses.CourseEntity;
-import com.goudourasv.domain.courses.CourseLecture;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.http.lectures.dto.LectureCreate;
 import com.goudourasv.http.lectures.dto.LectureUpdate;
@@ -114,12 +113,11 @@ public class LecturesRepository {
             lectureEntity.setEndTime(newLectureEndTime);
         }
 
-
         entityManager.merge(lectureEntity);
         entityManager.flush();
         CourseEntity courseEntity = lectureEntity.getCourseEntity();
 
-        Lecture lecture = toLecture(lectureEntity,courseEntity);
+        Lecture lecture = toLecture(lectureEntity, courseEntity);
         return lecture;
 
 

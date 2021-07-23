@@ -27,7 +27,6 @@ public class CoursesResource {
         this.coursesService = coursesService;
     }
 
-
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -46,10 +45,10 @@ public class CoursesResource {
     @Path("/live")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<LiveCourse> getLiveCourses(){
+    public List<LiveCourse> getLiveCourses() {
         List<LiveCourse> liveCourses = coursesService.getLiveCourses();
 
-        return  liveCourses;
+        return liveCourses;
     }
 
     @Blocking
@@ -57,7 +56,7 @@ public class CoursesResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Course getCourse(@PathParam("id") UUID id) {
-        Course specificCourse= coursesService.getSpecificCourse(id);
+        Course specificCourse = coursesService.getSpecificCourse(id);
 
         return specificCourse;
     }
