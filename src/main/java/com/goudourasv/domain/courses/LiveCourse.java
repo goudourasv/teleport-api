@@ -18,14 +18,12 @@ public class LiveCourse {
     private Set<Tag> tags;
     private LectureData liveLecture;
 
-    public LiveCourse(String title,InstructorData instructor,InstitutionData institution,Set<Tag> tags,LectureData liveLecture){
+    public LiveCourse(String title, InstructorData instructor, InstitutionData institution, Set<Tag> tags, LectureData liveLecture) {
         this.title = title;
         this.instructor = instructor;
         this.institution = institution;
         this.tags = tags;
         this.liveLecture = liveLecture;
-
-
     }
 
 

@@ -18,6 +18,7 @@ public class CoursesService {
     private InstitutionsService institutionsService;
     private InstructorsService instructorsService;
     private TagsService tagsService;
+    // TODO: Use an interface to invert this dependency (we want the repository to depend on the service)
     private CoursesRepository coursesRepository;
 
     public CoursesService(TagsService tagsService, CoursesRepository coursesRepository, InstitutionsService institutionsService, InstructorsService instructorsService) {
@@ -27,12 +28,10 @@ public class CoursesService {
         this.instructorsService = instructorsService;
     }
 
-    //TODO check java Streams
-
+    // TODO: check java Streams
     public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
         List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tags, instructorId);
         return filteredCourses;
-
     }
 
     @Transactional

@@ -66,6 +66,7 @@ public class CoursesRepository {
             }
             parametersMap.put("institutionId", institutionId);
         }
+
         if (instructorId != null) {
             if (isFirst) {
                 sqlQuery += "instructor_id = :instructorId";
@@ -75,6 +76,7 @@ public class CoursesRepository {
             }
             parametersMap.put("instructorId", instructorId);
         }
+
         if (!tags.isEmpty()) {
             if (isFirst) {
                 sqlQuery += "tag = :tag";
@@ -90,6 +92,7 @@ public class CoursesRepository {
         for (String key : parametersMap.keySet()) {
             query.setParameter(key, parametersMap.get(key));
         }
+
         @SuppressWarnings("unchecked")
         List<CourseEntity> courseEntities = query.getResultList();
         List<Course> filteredCourses = CourseEntitiesToCourses(courseEntities);
@@ -105,20 +108,26 @@ public class CoursesRepository {
         Course course = courseEntityToCourse(courseEntity);
         return course;
     }
-    // TODO: Check lecturesEntity
+
+    private InstitutionEntity findInstitutionById(UUID id) {
+        try {
+            InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, id);
+            return institutionEntity;
+        } catch (Exception e) {
+            throw new BadRequestException("Institution with id " + id + " doesn't exist");
+        }
+    }
 
     public Course createCourse(CourseCreate courseCreate) {
+        // TODO: Create CourseCreate -> CourseEntity mapper
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
         courseEntity.setEndDate(courseCreate.getEndDate());
 
-        try {
-            InstitutionEntity institutionEntity = entityManager.getReference(InstitutionEntity.class, courseCreate.getInstitutionId());
-            courseEntity.setInstitutionEntity(institutionEntity);
-        } catch (Exception e) {
-            throw new BadRequestException("Institution with id " + courseCreate.getInstitutionId() + " doesn't exists ");
-        }
+        InstitutionEntity institutionEntity = findInstitutionById(courseCreate.getInstitutionId());
+        courseEntity.setInstitutionEntity(institutionEntity);
+
         try {
             InstructorEntity instructorEntity = entityManager.getReference(InstructorEntity.class, courseCreate.getInstructorId());
             courseEntity.setInstructorEntity(instructorEntity);
@@ -132,17 +141,19 @@ public class CoursesRepository {
 //            TagEntity tagEntity = new TagEntity(tag);
 //            tagEntities.add(tagEntity);
 //        }
-        Set<TagEntity> tagEntities = tags.stream().map(TagEntity::new).collect(Collectors.toSet());
+        Set<TagEntity> tagEntities = tags.stream().map(tag -> new TagEntity(tag)).collect(Collectors.toSet());
         courseEntity.setTagEntities(tagEntities);
 
         List<Lecture> lectures = courseCreate.getLectures();
+
+        // TODO: Use lecture entity mapper
         List<LectureEntity> lectureEntities = new ArrayList<>();
         for (Lecture lecture : lectures) {
             LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
             lectureEntities.add(lectureEntity);
         }
-        courseEntity.setLectureEntities(lectureEntities);
 
+        courseEntity.setLectureEntities(lectureEntities);
 
         entityManager.persist(courseEntity);
         entityManager.flush();
@@ -159,10 +170,10 @@ public class CoursesRepository {
         }
         entityManager.remove(courseEntity);
         return true;
-
     }
 
     public Course replaceCourse(CourseCreate courseCreate, UUID id) {
+        // TODO: Use CourseCreate -> CourseEntity mapper
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setTitle(courseCreate.getTitle());
         courseEntity.setStartDate(courseCreate.getStartDate());
@@ -179,6 +190,7 @@ public class CoursesRepository {
         courseEntity.setTagEntities(tagEntities);
 
         List<Lecture> lectures = courseCreate.getLectures();
+        // TODO: Use lectures mapper
         List<LectureEntity> lectureEntities = new ArrayList<>();
         for (Lecture lecture : lectures) {
             LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
@@ -233,8 +245,7 @@ public class CoursesRepository {
         if (courseUpdate.getTags() != null) {
             List<String> newTags = courseUpdate.getTags();
 
-            Set<TagEntity> tagEntities = new HashSet<>() {
-            };
+            Set<TagEntity> tagEntities = new HashSet<>();
             for (String tag : newTags) {
                 TagEntity tagEntity = new TagEntity(tag);
                 tagEntities.add(tagEntity);
@@ -247,6 +258,7 @@ public class CoursesRepository {
             //This create the new updated lectureEntity list
             List<LectureEntity> lectureEntities = new ArrayList<>();
             List<Lecture> lecturesToUpdate = courseUpdate.getLectures();
+            // TODO: Use lectures mapper
             for (Lecture lecture : lecturesToUpdate) {
                 LectureEntity lectureEntity = new LectureEntity(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
                 lectureEntities.add(lectureEntity);
@@ -271,9 +283,12 @@ public class CoursesRepository {
         return liveCourses;
     }
 
+    // TODO: Move to domain layer
+    // TODO: Rename to toLiveCourses() or something that indicates that we create a live course from a course.
     private List<LiveCourse> getLiveEntities(List<Course> currentCourses) {
         List<LiveCourse> liveCourses = new ArrayList<>();
         for (Course course : currentCourses) {
+            // TODO: Reconsider this - if we keep it, we must check if the list has exactly one element, otherwise throw an error.
             LectureData lecture = course.getLectureData().get(0);
             LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(),lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
             LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructorData(), course.getInstitutionData(), course.getTags(), lectureData);
