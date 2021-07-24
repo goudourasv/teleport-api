@@ -43,6 +43,7 @@ public class CoursesRepository {
         return courses;
     }
 
+    //TODO: implement filtering with namedQuery
     public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
         String sqlQuery = "SELECT * FROM courses";
         if (!tags.isEmpty()) {

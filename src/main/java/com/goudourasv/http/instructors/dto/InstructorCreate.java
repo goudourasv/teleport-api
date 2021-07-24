@@ -8,9 +8,10 @@ import java.util.UUID;
 
 public class InstructorCreate {
     @NotBlank
-    private String lastName;
-    @NotBlank
     private String firstName;
+    @NotBlank
+    private String lastName;
+
     @JsonProperty("institutions")
     private List<UUID> institutionIds;
 

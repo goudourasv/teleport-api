@@ -25,8 +25,8 @@ public class InstructorsService {
 
     @Transactional
     public Instructor getSpecificInstructor(UUID id) {
-        Instructor specificInstructor = instructorsRepository.getSpecificInstructor(id);
-        return specificInstructor;
+        Instructor instructor = instructorsRepository.getSpecificInstructor(id);
+        return instructor;
 
     }
 

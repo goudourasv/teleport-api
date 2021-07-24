@@ -46,8 +46,8 @@ public class InstructorsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createInstructor(@Valid InstructorCreate input, UriInfo uriInfo) {
-        Instructor createdInstructor = instructorsService.createNewInstructor(input);
+    public Response createInstructor(@Valid InstructorCreate instructorCreate, UriInfo uriInfo) {
+        Instructor createdInstructor = instructorsService.createNewInstructor(instructorCreate);
 
         String path = uriInfo.getPath();
         String location = path + createdInstructor.getId().toString();
@@ -78,11 +78,11 @@ public class InstructorsResource {
 
     @Blocking
     @PATCH
-    @Path("/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Instructor partiallyUpdateInstructor(@PathParam("id") UUID id, InstructorUpdate input) {
-        Instructor instructorToUpdate = instructorsService.partiallyUpdateInstructor(input, id);
+    public Instructor partiallyUpdateInstructor(@PathParam("id") UUID id, InstructorUpdate instructorUpdate) {
+        Instructor instructorToUpdate = instructorsService.partiallyUpdateInstructor(instructorUpdate, id);
         return instructorToUpdate;
     }
 
