@@ -1,11 +1,13 @@
 package com.goudourasv.domain.users;
 
 import com.goudourasv.data.users.UsersRepository;
+import com.goudourasv.http.users.dto.FavouriteCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -34,10 +36,21 @@ public class UsersService {
         return deleted;
     }
 
-
+    @Transactional
     public User partiallyUpdateUser(UUID id, UserUpdate userUpdate) {
-        User user = usersRepository.partiallyUpdateUser(id,userUpdate);
+        User user = usersRepository.partiallyUpdateUser(id, userUpdate);
         return user;
+    }
 
+    @Transactional
+    public FavouriteCourse createFavourite(FavouriteCreate favouriteCreate) {
+        FavouriteCourse favouriteCourse = usersRepository.createFavouriteCourse(favouriteCreate);
+        return favouriteCourse;
+
+    }
+
+    public List<FavouriteCourse> getFavouriteCourses(UUID userId) {
+        List<FavouriteCourse> favouriteCourses = usersRepository.getFavouriteCourses(userId);
+        return favouriteCourses;
     }
 }

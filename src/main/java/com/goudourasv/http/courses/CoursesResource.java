@@ -61,6 +61,7 @@ public class CoursesResource {
         return specificCourse;
     }
 
+
     @Blocking
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -104,6 +105,8 @@ public class CoursesResource {
         Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, id);
         return updatedCourse;
     }
+
+
 
 }
 

@@ -69,7 +69,5 @@ public class CoursesService {
     public List<LiveCourse> getLiveCourses() {
         List<LiveCourse> liveCourses = coursesRepository.getLiveCourses();
         return liveCourses;
-
-
     }
 }

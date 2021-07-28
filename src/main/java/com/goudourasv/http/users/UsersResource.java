@@ -1,7 +1,10 @@
 package com.goudourasv.http.users;
 
+import com.goudourasv.domain.courses.CoursesService;
+import com.goudourasv.domain.users.FavouriteCourse;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.domain.users.UsersService;
+import com.goudourasv.http.users.dto.FavouriteCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 import io.smallrye.common.annotation.Blocking;
@@ -13,15 +16,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
 @Path("/users")
 public class UsersResource {
     private final UsersService usersService;
+    private final CoursesService coursesService;
 
-    public UsersResource(UsersService usersService) {
+    public UsersResource(UsersService usersService, CoursesService coursesService) {
         this.usersService = usersService;
+        this.coursesService = coursesService;
     }
 
     @Blocking
@@ -66,5 +72,43 @@ public class UsersResource {
     public User partiallyUpdateUser(@PathParam("id") UUID id, UserUpdate userUpdate) {
         User user = usersService.partiallyUpdateUser(id, userUpdate);
         return user;
+    }
+
+
+    @Blocking
+    @POST
+    @Path("/{id}/favourite")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createFavouriteCourse(@PathParam("id") UUID userId, FavouriteCreate favouriteCreate, UriInfo uriInfo) {
+        FavouriteCourse favouriteCourse = usersService.createFavourite(favouriteCreate);
+
+        String path = uriInfo.getPath();
+        String location = path + userId.toString() + favouriteCreate.getCourseId();
+        return Response.created(URI.create(location)).entity(favouriteCourse).build();
+
+    }
+
+//    @Blocking
+//    @DELETE
+//    @Path("/{id}/favourite")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void deleteFavouriteCourse() {
+//        boolean deleted = usersService.deleteFavouriteCourse();
+//        if (!deleted) {
+//            throw new NotFoundException("Favourite course with id: " + id + " doesn't exist");
+//        }
+//    }
+
+    @Blocking
+    @GET
+    @Path("/{id}/favourites")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<FavouriteCourse> favouriteCourses(@PathParam("id") UUID userId) {
+        List<FavouriteCourse> favouriteCourses = usersService.getFavouriteCourses(userId);
+        return favouriteCourses;
+
     }
 }

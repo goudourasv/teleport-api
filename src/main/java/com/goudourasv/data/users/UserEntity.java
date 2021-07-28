@@ -1,9 +1,9 @@
 package com.goudourasv.data.users;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.goudourasv.data.courses.CourseEntity;
+
+import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "Users")
@@ -17,6 +17,9 @@ public class UserEntity {
     private String lastName;
     @Column(name = "e_mail")
     private String email;
+    @ManyToMany(mappedBy = "userEntities")
+    private Set<CourseEntity> courseEntities;
+
 
     public UUID getId() {
         return id;

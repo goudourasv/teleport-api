@@ -4,6 +4,7 @@ import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;
+import com.goudourasv.data.users.UserEntity;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -52,6 +53,14 @@ public class CourseEntity {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "tag"))
     private Set<TagEntity> tagEntities;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "course_user",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserEntity> userEntities;
+
+
 
 
     public UUID getId() {
