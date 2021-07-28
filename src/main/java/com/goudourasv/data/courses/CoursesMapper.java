@@ -5,6 +5,7 @@ import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;
@@ -21,7 +22,8 @@ import java.util.stream.Collectors;
 import static com.goudourasv.data.lectures.LecturesMapper.toLectureEntities;
 
 public class CoursesMapper {
-    public static Course toCourse(CourseEntity courseEntity) {
+
+    public static Course toCourse(CourseEntity courseEntity, boolean favourite) {
         InstitutionEntity institutionEntity = courseEntity.getInstitutionEntity();
         InstitutionData institution = new InstitutionData(institutionEntity.getId(), institutionEntity.getName());
 
@@ -43,6 +45,9 @@ public class CoursesMapper {
         }
 
         Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDate(), lectures, instructor);
+        if (favourite) {
+            course.setFavourite(true);
+        }
         return course;
     }
 
@@ -98,5 +103,17 @@ public class CoursesMapper {
         courseEntity.setLectureEntities(lectureEntities);
 
         return courseEntity;
+    }
+
+    public static List<LiveCourse> toLiveCourses(List<Course> currentCourses) {
+        List<LiveCourse> liveCourses = new ArrayList<>();
+        for (Course course : currentCourses) {
+            // TODO: Reconsider this - if we keep it, we must check if the list has exactly one element, otherwise throw an error.
+            LectureData lecture = course.getLectureData().get(0);
+            LectureData lectureData = new LectureData(lecture.getId(), lecture.getTitle(), lecture.getUri(), lecture.getStartTime(), lecture.getEndTime());
+            LiveCourse liveCourse = new LiveCourse(course.getTitle(), course.getInstructorData(), course.getInstitutionData(), course.getTags(), lectureData);
+            liveCourses.add(liveCourse);
+        }
+        return liveCourses;
     }
 }

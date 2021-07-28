@@ -1,9 +1,8 @@
 package com.goudourasv.data.users;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.goudourasv.data.courses.CourseEntity;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity(name = "favourites")
@@ -11,28 +10,30 @@ public class FavouriteCourseEntity {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column(name = "course_id")
-    private UUID courseId;
-    @Column (name = "user_id")
-    private UUID userId;
+    @ManyToOne
+    @MapsId("course_id")
+    private CourseEntity course;
+    @ManyToOne
+    @MapsId("user_id")
+    private UserEntity user;
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getCourseId() {
-        return courseId;
+    public CourseEntity getCourse() {
+        return course;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setCourseId(UUID courseId) {
-        this.courseId = courseId;
+    public void setCourse(CourseEntity course) {
+        this.course = course;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

@@ -26,6 +26,7 @@ public class Course {
     private InstructorData instructorData;
     @JsonProperty("lectures")
     private List<LectureData> lectureData;
+    private boolean favourite = false;
 
 
     public Course(UUID id, String title) {
@@ -76,6 +77,10 @@ public class Course {
         return endDate;
     }
 
+    public boolean isFavourite() {
+        return favourite;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -106,6 +111,10 @@ public class Course {
 
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
     }
 
     @Override

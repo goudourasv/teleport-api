@@ -21,8 +21,6 @@ import java.time.Instant;
 import java.util.*;
 
 import static com.goudourasv.data.courses.CoursesMapper.*;
-import static com.goudourasv.domain.courses.CoursesMapper.toLiveCourses;
-
 
 @ApplicationScoped
 public class CoursesRepository {
@@ -105,7 +103,7 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = toCourse(courseEntity);
+        Course course = toCourse(courseEntity,false);
         return course;
     }
 
@@ -135,7 +133,7 @@ public class CoursesRepository {
         entityManager.persist(courseEntity);
         entityManager.flush();
 
-        Course course = toCourse(courseEntity);
+        Course course = toCourse(courseEntity,false);
         return course;
     }
 
@@ -160,7 +158,7 @@ public class CoursesRepository {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
         }
 
-        Course course = toCourse(courseEntity);
+        Course course = toCourse(courseEntity,false);
         return course;
 
     }
@@ -214,7 +212,7 @@ public class CoursesRepository {
 
         entityManager.merge(courseEntity);
         entityManager.flush();
-        return toCourse(courseEntity);
+        return toCourse(courseEntity,false);
     }
 
     public List<LiveCourse> getLiveCourses() {

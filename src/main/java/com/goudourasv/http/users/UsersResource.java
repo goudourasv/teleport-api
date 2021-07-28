@@ -1,10 +1,10 @@
 package com.goudourasv.http.users;
 
+import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CoursesService;
-import com.goudourasv.domain.users.FavouriteCourse;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.domain.users.UsersService;
-import com.goudourasv.http.users.dto.FavouriteCreate;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 import io.smallrye.common.annotation.Blocking;
@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -80,16 +79,28 @@ public class UsersResource {
     @Path("/{id}/favourite")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createFavouriteCourse(@PathParam("id") UUID userId, FavouriteCreate favouriteCreate, UriInfo uriInfo) {
-        FavouriteCourse favouriteCourse = usersService.createFavourite(favouriteCreate);
+    public Response createFavouriteCourse(@PathParam("id") UUID userId, FavouriteCourseCreate favouriteCourseCreate, UriInfo uriInfo) {
+        favouriteCourseCreate.setUserId(userId);
+        Course favouriteCourse = usersService.createFavourite(favouriteCourseCreate);
 
         String path = uriInfo.getPath();
-        String location = path + userId.toString() + favouriteCreate.getCourseId();
+        String location = path + userId.toString() + favouriteCourseCreate.getCourseId();
         return Response.created(URI.create(location)).entity(favouriteCourse).build();
 
     }
 
 //    @Blocking
+//    @GET
+//    @Path("/{id}/favourites")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public List<FavouriteCourse> favouriteCourses(@PathParam("id") UUID userId) {
+//        List<FavouriteCourse> favouriteCourses = usersService.getFavouriteCourses(userId);
+//        return favouriteCourses;
+//
+//    }
+
+    //    @Blocking
 //    @DELETE
 //    @Path("/{id}/favourite")
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -100,15 +111,4 @@ public class UsersResource {
 //            throw new NotFoundException("Favourite course with id: " + id + " doesn't exist");
 //        }
 //    }
-
-    @Blocking
-    @GET
-    @Path("/{id}/favourites")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public List<FavouriteCourse> favouriteCourses(@PathParam("id") UUID userId) {
-        List<FavouriteCourse> favouriteCourses = usersService.getFavouriteCourses(userId);
-        return favouriteCourses;
-
-    }
 }

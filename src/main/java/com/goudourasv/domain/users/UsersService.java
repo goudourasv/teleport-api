@@ -1,7 +1,8 @@
 package com.goudourasv.domain.users;
 
 import com.goudourasv.data.users.UsersRepository;
-import com.goudourasv.http.users.dto.FavouriteCreate;
+import com.goudourasv.domain.courses.Course;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 
@@ -43,14 +44,14 @@ public class UsersService {
     }
 
     @Transactional
-    public FavouriteCourse createFavourite(FavouriteCreate favouriteCreate) {
-        FavouriteCourse favouriteCourse = usersRepository.createFavouriteCourse(favouriteCreate);
+    public Course createFavourite(FavouriteCourseCreate favouriteCourseCreate) {
+        Course favouriteCourse = usersRepository.createFavouriteCourse(favouriteCourseCreate);
         return favouriteCourse;
 
     }
 
-    public List<FavouriteCourse> getFavouriteCourses(UUID userId) {
-        List<FavouriteCourse> favouriteCourses = usersRepository.getFavouriteCourses(userId);
-        return favouriteCourses;
-    }
+//    public List<FavouriteCourse> getFavouriteCourses(UUID userId) {
+//        List<FavouriteCourse> favouriteCourses = usersRepository.getFavouriteCourses(userId);
+//        return favouriteCourses;
+//    }
 }

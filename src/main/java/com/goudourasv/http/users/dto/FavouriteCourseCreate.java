@@ -2,13 +2,15 @@ package com.goudourasv.http.users.dto;
 
 import java.util.UUID;
 
-public class FavouriteCreate {
+public class FavouriteCourseCreate {
     private UUID courseId;
     private UUID userId;
 
-    public FavouriteCreate(UUID courseId, UUID userId) {
+    public FavouriteCourseCreate() {
+    }
+
+    public FavouriteCourseCreate(UUID courseId) {
         this.courseId = courseId;
-        this.userId = userId;
     }
 
     public UUID getCourseId() {
@@ -17,10 +19,6 @@ public class FavouriteCreate {
 
     public UUID getUserId() {
         return userId;
-    }
-
-    public void setCourseId(UUID courseId) {
-        this.courseId = courseId;
     }
 
     public void setUserId(UUID userId) {
