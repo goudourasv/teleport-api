@@ -6,11 +6,13 @@ import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.lectures.LecturesMapper;
 import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.data.tags.TagEntity;
+import com.goudourasv.data.users.UserEntity;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
@@ -37,7 +39,7 @@ public class CoursesRepository {
 
         @SuppressWarnings("unchecked") // java Generics
         List<CourseEntity> courseEntities = entityManager.createNativeQuery(sqlQuery, CourseEntity.class).getResultList();
-        List<Course> courses = toCourses(courseEntities);
+        List<Course> courses = toCourses(courseEntities, false);
         return courses;
     }
 
@@ -93,7 +95,7 @@ public class CoursesRepository {
 
         @SuppressWarnings("unchecked")
         List<CourseEntity> courseEntities = query.getResultList();
-        List<Course> filteredCourses = toCourses(courseEntities);
+        List<Course> filteredCourses = toCourses(courseEntities, false);
 
         return filteredCourses;
     }
@@ -103,7 +105,7 @@ public class CoursesRepository {
         if (courseEntity == null) {
             return null;
         }
-        Course course = toCourse(courseEntity,false);
+        Course course = toCourse(courseEntity, false);
         return course;
     }
 
@@ -133,7 +135,7 @@ public class CoursesRepository {
         entityManager.persist(courseEntity);
         entityManager.flush();
 
-        Course course = toCourse(courseEntity,false);
+        Course course = toCourse(courseEntity, false);
         return course;
     }
 
@@ -158,7 +160,7 @@ public class CoursesRepository {
             throw new NotFoundException("Course with id: " + id + "doesn't exist");
         }
 
-        Course course = toCourse(courseEntity,false);
+        Course course = toCourse(courseEntity, false);
         return course;
 
     }
@@ -212,7 +214,7 @@ public class CoursesRepository {
 
         entityManager.merge(courseEntity);
         entityManager.flush();
-        return toCourse(courseEntity,false);
+        return toCourse(courseEntity, false);
     }
 
     public List<LiveCourse> getLiveCourses() {
@@ -220,10 +222,40 @@ public class CoursesRepository {
         List<CourseEntity> currentCourseEntities = entityManager.createNamedQuery("list_live_courses", CourseEntity.class)
                 .setParameter("current_timestamp", currentTimestamp)
                 .getResultList();
-        List<Course> currentCourses = toCourses(currentCourseEntities);
+        List<Course> currentCourses = toCourses(currentCourseEntities, false);
         List<LiveCourse> liveCourses = toLiveCourses(currentCourses);
 
         return liveCourses;
+    }
+
+    public Course createFavouriteCourse(FavouriteCourseCreate favouriteCourseCreate) {
+        CourseEntity course = entityManager.getReference(CourseEntity.class, favouriteCourseCreate.getCourseId());
+        UserEntity user = entityManager.getReference(UserEntity.class, favouriteCourseCreate.getUserId());
+        course.addUserToFavouritesSet(user);
+
+        entityManager.persist(course);
+        entityManager.flush();
+
+        Course favouriteCourse = CoursesMapper.toCourse(course, true);
+
+        return favouriteCourse;
+    }
+
+    public boolean deleteSpecificFavourite(UUID userId, UUID courseId) {
+        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, courseId);
+        UserEntity userEntity = entityManager.getReference(UserEntity.class, userId);
+        courseEntity.deleteUserFromFavouritesSet(userEntity);
+
+        entityManager.persist(courseEntity);
+        entityManager.flush();
+
+        return true;
+    }
+
+    public List<Course> getFavouriteCourses(UUID userId) {
+        List<CourseEntity> courseEntities = entityManager.createNamedQuery("list_favourite_courses", CourseEntity.class).setParameter("user_id", userId).getResultList();
+        List<Course> favouriteCourses = CoursesMapper.toCourses(courseEntities, true);
+        return favouriteCourses;
     }
 }
 

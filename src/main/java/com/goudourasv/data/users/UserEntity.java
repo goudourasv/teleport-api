@@ -17,7 +17,7 @@ public class UserEntity {
     private String lastName;
     @Column(name = "e_mail")
     private String email;
-    @ManyToMany(mappedBy = "userEntities")
+    @ManyToMany(mappedBy = "favouritedByUsers")
     private Set<CourseEntity> courseEntities;
 
 

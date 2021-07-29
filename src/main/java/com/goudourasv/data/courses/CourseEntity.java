@@ -8,6 +8,7 @@ import com.goudourasv.data.users.UserEntity;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -22,12 +23,20 @@ import java.util.UUID;
                          inner join fetch c.instructorEntity
                          where l.startTime <= :current_timestamp
                          and l.endTime > :current_timestamp
-                        """)
+                        """),
+        @NamedQuery(name = "list_favourite_courses",
+                query = """
+                                        select c from Courses c
+                                        inner join c.favouritedByUsers u
+                                        where u.id = :user_id
+                        """
+        )
 })
+
 @Entity(name = "Courses")
 public class CourseEntity {
-    @Id //Shows that id is the PK
-    @GeneratedValue // Shows that it generated automatically
+    @Id
+    @GeneratedValue
     private UUID id;
     @Column
     private String title;
@@ -55,12 +64,10 @@ public class CourseEntity {
     private Set<TagEntity> tagEntities;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "course_user",
+    @JoinTable(name = "courses_users",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<UserEntity> userEntities;
-
-
+    private Set<UserEntity> favouritedByUsers;
 
 
     public UUID getId() {
@@ -95,6 +102,10 @@ public class CourseEntity {
         return tagEntities;
     }
 
+    public Set<UserEntity> getFavouritedByUsers() {
+        return favouritedByUsers;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -119,6 +130,28 @@ public class CourseEntity {
         this.instructorEntity = instructorEntity;
     }
 
+    public void setFavouritedByUsers(Set<UserEntity> favouritedByUsers) {
+        this.favouritedByUsers = favouritedByUsers;
+    }
+
+    public void addUserToFavouritesSet(UserEntity user) {
+        Set<UserEntity> favouritedByUsers = getFavouritedByUsers();
+        if (favouritedByUsers == null) {
+            favouritedByUsers = new HashSet<>();
+        }
+        favouritedByUsers.add(user);
+        setFavouritedByUsers(favouritedByUsers);
+    }
+
+    public void deleteUserFromFavouritesSet(UserEntity userEntity) {
+        Set<UserEntity> favouritedByUsers = getFavouritedByUsers();
+        if (favouritedByUsers == null) {
+            favouritedByUsers = new HashSet<>();
+        }
+        favouritedByUsers.remove(userEntity);
+        setFavouritedByUsers(favouritedByUsers);
+    }
+
     public void setLectureEntities(List<LectureEntity> lectureEntities) {
         if (this.lectureEntities != null) {
             this.lectureEntities.clear();
@@ -137,3 +170,4 @@ public class CourseEntity {
         }
     }
 }
+

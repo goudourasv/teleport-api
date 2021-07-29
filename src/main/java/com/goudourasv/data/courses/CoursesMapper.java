@@ -51,7 +51,7 @@ public class CoursesMapper {
         return course;
     }
 
-    public static List<Course> toCourses(List<CourseEntity> courseEntities) {
+    public static List<Course> toCourses(List<CourseEntity> courseEntities, boolean favourite) {
         List<Course> filteredCourses = new ArrayList<>();
 
         for (CourseEntity courseEntity : courseEntities) {
@@ -77,7 +77,11 @@ public class CoursesMapper {
 
             Course course = new Course(courseEntity.getId(), courseEntity.getTitle(), institution, tags, courseEntity.getStartDate(), courseEntity.getEndDate(), lectures, instructor);
             filteredCourses.add(course);
+            if (favourite) {
+                course.setFavourite(true);
+            }
         }
+
         return filteredCourses;
     }
 

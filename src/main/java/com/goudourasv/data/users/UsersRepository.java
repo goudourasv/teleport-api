@@ -1,11 +1,7 @@
 package com.goudourasv.data.users;
 
-import com.goudourasv.data.courses.CourseEntity;
-import com.goudourasv.data.courses.CoursesMapper;
 import com.goudourasv.data.courses.CoursesRepository;
-import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.users.User;
-import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 
@@ -79,34 +75,4 @@ public class UsersRepository {
         User user = toUser(userEntity);
         return user;
     }
-
-    public Course createFavouriteCourse(FavouriteCourseCreate favouriteCourseCreate) {
-        FavouriteCourseEntity favouriteCourseEntity = new FavouriteCourseEntity();
-        CourseEntity course = entityManager.find(CourseEntity.class, favouriteCourseCreate.getCourseId());
-        favouriteCourseEntity.setCourse(course);
-        UserEntity user = entityManager.getReference(UserEntity.class, favouriteCourseCreate.getUserId());
-
-        favouriteCourseEntity.setUser(user);
-
-        entityManager.persist(favouriteCourseEntity);
-        entityManager.flush();
-
-        Course favouriteCourse = CoursesMapper.toCourse(course, true);
-
-        return favouriteCourse;
-    }
-
-//    public List<FavouriteCourse> getFavouriteCourses(UUID userId) {
-//        String sqlQuery = "SELECT * FROM favourites WHERE user_id = :userId";
-//        @SuppressWarnings("unchecked")
-//        List<FavouriteCourseEntity> favouriteCourseEntities = entityManager.createNativeQuery(sqlQuery, FavouriteCourseEntity.class).setParameter("userId", userId).getResultList();
-//        List<FavouriteCourse> favouriteCourses = new ArrayList<>();
-//        for (FavouriteCourseEntity favouriteCourseEntity : favouriteCourseEntities) {
-//            Course course = coursesRepository.getSpecificCourse(favouriteCourseEntity.getCourseId());
-//            User user = getSpecificUser(favouriteCourseEntity.getUserId());
-//            FavouriteCourse favouriteCourse = new FavouriteCourse(favouriteCourseEntity.getId(), course, user);
-//            favouriteCourses.add(favouriteCourse);
-//        }
-//        return favouriteCourses;
-//    }
 }

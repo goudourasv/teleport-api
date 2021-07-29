@@ -6,6 +6,7 @@ import com.goudourasv.domain.instructors.InstructorsService;
 import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
@@ -69,5 +70,23 @@ public class CoursesService {
     public List<LiveCourse> getLiveCourses() {
         List<LiveCourse> liveCourses = coursesRepository.getLiveCourses();
         return liveCourses;
+    }
+
+    @Transactional
+    public Course createFavourite(FavouriteCourseCreate favouriteCourseCreate) {
+        Course favouriteCourse = coursesRepository.createFavouriteCourse(favouriteCourseCreate);
+        return favouriteCourse;
+    }
+
+    @Transactional
+    public boolean deleteSpecificFavouriteCourse(UUID userId, UUID courseId) {
+        boolean deleted = coursesRepository.deleteSpecificFavourite(userId, courseId);
+        return deleted;
+    }
+
+    @Transactional
+    public List<Course> getFavouriteCourses(UUID userId) {
+        List<Course> favouriteCourses = coursesRepository.getFavouriteCourses(userId);
+        return favouriteCourses;
     }
 }

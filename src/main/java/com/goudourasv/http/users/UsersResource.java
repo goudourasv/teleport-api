@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -76,12 +77,12 @@ public class UsersResource {
 
     @Blocking
     @POST
-    @Path("/{id}/favourite")
+    @Path("/{id}/courses/favourite")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createFavouriteCourse(@PathParam("id") UUID userId, FavouriteCourseCreate favouriteCourseCreate, UriInfo uriInfo) {
         favouriteCourseCreate.setUserId(userId);
-        Course favouriteCourse = usersService.createFavourite(favouriteCourseCreate);
+        Course favouriteCourse = coursesService.createFavourite(favouriteCourseCreate);
 
         String path = uriInfo.getPath();
         String location = path + userId.toString() + favouriteCourseCreate.getCourseId();
@@ -89,26 +90,28 @@ public class UsersResource {
 
     }
 
-//    @Blocking
-//    @GET
-//    @Path("/{id}/favourites")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public List<FavouriteCourse> favouriteCourses(@PathParam("id") UUID userId) {
-//        List<FavouriteCourse> favouriteCourses = usersService.getFavouriteCourses(userId);
-//        return favouriteCourses;
-//
-//    }
+    @Blocking
+    @DELETE
+    @Path("/{id}/courses/favourite")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteFavouriteCourse(@PathParam("id") UUID userId, @QueryParam("courseId") UUID courseId) {
+        boolean deleted = coursesService.deleteSpecificFavouriteCourse(userId, courseId);
+        if (!deleted) {
+            throw new NotFoundException("Favourite with userId: " + userId + " and courseId :" + courseId + " doesn't exist");
+        }
+    }
 
-    //    @Blocking
-//    @DELETE
-//    @Path("/{id}/favourite")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public void deleteFavouriteCourse() {
-//        boolean deleted = usersService.deleteFavouriteCourse();
-//        if (!deleted) {
-//            throw new NotFoundException("Favourite course with id: " + id + " doesn't exist");
-//        }
-//    }
+    @Blocking
+    @GET
+    @Path("/{id}/courses/favourites")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Course> favouriteCourses(@PathParam("id") UUID userId) {
+        List<Course> favouriteCourses = coursesService.getFavouriteCourses(userId);
+        return favouriteCourses;
+
+    }
+
+
 }
