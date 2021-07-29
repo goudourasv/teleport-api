@@ -1,9 +1,6 @@
 package com.goudourasv.domain.courses;
 
 import com.goudourasv.data.courses.CoursesRepository;
-import com.goudourasv.domain.institutions.InstitutionsService;
-import com.goudourasv.domain.instructors.InstructorsService;
-import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import org.junit.jupiter.api.Test;
@@ -25,12 +22,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CoursesServiceTest {
     @Mock
-    private InstitutionsService institutionsService;
-    @Mock
-    private InstructorsService instructorsService;
-    @Mock
-    private TagsService tagsService;
-    @Mock
     private CoursesRepository coursesRepository;
     @InjectMocks
     private CoursesService coursesService;
@@ -42,10 +33,10 @@ public class CoursesServiceTest {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
         List<String> tags = createTags();
-        when(coursesRepository.getFilteredCourses(institutionId,tags, instructorId)).thenReturn(filteredCourses);
+        when(coursesRepository.getFilteredCourses(institutionId, tags, instructorId)).thenReturn(filteredCourses);
 
         //when
-        List<Course> expectedCourses = coursesService.getFilteredCourses(institutionId,tags,instructorId);
+        List<Course> expectedCourses = coursesService.getFilteredCourses(institutionId, tags, instructorId);
 
         //then
         verify(coursesRepository).getFilteredCourses(institutionId, tags, instructorId);

@@ -1,9 +1,6 @@
 package com.goudourasv.domain.courses;
 
 import com.goudourasv.data.courses.CoursesRepository;
-import com.goudourasv.domain.institutions.InstitutionsService;
-import com.goudourasv.domain.instructors.InstructorsService;
-import com.goudourasv.domain.tags.TagsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import com.goudourasv.http.users.dto.FavouriteCourseCreate;
@@ -16,17 +13,12 @@ import java.util.UUID;
 @ApplicationScoped
 public class CoursesService {
 
-    private InstitutionsService institutionsService;
-    private InstructorsService instructorsService;
-    private TagsService tagsService;
+
     // TODO: Use an interface to invert this dependency (we want the repository to depend on the service)
     private CoursesRepository coursesRepository;
 
-    public CoursesService(TagsService tagsService, CoursesRepository coursesRepository, InstitutionsService institutionsService, InstructorsService instructorsService) {
-        this.tagsService = tagsService;
+    public CoursesService(CoursesRepository coursesRepository) {
         this.coursesRepository = coursesRepository;
-        this.institutionsService = institutionsService;
-        this.instructorsService = instructorsService;
     }
 
     // TODO: check java Streams

@@ -233,7 +233,7 @@ public class CoursesRepository {
         UserEntity user = entityManager.getReference(UserEntity.class, favouriteCourseCreate.getUserId());
         course.addUserToFavouritesSet(user);
 
-        entityManager.persist(course);
+        entityManager.merge(course);
         entityManager.flush();
 
         Course favouriteCourse = CoursesMapper.toCourse(course, true);
@@ -246,7 +246,7 @@ public class CoursesRepository {
         UserEntity userEntity = entityManager.getReference(UserEntity.class, userId);
         courseEntity.deleteUserFromFavouritesSet(userEntity);
 
-        entityManager.persist(courseEntity);
+        entityManager.merge(courseEntity);
         entityManager.flush();
 
         return true;
