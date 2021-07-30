@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 
 @QuarkusTest
 @TestHTTPEndpoint(CoursesResource.class)
-@QuarkusTestResource(PostgresResourceLifecycleManager.class)
 public class CoursesResourceTest {
 
     @Test

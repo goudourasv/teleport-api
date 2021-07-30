@@ -17,6 +17,7 @@ import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
 import com.goudourasv.http.lectures.dto.LectureCreate;
 import com.goudourasv.http.lectures.dto.LectureUpdate;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
 
@@ -272,5 +273,17 @@ public class TestData {
         UserUpdate userUpdate = new UserUpdate(firstName,lastName,null);
         return userUpdate;
     }
+
+    public static FavouriteCourseCreate createFavouriteCourseCreate(){
+        UUID favouriteCourseId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
+        FavouriteCourseCreate favouriteCourseCreate = new FavouriteCourseCreate(favouriteCourseId);
+        return favouriteCourseCreate;
+
+    }
+
+//    public static List<Course> favouriteCourses(){
+//
+//
+//    }
 
 }

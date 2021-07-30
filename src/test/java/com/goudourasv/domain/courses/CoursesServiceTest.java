@@ -3,6 +3,7 @@ package com.goudourasv.domain.courses;
 import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -122,7 +123,55 @@ public class CoursesServiceTest {
         //then
         verify(coursesRepository).partiallyUpdateCourse(courseUpdate, courseId);
         assertEquals(updatedCourse, expectedCourse);
+    }
+
+    @Test
+    public void shouldCreateFavourite() {
+        //given
+        FavouriteCourseCreate favouriteCourseCreate = createFavouriteCourseCreate();
+        Course expectedCourse = createCourse();
+
+        when(coursesRepository.createFavouriteCourse(favouriteCourseCreate)).thenReturn(expectedCourse);
+
+        //when
+        Course createdFavouriteCourse = coursesService.createFavourite(favouriteCourseCreate);
+
+        //then
+        verify(coursesRepository).createFavouriteCourse(favouriteCourseCreate);
+        assertEquals(createdFavouriteCourse, expectedCourse);
+    }
+
+    @Test
+    public void shouldDeleteSpecificFavourite() {
+        //given
+        UUID courseId = UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb");
+        UUID userId = UUID.fromString("38c5f6a0-8319-4a43-bd8d-05c762513179 ");
+        when(coursesRepository.deleteSpecificFavourite(userId, courseId)).thenReturn(true);
+
+        //when
+        boolean deleted = coursesService.deleteSpecificCourse(courseId);
+
+        //then
+        verify(coursesRepository).deleteSpecificFavourite(userId, courseId);
+        assertTrue(deleted);
 
     }
 
+
+    //TODO:check this test doesn't works
+
+//    @Test
+//    public void shouldReturnFavouriteCoursesOfUser() {
+//        //given
+//        UUID userId = UUID.fromString("38c5f6a0-8319-4a43-bd8d-05c762513179 ");
+//        List<Course> favouriteCourses = createCourses();
+//
+//        when(coursesRepository.getFavouriteCourses(userId)).thenReturn(favouriteCourses);
+//        //when
+//        List<Course> expectedFavouriteCourses = coursesService.getFavouriteCourses(userId);
+//
+//        //then
+//        verify(coursesRepository).getFavouriteCourses(userId);
+//        assertThat(expectedFavouriteCourses).hasSize(favouriteCourses.size()).hasSameElementsAs(favouriteCourses);
+//    }
 }
