@@ -57,7 +57,6 @@ public class CoursesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Course getCourse(@PathParam("id") UUID id) {
         Course specificCourse = coursesService.getSpecificCourse(id);
-
         return specificCourse;
     }
 
@@ -105,8 +104,6 @@ public class CoursesResource {
         Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, id);
         return updatedCourse;
     }
-
-
 
 }
 

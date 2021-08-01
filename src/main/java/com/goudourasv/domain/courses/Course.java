@@ -28,6 +28,8 @@ public class Course {
     private List<LectureData> lectureData;
     private boolean favourite = false;
 
+    public Course() {
+    }
 
     public Course(UUID id, String title) {
         this.id = id;
