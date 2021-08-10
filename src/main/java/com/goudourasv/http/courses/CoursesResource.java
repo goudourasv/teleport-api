@@ -57,7 +57,9 @@ public class CoursesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Course getCourse(@PathParam("id") UUID id) {
         Course specificCourse = coursesService.getSpecificCourse(id);
-
+        if (specificCourse == null) {
+            throw new NotFoundException();
+        }
         return specificCourse;
     }
 
@@ -70,7 +72,7 @@ public class CoursesResource {
         Course createdCourse = coursesService.createCourse(courseCreate);
 
         String path = uriInfo.getPath();
-        String location = path + "/" + createdCourse.getId();
+        String location = path + createdCourse.getId();
         return Response.created(URI.create(location)).entity(createdCourse).build();
     }
 
@@ -105,7 +107,6 @@ public class CoursesResource {
         Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, id);
         return updatedCourse;
     }
-
 
 
 }

@@ -23,6 +23,9 @@ public class CourseCreate {
     @JsonProperty("lectures")
     private List<Lecture> lectures;
 
+    public CourseCreate() {
+    }
+
     public CourseCreate(String title, UUID institutionId, List<String> tags, UUID instructorId, Instant startDate, Instant endDate, List<Lecture> lectures) {
         this.title = title;
         this.startDate = startDate;

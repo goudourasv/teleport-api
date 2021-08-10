@@ -149,10 +149,7 @@ public class TestData {
     }
 
     public static Course createCourse() {
-        List<InstitutionData> institutions1 = new ArrayList<>();
         InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        institutions1.add(institution1);
-
         InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
 
         Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, null, null, null, null, instructor2);
@@ -160,24 +157,19 @@ public class TestData {
     }
 
     public static CourseCreate createCourseCreate() {
-        List<Institution> institutions1 = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        institutions1.add(institution1);
-
+        UUID institutionId1 = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId2 = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
 
-        CourseCreate courseCreate1 = new CourseCreate("Electrical engines", UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), null, instructorId2, null, null, null);
+        CourseCreate courseCreate1 = new CourseCreate("Electrical engines", institutionId1, null, instructorId2, null, null, null);
         return courseCreate1;
     }
 
     public static CourseUpdate createCourseUpdate() {
-        List<Institution> institutions1 = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        institutions1.add(institution1);
+        UUID institutionId1 = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
 
         UUID instructorId2 = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
 
-        CourseUpdate courseUpdate1 = new CourseUpdate("Electrical engines", UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), null, instructorId2, null, null, null);
+        CourseUpdate courseUpdate1 = new CourseUpdate("Electrical engines", institutionId1, null, instructorId2, null, null, null);
         return courseUpdate1;
     }
 
@@ -261,20 +253,21 @@ public class TestData {
         return user;
     }
 
-    public static UserCreate createUserCreate(){
+    public static UserCreate createUserCreate() {
         String firstName = "Dimosthenis";
         String lastName = "Potsaris";
-        UserCreate userCreate = new UserCreate(firstName,lastName,null);
+        UserCreate userCreate = new UserCreate(firstName, lastName, null);
         return userCreate;
     }
-    public static UserUpdate createUserUpdate(){
+
+    public static UserUpdate createUserUpdate() {
         String firstName = "Dimos";
         String lastName = "Potsaris";
-        UserUpdate userUpdate = new UserUpdate(firstName,lastName,null);
+        UserUpdate userUpdate = new UserUpdate(firstName, lastName, null);
         return userUpdate;
     }
 
-    public static FavouriteCourseCreate createFavouriteCourseCreate(){
+    public static FavouriteCourseCreate createFavouriteCourseCreate() {
         UUID favouriteCourseId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         FavouriteCourseCreate favouriteCourseCreate = new FavouriteCourseCreate(favouriteCourseId);
         return favouriteCourseCreate;

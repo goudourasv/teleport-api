@@ -29,6 +29,9 @@ public class Course {
     private boolean favourite = false;
 
 
+    public Course() {
+    }
+
     public Course(UUID id, String title) {
         this.id = id;
         this.title = title;

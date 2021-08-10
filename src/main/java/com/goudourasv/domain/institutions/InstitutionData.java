@@ -6,7 +6,7 @@ public class InstitutionData {
     private UUID id;
     private String name;
 
-    public InstitutionData(UUID id,String name){
+    public InstitutionData(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -15,8 +15,9 @@ public class InstitutionData {
         return id;
     }
 
-    public String getTitle() {
+    public String getName() {
         return name;
     }
+
 }
 

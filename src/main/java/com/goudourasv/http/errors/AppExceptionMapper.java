@@ -30,7 +30,7 @@ public class AppExceptionMapper implements ExceptionMapper<Exception> {
             return Response.status(errorPayload.getStatus()).entity(errorPayload).build();
         }
 
-        ErrorPayload payload = new ErrorPayload("Internal Server Error", Response.Status.INTERNAL_SERVER_ERROR);
+        ErrorPayload payload = new ErrorPayload("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(payload.getMessage()).build();
     }
 }
