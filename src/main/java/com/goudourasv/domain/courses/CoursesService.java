@@ -8,6 +8,7 @@ import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -22,7 +23,7 @@ public class CoursesService {
     }
 
     // TODO: check java Streams
-    public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
+    public List<Course> getFilteredCourses(UUID institutionId, Set<String> tags, UUID instructorId) {
         List<Course> filteredCourses = coursesRepository.getFilteredCourses(institutionId, tags, instructorId);
         return filteredCourses;
     }

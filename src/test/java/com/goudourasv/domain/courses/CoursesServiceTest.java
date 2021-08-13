@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.goudourasv.utils.TestData.*;
@@ -33,7 +34,7 @@ public class CoursesServiceTest {
         List<Course> filteredCourses = createCourses();
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
-        List<String> tags = createTags();
+        Set<String> tags = createTags();
         when(coursesRepository.getFilteredCourses(institutionId, tags, instructorId)).thenReturn(filteredCourses);
 
         //when

@@ -44,7 +44,7 @@ public class CoursesRepository {
     }
 
     //TODO: implement filtering with namedQuery
-    public List<Course> getFilteredCourses(UUID institutionId, List<String> tags, UUID instructorId) {
+    public List<Course> getFilteredCourses(UUID institutionId, Set<String> tags, UUID instructorId) {
         String sqlQuery = "SELECT * FROM courses";
         if (!tags.isEmpty()) {
             sqlQuery += " JOIN course_tag ON courses.id = course_tag.course_id";

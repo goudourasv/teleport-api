@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -31,13 +32,9 @@ public class CoursesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tags") List<String> tags, @QueryParam("instructor") UUID instructorId) {
-        try {
-            List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tags, instructorId);
-            return filteredCourses;
-        } catch (Exception ex) {
-            throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
-        }
+    public List<Course> getCourses(@QueryParam("institution") UUID institutionId, @QueryParam("tags") Set<String> tags, @QueryParam("instructor") UUID instructorId) {
+        List<Course> filteredCourses = coursesService.getFilteredCourses(institutionId, tags, instructorId);
+        return filteredCourses;
     }
 
     @Blocking
