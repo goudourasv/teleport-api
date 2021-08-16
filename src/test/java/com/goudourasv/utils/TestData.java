@@ -7,6 +7,7 @@ import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.http.courses.dto.CourseCreate;
@@ -70,8 +71,12 @@ public class TestData {
         tags3.add(statistics);
         tags4.add(software);
 
+        List<LectureData> lectures = new ArrayList<>();
 
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
+        LectureData lecture1 = new LectureData(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"),"Lecture1",null,null,null);
+        LectureData lecture2 = new LectureData(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"),"Lecture2",null,null,null);
+
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null,null, instructor2);
         Course course2 = new Course(UUID.fromString("d946bc18-e92a-407b-980c-301c2bf3b44b"), "Marketing", institution3, tags2, null, null, null, instructor3);
         Course course3 = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Statistics", institution4, tags3, null, null, null, instructor4);
         Course course4 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "Programming Methodology", institution1, tags4, null, null, null, instructor1);

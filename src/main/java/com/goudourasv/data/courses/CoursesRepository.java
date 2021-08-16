@@ -140,7 +140,7 @@ public class CoursesRepository {
     }
 
     public boolean deleteSpecificCourse(UUID id) {
-        CourseEntity courseEntity = entityManager.getReference(CourseEntity.class, id);
+        CourseEntity courseEntity = entityManager.find(CourseEntity.class, id);
         if (courseEntity == null) {
             return false;
         }
@@ -224,7 +224,6 @@ public class CoursesRepository {
                 .getResultList();
         List<Course> currentCourses = toCourses(currentCourseEntities, false);
         List<LiveCourse> liveCourses = toLiveCourses(currentCourses);
-
         return liveCourses;
     }
 

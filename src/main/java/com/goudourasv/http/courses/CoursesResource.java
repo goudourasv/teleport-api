@@ -44,7 +44,6 @@ public class CoursesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public List<LiveCourse> getLiveCourses() {
         List<LiveCourse> liveCourses = coursesService.getLiveCourses();
-
         return liveCourses;
     }
 

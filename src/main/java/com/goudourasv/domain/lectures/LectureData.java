@@ -1,7 +1,5 @@
 package com.goudourasv.domain.lectures;
 
-import org.hibernate.validator.constraints.URL;
-
 import java.net.URI;
 import java.time.Instant;
 import java.util.UUID;
@@ -9,7 +7,6 @@ import java.util.UUID;
 public class LectureData {
     private UUID id;
     private String title;
-//    @URL
     private URI uri;
     private Instant startTime;
     private Instant endTime;

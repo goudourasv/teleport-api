@@ -1,14 +1,11 @@
 package com.goudourasv.domain.courses;
 
-import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionData;
-import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
-import com.goudourasv.domain.lectures.Lecture;
 import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class LiveCourse {
@@ -46,4 +43,38 @@ public class LiveCourse {
     public Set<Tag> getTags() {
         return tags;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setInstructor(InstructorData instructor) {
+        this.instructor = instructor;
+    }
+
+    public void setInstitution(InstitutionData institution) {
+        this.institution = institution;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void setLiveLecture(LectureData liveLecture) {
+        this.liveLecture = liveLecture;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiveCourse that = (LiveCourse) o;
+        return title.equals(that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
+
 }
