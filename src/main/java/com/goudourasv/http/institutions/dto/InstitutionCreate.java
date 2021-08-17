@@ -2,6 +2,7 @@ package com.goudourasv.http.institutions.dto;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class InstitutionCreate {
@@ -36,5 +37,18 @@ public class InstitutionCreate {
 
     public List<UUID> getInstructorIds() {
         return instructorIds;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InstitutionCreate that = (InstitutionCreate) o;
+        return instructorIds.equals(that.instructorIds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(instructorIds);
     }
 }

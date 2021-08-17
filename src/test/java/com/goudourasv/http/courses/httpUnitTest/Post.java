@@ -96,7 +96,8 @@ public class Post {
     @Test
     public void shouldReturn500WhenGenericError() {
         CourseCreate courseCreate = createCourseCreate();
-        Exception exception = new NullPointerException();
+        // TODO: Change to runtime exception
+        Exception exception = new RuntimeException();
 
         Mockito.when(coursesService.createCourse(courseCreate)).thenThrow(exception);
 
