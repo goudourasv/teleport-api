@@ -67,7 +67,11 @@ public class InstitutionsRepository {
 
     public Institution getSpecificInstitution(UUID id) {
         InstitutionEntity institutionEntity = entityManager.find(InstitutionEntity.class, id);
+        if(institutionEntity == null){
+            return null;
+        }
         Institution institution = toInstitution(institutionEntity);
+
         return institution;
     }
 

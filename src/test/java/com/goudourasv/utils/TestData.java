@@ -166,14 +166,10 @@ public class TestData {
 
     public static List<Institution> createInstitutions() {
         List<Institution> institutions = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        Institution institution2 = new Institution(UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Tandra");
-        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
-        Institution institution4 = new Institution(UUID.fromString("0ba2fe42-b199-4584-baf8-0059199eaaa1"), "LSE");
+        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH","Greece","Thessaloniki");
+        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM","Greece","Thessaloniki");
         institutions.add(institution1);
-        institutions.add(institution2);
         institutions.add(institution3);
-        institutions.add(institution4);
         return institutions;
 
     }

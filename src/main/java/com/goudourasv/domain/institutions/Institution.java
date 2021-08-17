@@ -4,12 +4,16 @@ package com.goudourasv.domain.institutions;
 import java.util.Objects;
 import java.util.UUID;
 
+
 public class Institution {
     private String city;
     private String country;
     private UUID id;
     private String name;
 
+    public Institution() {
+
+    }
 
     public Institution(UUID id, String name) {
         this.id = id;

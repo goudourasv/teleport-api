@@ -31,12 +31,8 @@ public class InstitutionsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Institution> getInstitutions(@QueryParam("country") String country, @QueryParam("city") String city) {
-        try {
             List<Institution> filteredInstitutions = institutionsService.getFilteredInstitutions(country, city);
             return filteredInstitutions;
-        } catch (Exception ex) {
-            throw new ServerErrorException("Something went wrong", Response.Status.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @Blocking
@@ -45,6 +41,9 @@ public class InstitutionsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Institution getSpecificInstitution(@PathParam("id") UUID id) {
         Institution institution = institutionsService.getSpecificInstitution(id);
+        if(institution == null){
+            throw new NotFoundException();
+        }
         return institution;
     }
 
