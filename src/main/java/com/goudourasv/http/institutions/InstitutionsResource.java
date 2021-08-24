@@ -67,7 +67,7 @@ public class InstitutionsResource {
     public void deleteInstitution(@PathParam("id") UUID id) {
         boolean deleted = institutionsService.deleteSpecificCourse(id);
         if (!deleted) {
-            throw new NotFoundException("Course with id: " + id + "doesn't exist");
+            throw new NotFoundException("Institution with id: " + id + "doesn't exist");
         }
     }
 

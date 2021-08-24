@@ -52,7 +52,7 @@ public class Put {
     }
 
     @Test
-    public void should400WithInvalidCourseCreate() {
+    public void shouldReturn400WithInvalidCourseCreate() {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
         List<String> tags = new ArrayList<>();
@@ -67,6 +67,5 @@ public class Put {
                 .statusCode(400)
                 .assertThat()
                 .body("message", equalTo("updateCourse.courseCreate.title must not be blank"));
-
     }
 }

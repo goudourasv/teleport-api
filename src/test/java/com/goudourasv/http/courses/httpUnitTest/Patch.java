@@ -47,6 +47,4 @@ public class Patch {
         Mockito.verify(coursesService).partiallyUpdateCourse(courseUpdate, courseId);
         assertThat(courseResult).isEqualTo(expectedCourse);
     }
-
-
 }

@@ -15,6 +15,8 @@ public class InstitutionCreate {
 
     private List<UUID> instructorIds;
 
+    public InstitutionCreate() {
+    }
 
     public InstitutionCreate(String name, String country, String city, List<UUID> instructorIds) {
         this.name = name;
@@ -44,11 +46,11 @@ public class InstitutionCreate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InstitutionCreate that = (InstitutionCreate) o;
-        return instructorIds.equals(that.instructorIds);
+        return name.equals(that.name) && country.equals(that.country) && city.equals(that.city) && instructorIds.equals(that.instructorIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(instructorIds);
+        return Objects.hash(name, country, city, instructorIds);
     }
 }

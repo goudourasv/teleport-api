@@ -11,10 +11,11 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import javax.ws.rs.ServerErrorException;
 import java.util.List;
 
-import static com.goudourasv.utils.TestData.*;
+import static com.goudourasv.utils.TestData.createInstitutions;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -43,7 +44,6 @@ public class GetInstitutions {
 
         Mockito.verify(institutionsService).getFilteredInstitutions(null, null);
         assertThat(institutionsResponse).hasSameSizeAs(expectedInstitutions).hasSameElementsAs(expectedInstitutions);
-
     }
 
     @Test
@@ -65,7 +65,6 @@ public class GetInstitutions {
 
         Mockito.verify(institutionsService).getFilteredInstitutions(country, null);
         assertThat(institutionsResponse).hasSameSizeAs(expectedInstitutions).hasSameElementsAs(expectedInstitutions);
-
     }
 
     @Test
@@ -89,13 +88,12 @@ public class GetInstitutions {
 
         Mockito.verify(institutionsService).getFilteredInstitutions(country, city);
         assertThat(institutionsResponse).hasSameSizeAs(expectedInstitutions).hasSameElementsAs(expectedInstitutions);
-
     }
 
     @Test
     public void ShouldReturn500ServerErrorException() {
 
-        Exception exception = new ServerErrorException("Database error",504);
+        Exception exception = new ServerErrorException("Database error", 504);
         Mockito.when(institutionsService.getFilteredInstitutions(null, null)).thenThrow(exception);
 
         given().contentType(ContentType.JSON)
@@ -105,7 +103,6 @@ public class GetInstitutions {
                 .assertThat()
                 .body("message", equalTo("Something went wrong"));
 
-        Mockito.verify(institutionsService).getFilteredInstitutions(null,null);
-
+        Mockito.verify(institutionsService).getFilteredInstitutions(null, null);
     }
 }

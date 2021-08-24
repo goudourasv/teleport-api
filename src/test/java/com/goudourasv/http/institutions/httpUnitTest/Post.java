@@ -36,6 +36,7 @@ public class Post {
 
         Response response = given().contentType(ContentType.JSON)
                 .body(institutionCreate)
+                // RestAssured doesn't set the trailing slash properly
                 .basePath("/institutions/")
                 .when()
                 .post()
@@ -49,7 +50,6 @@ public class Post {
         Mockito.verify(institutionsService).createInstitution(institutionCreate);
         assertThat(institutionResponse).isEqualTo(expectedInstitution);
         assertThat(response.getHeader("Location")).isEqualTo(expectedLocation);
-
     }
 
     @Test
@@ -62,7 +62,6 @@ public class Post {
                 .assertThat()
                 .body("message", equalTo("createInstitution.institutionCreate.name must not be blank"));
     }
-
 
     @Test
     public void shouldReturn500WhenGenericError() {
@@ -80,7 +79,5 @@ public class Post {
                 .body("message", equalTo("Something went wrong"));
 
         Mockito.verify(institutionsService).createInstitution(institutionCreate);
-
-
     }
 }

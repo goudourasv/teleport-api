@@ -47,7 +47,5 @@ public class GetLiveCourses {
 
         Mockito.verify(coursesService).getLiveCourses();
         assertThat(liveCoursesResponse).hasSameSizeAs(expectedLiveCourses).hasSameElementsAs(expectedLiveCourses);
-
-
     }
 }

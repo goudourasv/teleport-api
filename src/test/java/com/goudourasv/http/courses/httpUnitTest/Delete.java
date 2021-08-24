@@ -50,10 +50,10 @@ public class Delete {
     }
 
     @Test
-    public void shouldReturn500WhenNullPointerException() {
+    public void shouldReturn500WhenRuntimeException() {
         UUID courseId = UUID.fromString("30d8f597-537a-4486-bfb5-845a2bae4c45");
 
-        Exception exception = new NullPointerException();
+        Exception exception = new RuntimeException();
 
         Mockito.when(coursesService.deleteSpecificCourse(courseId)).thenThrow(exception);
 

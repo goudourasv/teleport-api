@@ -110,6 +110,5 @@ public class Post {
                 .body("message", equalTo("Something went wrong"));
 
         Mockito.verify(coursesService).createCourse(courseCreate);
-
     }
 }
