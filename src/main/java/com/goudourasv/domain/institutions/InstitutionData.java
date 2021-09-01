@@ -11,6 +11,7 @@ public class InstitutionData {
         this.name = name;
     }
 
+
     public UUID getId() {
         return id;
     }
