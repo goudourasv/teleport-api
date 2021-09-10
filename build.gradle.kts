@@ -1,6 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     id("io.quarkus")
+    kotlin("jvm") version "1.5.30"
+    kotlin("plugin.allopen") version "1.5.30"
+    kotlin("plugin.noarg") version "1.5.30"
+    kotlin("plugin.jpa") version "1.5.30"
 }
 
 repositories {
@@ -23,6 +29,10 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-orm")
     implementation("io.quarkus:quarkus-flyway")
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.quarkus:quarkus-kotlin")
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
     testImplementation("io.quarkus:quarkus-junit5-mockito")
@@ -32,6 +42,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.15.3")
     testImplementation("org.testcontainers:postgresql:1.15.3")
 
+    testImplementation("org.mockito.kotlin:mockito-kotlin:3.1.0")
 }
 
 group = "com.goudourasv"
@@ -45,4 +56,12 @@ java {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_15.toString()
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_15.toString()
 }
