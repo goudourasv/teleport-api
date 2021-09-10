@@ -1,5 +1,6 @@
 package com.goudourasv.data.courses;
 
+import com.goudourasv.data.ratings.RatingEntity;
 import com.goudourasv.data.institutions.InstitutionEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
@@ -64,10 +65,13 @@ public class CourseEntity {
     private Set<TagEntity> tagEntities;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "courses_users",
+    @JoinTable(name = "favourite_course",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> favouritedByUsers;
+
+    @OneToMany(mappedBy = "courseEntity",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<RatingEntity> ratingEntities;
 
 
     public UUID getId() {

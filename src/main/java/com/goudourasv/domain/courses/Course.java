@@ -27,6 +27,8 @@ public class Course {
     @JsonProperty("lectures")
     private List<LectureData> lectureData;
     private boolean favourite = false;
+    private Double rating;
+    private Integer numOfRatings;
 
 
     public Course() {
@@ -46,6 +48,19 @@ public class Course {
         this.endDate = endDate;
         this.lectureData = lectureData;
         this.instructorData = instructorData;
+
+    }
+    public Course(UUID id, String title, InstitutionData institutionData, Set<Tag> tags, Instant startDate, Instant endDate, List<LectureData> lectureData, InstructorData instructorData, Double rating, Integer numOfRatings) {
+        this.id = id;
+        this.title = title;
+        this.institutionData = institutionData;
+        this.tags = tags;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.lectureData = lectureData;
+        this.instructorData = instructorData;
+        this.rating = rating;
+        this.numOfRatings = numOfRatings;
     }
 
     public UUID getId() {
@@ -84,6 +99,14 @@ public class Course {
         return favourite;
     }
 
+    public Double getRating() {
+        return rating;
+    }
+
+    public Integer getNumOfRatings() {
+        return numOfRatings;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -118,6 +141,14 @@ public class Course {
 
     public void setFavourite(boolean favourite) {
         this.favourite = favourite;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public void setNumOfRatings(Integer numOfRatings) {
+        this.numOfRatings = numOfRatings;
     }
 
     @Override

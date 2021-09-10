@@ -12,13 +12,16 @@ public class LectureEntity {
     @Id
     @GeneratedValue
     private UUID id;
+
     @Column
     private String title;
+
     @Column(name = "URI")
-//    @URL
     private URI uri;
+
     @Column(name = "start_time")
     private Instant startTime;
+
     @Column(name = "end_time")
     private Instant endTime;
 

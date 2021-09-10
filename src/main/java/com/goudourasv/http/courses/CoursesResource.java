@@ -3,8 +3,11 @@ package com.goudourasv.http.courses;
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.courses.LiveCourse;
+import com.goudourasv.domain.ratings.Rating;
+import com.goudourasv.domain.ratings.RatingsService;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
+import com.goudourasv.http.courses.dto.RatingCreate;
 import io.smallrye.common.annotation.Blocking;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,10 +25,12 @@ import java.util.UUID;
 @Path("/courses")
 public class CoursesResource {
     private final CoursesService coursesService;
+    private final RatingsService ratingsService;
 
     // @Inject not needed in Quarkus
-    public CoursesResource(CoursesService coursesService) {
+    public CoursesResource(CoursesService coursesService, RatingsService ratingsService) {
         this.coursesService = coursesService;
+        this.ratingsService = ratingsService;
     }
 
     @Blocking
@@ -104,6 +109,16 @@ public class CoursesResource {
         return updatedCourse;
     }
 
-
+    @Blocking
+    @POST
+    @Path("/{id}/ratings")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Rating createRating(@PathParam("id") UUID courseId, RatingCreate ratingCreate) {
+        // TODO: Read userId from Authorization header
+        UUID userId = UUID.fromString("38c5f6a0-8319-4a43-bd8d-05c762513179");
+        Rating createdRating = ratingsService.createRating(courseId, userId, ratingCreate);
+        return createdRating;
+    }
 }
 
