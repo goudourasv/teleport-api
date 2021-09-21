@@ -30,7 +30,7 @@ class InstructorsResource(private val instructorsService: InstructorsService) {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getSpecificInstructor(@PathParam("id") instructorId: UUID): Instructor? {
+    fun getSpecificInstructor(@PathParam("id") instructorId: UUID): Instructor {
         val specificInstructor = instructorsService.getSpecificInstructor(instructorId)
         return specificInstructor ?: throw NotFoundException()
     }
