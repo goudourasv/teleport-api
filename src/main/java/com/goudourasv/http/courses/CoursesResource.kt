@@ -1,22 +1,22 @@
 package com.goudourasv.http.courses
 
-import javax.enterprise.context.ApplicationScoped
-import com.goudourasv.domain.courses.CoursesService
-import com.goudourasv.domain.ratings.RatingsService
-import java.util.UUID
 import com.goudourasv.domain.courses.Course
+import com.goudourasv.domain.courses.CoursesService
 import com.goudourasv.domain.courses.LiveCourse
-import javax.validation.Valid
+import com.goudourasv.domain.ratings.Rating
+import com.goudourasv.domain.ratings.RatingsService
 import com.goudourasv.http.courses.dto.CourseCreate
-import javax.ws.rs.core.UriInfo
 import com.goudourasv.http.courses.dto.CourseUpdate
 import com.goudourasv.http.courses.dto.RatingCreate
-import com.goudourasv.domain.ratings.Rating
 import io.smallrye.common.annotation.Blocking
 import java.net.URI
+import java.util.*
+import javax.enterprise.context.ApplicationScoped
+import javax.validation.Valid
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
+import javax.ws.rs.core.UriInfo
 
 @ApplicationScoped
 @Path("/courses")
@@ -40,7 +40,7 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @GET
     @Blocking
     fun liveCourses(): List<LiveCourse> {
-        val liveCourses: List<LiveCourse> = coursesService.liveCourses
+        val liveCourses: List<LiveCourse> = coursesService.getLiveCourses()
         return liveCourses
     }
 
@@ -81,7 +81,7 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun updateCourse(@PathParam("id") id: UUID, courseCreate: @Valid CourseCreate): Course {
-        return coursesService.replaceCourse(courseCreate, id)
+        return coursesService.replaceCourse(id, courseCreate)
     }
 
     @Blocking
@@ -90,7 +90,7 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun partiallyUpdateCourse(@PathParam("id") id: UUID, courseUpdate: CourseUpdate): Course {
-        return coursesService.partiallyUpdateCourse(courseUpdate, id)
+        return coursesService.partiallyUpdateCourse(id, courseUpdate)
     }
 
     @Blocking

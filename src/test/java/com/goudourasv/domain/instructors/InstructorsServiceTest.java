@@ -74,7 +74,7 @@ public class InstructorsServiceTest {
     }
 
     @Test
-    public void shouldReturnSpecificInstructor(){
+    public void shouldReturnSpecificInstructor() {
         //given
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
         Instructor instructor = createInstructor();
@@ -92,7 +92,7 @@ public class InstructorsServiceTest {
     }
 
     @Test
-    public void shouldCreateInstructor(){
+    public void shouldCreateInstructor() {
         //given
         InstructorCreate instructorCreate = createInstructorCreate();
         Instructor instructor = createInstructor();
@@ -107,8 +107,9 @@ public class InstructorsServiceTest {
         assertThat(expectedInstructor).isEqualTo(instructor);
 
     }
+
     @Test
-    public void shouldDeleteSpecificInstructor(){
+    public void shouldDeleteSpecificInstructor() {
         //given
         UUID instructorId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         when(instructorsRepository.deleteSpecificInstructor(instructorId)).thenReturn(true);
@@ -122,40 +123,39 @@ public class InstructorsServiceTest {
     }
 
     @Test
-    public void shouldReplaceInstructor(){
+    public void shouldReplaceInstructor() {
         //given
         UUID instructorId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         InstructorCreate instructorCreate = createInstructorCreate();
         Instructor instructor = createInstructor();
 
-        when(instructorsRepository.replaceInstructor(instructorId,instructorCreate)).thenReturn(instructor);
+        when(instructorsRepository.replaceInstructor(instructorId, instructorCreate)).thenReturn(instructor);
 
         //when
-        Instructor expectedInstructor = instructorsService.replaceInstructor(instructorId,instructorCreate);
+        Instructor expectedInstructor = instructorsService.replaceInstructor(instructorId, instructorCreate);
 
         //then
-        verify(instructorsRepository).replaceInstructor(instructorId,instructorCreate);
+        verify(instructorsRepository).replaceInstructor(instructorId, instructorCreate);
         assertThat(expectedInstructor).isEqualTo(instructor);
 
     }
 
     @Test
-    public void shouldUpdateInstructor(){
+    public void shouldUpdateInstructor() {
         //given
         UUID instructorId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         InstructorUpdate instructorUpdate = createInstructorUpdate();
         Instructor instructor = createInstructor();
 
-        when(instructorsRepository.partiallyUpdateInstructor(instructorUpdate,instructorId)).thenReturn(instructor);
+        when(instructorsRepository.partiallyUpdateInstructor(instructorUpdate, instructorId)).thenReturn(instructor);
 
         //when
-        Instructor expectedInstructor = instructorsService.partiallyUpdateInstructor(instructorUpdate,instructorId);
+        Instructor expectedInstructor = instructorsService.partiallyUpdateInstructor(instructorId, instructorUpdate);
 
         //then
-        verify(instructorsRepository).partiallyUpdateInstructor(instructorUpdate,instructorId);
+        verify(instructorsRepository).partiallyUpdateInstructor(instructorUpdate, instructorId);
         assertThat(expectedInstructor).isEqualTo(instructor);
     }
-
 
 
 }

@@ -31,8 +31,7 @@ class InstructorsResource(private val instructorsService: InstructorsService) {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     fun getSpecificInstructor(@PathParam("id") instructorId: UUID): Instructor {
-        val specificInstructor = instructorsService.getSpecificInstructor(instructorId)
-        return specificInstructor ?: throw NotFoundException()
+        return instructorsService.getSpecificInstructor(instructorId) ?: throw NotFoundException()
     }
 
     @Blocking
@@ -74,7 +73,7 @@ class InstructorsResource(private val instructorsService: InstructorsService) {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     fun partiallyUpdateInstructor(@PathParam("id") instructorId: UUID, instructorUpdate: InstructorUpdate): Instructor {
-        return instructorsService.partiallyUpdateInstructor(instructorUpdate, instructorId)
+        return instructorsService.partiallyUpdateInstructor(instructorId, instructorUpdate)
     }
 
 }

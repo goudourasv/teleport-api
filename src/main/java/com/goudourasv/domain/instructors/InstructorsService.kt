@@ -4,14 +4,16 @@ import com.goudourasv.data.instructors.InstructorsRepository
 import com.goudourasv.http.instructors.dto.InstructorCreate
 import com.goudourasv.http.instructors.dto.InstructorUpdate
 import java.util.*
+import javax.enterprise.context.ApplicationScoped
 
+@ApplicationScoped
 class InstructorsService(private val instructorsRepository: InstructorsRepository) {
 
     fun getInstructors(institutionId: UUID?): List<Instructor> {
         return instructorsRepository.getInstructors(institutionId)
     }
 
-    fun getSpecificInstructor(id: UUID): Instructor {
+    fun getSpecificInstructor(id: UUID): Instructor? {
         return instructorsRepository.getSpecificInstructor(id)
     }
 

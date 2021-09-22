@@ -2,4 +2,4 @@ package com.goudourasv.domain.courses
 
 import java.util.*
 
-class CourseData(val id: UUID, val title: String)
+data class CourseData(val id: UUID, val title: String)
