@@ -73,10 +73,10 @@ public class TestData {
 
         List<LectureData> lectures = new ArrayList<>();
 
-        LectureData lecture1 = new LectureData(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"),"Lecture1",null,null,null);
-        LectureData lecture2 = new LectureData(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"),"Lecture2",null,null,null);
+        LectureData lecture1 = new LectureData(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"), "Lecture1", null, null, null);
+        LectureData lecture2 = new LectureData(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"), "Lecture2", null, null, null);
 
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null,null, instructor2);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
         Course course2 = new Course(UUID.fromString("d946bc18-e92a-407b-980c-301c2bf3b44b"), "Marketing", institution3, tags2, null, null, null, instructor3);
         Course course3 = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Statistics", institution4, tags3, null, null, null, instructor4);
         Course course4 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "Programming Methodology", institution1, tags4, null, null, null, instructor1);
@@ -89,22 +89,7 @@ public class TestData {
         return courses;
     }
 
-    public static  List<Course> createCoursesWithSameInstitutionId(){
-        List<Course> expectedCourses = new ArrayList<>();
-        InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
-        Set<Tag> tags1 = new HashSet<>();
-        Tag software = new Tag("Software");
-        Tag engineering = new Tag("Engineering");
-        tags1.add(engineering);
-        tags1.add(software);
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
-        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2);
-        expectedCourses.add(course1);
-        expectedCourses.add(course2);
-        return expectedCourses;
-    }
-    public static  List<Course> createCoursesWithSameInstructorId(){
+    public static List<Course> createCoursesWithSameInstitutionId() {
         List<Course> expectedCourses = new ArrayList<>();
         InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
         InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
@@ -120,7 +105,23 @@ public class TestData {
         return expectedCourses;
     }
 
-    public static  List<Course> createCoursesWithSameTags(){
+    public static List<Course> createCoursesWithSameInstructorId() {
+        List<Course> expectedCourses = new ArrayList<>();
+        InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
+        Set<Tag> tags1 = new HashSet<>();
+        Tag software = new Tag("Software");
+        Tag engineering = new Tag("Engineering");
+        tags1.add(engineering);
+        tags1.add(software);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
+        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2);
+        expectedCourses.add(course1);
+        expectedCourses.add(course2);
+        return expectedCourses;
+    }
+
+    public static List<Course> createCoursesWithSameTags() {
         List<Course> expectedCourses = new ArrayList<>();
         InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
         InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
@@ -166,8 +167,8 @@ public class TestData {
 
     public static List<Institution> createInstitutions() {
         List<Institution> institutions = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH","Greece","Thessaloniki");
-        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM","Greece","Thessaloniki");
+        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH", "Greece", "Thessaloniki");
+        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM", "Greece", "Thessaloniki");
         institutions.add(institution1);
         institutions.add(institution3);
         return institutions;

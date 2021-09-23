@@ -24,32 +24,26 @@ class InstructorsRepository(private val entityManager: EntityManager) {
 
         @Suppress("UNCHECKED_CAST")
         val instructorEntities: List<InstructorEntity> = instructorsQuery.resultList as List<InstructorEntity>
-        return InstructorsMapper.toInstructors(instructorEntities)
+        return toInstructors(instructorEntities)
     }
 
     fun getSpecificInstructor(id: UUID?): Instructor {
         val instructorEntity = entityManager.find(InstructorEntity::class.java, id)
         val institutionEntities = instructorEntity.institutionEntities ?: emptyList()
-        return InstructorsMapper.toInstructor(instructorEntity, institutionEntities)
+        return instructorEntity.toInstructor(institutionEntities)
     }
 
     fun createNewInstructor(instructorCreate: InstructorCreate): Instructor {
         val instructorEntity = InstructorEntity()
         instructorEntity.firstName = instructorCreate.firstName
         instructorEntity.lastName = instructorCreate.lastName
-        //TODO make this in functional way
-        val institutionEntities = mutableListOf<InstitutionEntity>()
-        val institutionIds = instructorCreate.institutionIds
-        for (id in institutionIds) {
-            val institutionEntity = entityManager.getReference(
-                InstitutionEntity::class.java, id
-            )
-            institutionEntities.add(institutionEntity)
-        }
+        val institutionIds = instructorCreate.institutionsIds
+        val institutionEntities =
+            institutionIds.map { id -> entityManager.getReference(InstitutionEntity::class.java, id) }.toMutableList()
         instructorEntity.institutionEntities = institutionEntities
         entityManager.persist(instructorEntity)
         entityManager.flush()
-        return InstructorsMapper.toInstructor(instructorEntity, institutionEntities)
+        return instructorEntity.toInstructor(institutionEntities)
     }
 
     fun deleteSpecificInstructor(id: UUID?): Boolean {
@@ -63,19 +57,18 @@ class InstructorsRepository(private val entityManager: EntityManager) {
             entityManager.getReference(InstructorEntity::class.java, id)
         instructorEntity.firstName = instructorCreate.firstName
         instructorEntity.lastName = instructorCreate.lastName
-        //TODO Implement that in functional way
-        val institutionEntities = mutableListOf<InstitutionEntity>()
-        val institutionIds = instructorCreate.institutionIds
-        for (uuid in institutionIds) {
-            val institutionEntity = entityManager.getReference(
-                InstitutionEntity::class.java, uuid
-            )
-            institutionEntities.add(institutionEntity)
-        }
+        val institutionIds = instructorCreate.institutionsIds
+        val institutionEntities =
+            institutionIds.map { institutionId ->
+                entityManager.getReference(
+                    InstitutionEntity::class.java,
+                    institutionId
+                )
+            }.toMutableList()
         instructorEntity.institutionEntities = institutionEntities
         entityManager.merge(instructorEntity)
         entityManager.flush()
-        return InstructorsMapper.toInstructor(instructorEntity, institutionEntities)
+        return instructorEntity.toInstructor(institutionEntities)
     }
 
     fun partiallyUpdateInstructor(instructorUpdate: InstructorUpdate, id: UUID?): Instructor {
@@ -89,21 +82,21 @@ class InstructorsRepository(private val entityManager: EntityManager) {
             val newInstructorLastName = instructorUpdate.lastName
             instructorEntity.lastName = newInstructorLastName
         }
-        if (instructorUpdate.institutionIds != null) {
-            //TODO Implement that in functional way
-            val newInstitutionIds = instructorUpdate.institutionIds
-            val institutionEntities = mutableListOf<InstitutionEntity>()
-            for (uuid in newInstitutionIds) {
-                val institutionEntity = entityManager.getReference(
-                    InstitutionEntity::class.java, uuid
-                )
-                institutionEntities.add(institutionEntity)
-            }
+        if (instructorUpdate.institutionsIds != null) {
+            val newInstitutionIds = instructorUpdate.institutionsIds
+            val institutionEntities =
+                newInstitutionIds.map { institutionId ->
+                    entityManager.getReference(
+                        InstitutionEntity::class.java,
+                        institutionId
+                    )
+                }
+                    .toMutableList()
             instructorEntity.institutionEntities = institutionEntities
         }
         entityManager.merge(instructorEntity)
         entityManager.flush()
         val institutionEntities = instructorEntity.institutionEntities ?: emptyList()
-        return InstructorsMapper.toInstructor(instructorEntity, institutionEntities)
+        return instructorEntity.toInstructor(institutionEntities)
     }
 }
