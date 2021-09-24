@@ -1,6 +1,5 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
-import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;

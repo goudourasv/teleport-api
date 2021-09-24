@@ -1,7 +1,7 @@
 package com.goudourasv.data.courses;
 
-import com.goudourasv.data.ratings.RatingEntity;
 import com.goudourasv.data.institutions.InstitutionEntity;
+import com.goudourasv.data.ratings.RatingEntity;
 import com.goudourasv.data.instructors.InstructorEntity;
 import com.goudourasv.data.lectures.LectureEntity;
 import com.goudourasv.data.tags.TagEntity;

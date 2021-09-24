@@ -1,6 +1,5 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
-import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
@@ -33,7 +32,7 @@ public class Patch {
         InstitutionUpdate institutionUpdate = createInstitutionUpdate();
         Institution expectedInstitution = createInstitution();
 
-        Mockito.when(institutionsService.partiallyUpdateInstitution(institutionUpdate, institutionId)).thenReturn(expectedInstitution);
+        Mockito.when(institutionsService.partiallyUpdateInstitution(institutionId, institutionUpdate)).thenReturn(expectedInstitution);
         Response response = given().contentType(ContentType.JSON)
                 .body(institutionUpdate)
                 .when().patch("/{id}", institutionId)
@@ -45,7 +44,7 @@ public class Patch {
 
         Institution institutionResult = response.as(Institution.class);
 
-        Mockito.verify(institutionsService).partiallyUpdateInstitution(institutionUpdate, institutionId);
+        Mockito.verify(institutionsService).partiallyUpdateInstitution(institutionId, institutionUpdate);
         assertThat(institutionResult).isEqualTo(expectedInstitution);
     }
 }

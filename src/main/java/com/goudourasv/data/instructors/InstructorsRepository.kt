@@ -24,7 +24,7 @@ class InstructorsRepository(private val entityManager: EntityManager) {
 
         @Suppress("UNCHECKED_CAST")
         val instructorEntities: List<InstructorEntity> = instructorsQuery.resultList as List<InstructorEntity>
-        return toInstructors(instructorEntities)
+        return instructorEntities.toInstructors()
     }
 
     fun getSpecificInstructor(id: UUID?): Instructor {
@@ -34,9 +34,8 @@ class InstructorsRepository(private val entityManager: EntityManager) {
     }
 
     fun createNewInstructor(instructorCreate: InstructorCreate): Instructor {
-        val instructorEntity = InstructorEntity()
-        instructorEntity.firstName = instructorCreate.firstName
-        instructorEntity.lastName = instructorCreate.lastName
+        val instructorEntity =
+            InstructorEntity(firstName = instructorCreate.firstName, lastName = instructorCreate.lastName)
         val institutionIds = instructorCreate.institutionsIds
         val institutionEntities =
             institutionIds.map { id -> entityManager.getReference(InstitutionEntity::class.java, id) }.toMutableList()
@@ -75,11 +74,11 @@ class InstructorsRepository(private val entityManager: EntityManager) {
         val instructorEntity =
             entityManager.getReference(InstructorEntity::class.java, id)
         if (instructorUpdate.firstName != null) {
-            val newInstructorFirstName = instructorUpdate.firstName
+            val newInstructorFirstName = instructorUpdate.firstName!!
             instructorEntity.firstName = newInstructorFirstName
         }
         if (instructorUpdate.lastName != null) {
-            val newInstructorLastName = instructorUpdate.lastName
+            val newInstructorLastName = instructorUpdate.lastName!!
             instructorEntity.lastName = newInstructorLastName
         }
         if (instructorUpdate.institutionsIds != null) {

@@ -2,8 +2,6 @@ package com.goudourasv.utils;
 
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CourseData;
-import com.goudourasv.domain.institutions.Institution;
-import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;

@@ -1,6 +1,5 @@
 package com.goudourasv.http.courses.httpUnitTest;
 
-import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.courses.LiveCourse;
 import com.goudourasv.http.courses.CoursesResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;

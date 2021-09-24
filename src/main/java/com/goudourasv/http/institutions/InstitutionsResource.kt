@@ -39,7 +39,7 @@ class InstitutionsResource(private val institutionsService: InstitutionsService)
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createNewInstitution(institution: @Valid InstitutionCreate, uriInfo: UriInfo): Response {
+    fun createNewInstitution(@Valid institution: InstitutionCreate, uriInfo: UriInfo): Response {
         val createdInstitution = institutionsService.createInstitution(institution)
         val path = uriInfo.path
         val location = path + createdInstitution.id
@@ -52,7 +52,7 @@ class InstitutionsResource(private val institutionsService: InstitutionsService)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun deleteInstitution(@PathParam("id") id: UUID) {
-        val deleted = institutionsService.deleteSpecificCourse(id)
+        val deleted = institutionsService.deleteSpecificInstitution(id)
         if (!deleted) {
             throw NotFoundException("Institution with id: $id doesn't exist")
         }
@@ -64,7 +64,7 @@ class InstitutionsResource(private val institutionsService: InstitutionsService)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     fun updateInstitution(@PathParam("id") id: UUID, input: @Valid InstitutionCreate): Institution {
-        return institutionsService.replaceInstitution(input, id)
+        return institutionsService.replaceInstitution(id, input)
     }
 
     @Blocking
@@ -73,6 +73,6 @@ class InstitutionsResource(private val institutionsService: InstitutionsService)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     fun partiallyUpdateInstitution(@PathParam("id") id: UUID, input: InstitutionUpdate): Institution {
-        return institutionsService.partiallyUpdateInstitution(input, id)
+        return institutionsService.partiallyUpdateInstitution(id, input)
     }
 }

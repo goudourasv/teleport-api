@@ -1,9 +1,6 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
-import com.goudourasv.domain.institutions.Institution;
-import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
-import com.goudourasv.utils.TestData;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -11,7 +8,6 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.ws.rs.NotFoundException;
 import java.util.UUID;
 
 import static com.goudourasv.utils.TestData.*;
