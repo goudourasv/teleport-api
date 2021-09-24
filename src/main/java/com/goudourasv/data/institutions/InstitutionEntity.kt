@@ -6,7 +6,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity(name = "Institutions")
-data class InstitutionEntity(
+class InstitutionEntity(
     @Id
     @GeneratedValue
     var id: UUID? = null,
@@ -20,7 +20,7 @@ data class InstitutionEntity(
     @OneToMany(mappedBy = "institutionEntity", cascade = ([CascadeType.ALL]), orphanRemoval = true)
     var courseEntities: MutableList<CourseEntity>? = null,
     @ManyToMany(mappedBy = "institutionEntities")
-    var instructorEntities: MutableList<InstructorEntity>? = null,
+    var instructorEntities: MutableSet<InstructorEntity>? = null,
 )
 
 

@@ -1,6 +1,7 @@
 package com.goudourasv.http.courses.httpUnitTest;
 
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.http.courses.CoursesResource;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -34,7 +35,7 @@ public class Put {
         Course expectedCourse = createCourse();
         UUID courseId = UUID.fromString("30d8f597-537a-4486-bfb5-845a2bae4c45");
 
-        Mockito.when(coursesService.replaceCourse(courseCreate, courseId)).thenReturn(expectedCourse);
+        Mockito.when(coursesService.replaceCourse(courseId, courseCreate)).thenReturn(expectedCourse);
 
         Response response = with().body(courseCreate)
                 .contentType(ContentType.JSON)
@@ -46,7 +47,7 @@ public class Put {
 
         Course courseResult = response.as(Course.class);
 
-        Mockito.verify(coursesService).replaceCourse(courseCreate, courseId);
+        Mockito.verify(coursesService).replaceCourse(courseId, courseCreate);
         assertThat(courseResult).isEqualTo(expectedCourse);
     }
 

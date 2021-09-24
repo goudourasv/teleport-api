@@ -65,3 +65,14 @@ val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = JavaVersion.VERSION_15.toString()
 }
+
+allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("javax.enterprise.context.RequestScoped")
+    annotation("javax.persistence.Entity")
+    annotation("javax.enterprise.context.Dependent")
+    annotation("io.quarkus.test.junit.QuarkusTest")
+    annotation("org.eclipse.microprofile.rest.client.inject.RegisterRestClient")
+    annotation("org.hibernate.annotations.Immutable")
+}

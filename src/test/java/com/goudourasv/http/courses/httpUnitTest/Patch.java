@@ -1,6 +1,7 @@
 package com.goudourasv.http.courses.httpUnitTest;
 
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.http.courses.CoursesResource;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -31,7 +32,7 @@ public class Patch {
         Course expectedCourse = createCourse();
         UUID courseId = UUID.fromString("30d8f597-537a-4486-bfb5-845a2bae4c45");
 
-        Mockito.when(coursesService.partiallyUpdateCourse(courseUpdate, courseId)).thenReturn(expectedCourse);
+        Mockito.when(coursesService.partiallyUpdateCourse(courseId, courseUpdate)).thenReturn(expectedCourse);
 
         Response response = with().body(courseUpdate)
                 .contentType(ContentType.JSON)
@@ -43,7 +44,7 @@ public class Patch {
 
         Course courseResult = response.as(Course.class);
 
-        Mockito.verify(coursesService).partiallyUpdateCourse(courseUpdate, courseId);
+        Mockito.verify(coursesService).partiallyUpdateCourse(courseId, courseUpdate);
         assertThat(courseResult).isEqualTo(expectedCourse);
     }
 }

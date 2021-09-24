@@ -63,7 +63,7 @@ class InstitutionsResource(private val institutionsService: InstitutionsService)
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun updateInstitution(@PathParam("id") id: UUID, input: @Valid InstitutionCreate): Institution {
+    fun updateInstitution(@PathParam("id") id: UUID, @Valid input: InstitutionCreate): Institution {
         return institutionsService.replaceInstitution(id, input)
     }
 

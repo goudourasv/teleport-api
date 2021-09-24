@@ -1,5 +1,6 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
+import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,20 +24,20 @@ public class Delete {
     public void shouldReturn204WithValidId() {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
 
-        Mockito.when(institutionsService.deleteSpecificCourse(institutionId)).thenReturn(true);
+        Mockito.when(institutionsService.deleteSpecificInstitution(institutionId)).thenReturn(true);
 
         when().delete("{id}", institutionId)
                 .then()
                 .statusCode(204);
 
-        Mockito.verify(institutionsService).deleteSpecificCourse(institutionId);
+        Mockito.verify(institutionsService).deleteSpecificInstitution(institutionId);
     }
 
     @Test
     public void shouldReturn404WithInvalidId() {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
 
-        Mockito.when(institutionsService.deleteSpecificCourse(institutionId)).thenReturn(false);
+        Mockito.when(institutionsService.deleteSpecificInstitution(institutionId)).thenReturn(false);
 
         when().delete("{id}", institutionId)
                 .then()
@@ -44,24 +45,24 @@ public class Delete {
                 .assertThat()
                 .body("message", equalTo("Institution with id: " + institutionId + "doesn't exist"));
 
-        Mockito.verify(institutionsService).deleteSpecificCourse(institutionId);
+        Mockito.verify(institutionsService).deleteSpecificInstitution(institutionId);
     }
 
     @Test
-    public void shouldReturn500WhenRuntimeException(){
+    public void shouldReturn500WhenRuntimeException() {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
 
         Exception exception = new RuntimeException();
 
-        Mockito.when(institutionsService.deleteSpecificCourse(institutionId)).thenThrow(exception);
+        Mockito.when(institutionsService.deleteSpecificInstitution(institutionId)).thenThrow(exception);
 
-        when().delete("{id}",institutionId)
+        when().delete("{id}", institutionId)
                 .then()
                 .statusCode(500)
                 .assertThat()
-                .body("message",equalTo("Something went wrong"));
+                .body("message", equalTo("Something went wrong"));
 
-        Mockito.verify(institutionsService).deleteSpecificCourse(institutionId);
+        Mockito.verify(institutionsService).deleteSpecificInstitution(institutionId);
     }
 
 }

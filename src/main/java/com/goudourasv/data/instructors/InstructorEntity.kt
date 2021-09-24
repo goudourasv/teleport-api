@@ -23,7 +23,7 @@ class InstructorEntity(
         joinColumns = [JoinColumn(name = "instructor_id")],
         inverseJoinColumns = [JoinColumn(name = "institution_id")]
     )
-    var institutionEntities: MutableList<InstitutionEntity>? = null,
+    var institutionEntities: MutableSet<InstitutionEntity>? = null,
 
     @OneToMany(mappedBy = "instructorEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
     var courseEntities: MutableList<CourseEntity>? = null,

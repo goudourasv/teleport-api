@@ -1,6 +1,9 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
+import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -32,7 +35,7 @@ public class Put {
 
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
 
-        Mockito.when(institutionsService.replaceInstitution(institutionCreate, institutionId)).thenReturn(expectedInstitution);
+        Mockito.when(institutionsService.replaceInstitution(institutionId, institutionCreate)).thenReturn(expectedInstitution);
 
         Response response = given().contentType(ContentType.JSON)
                 .body(institutionCreate)
@@ -44,7 +47,7 @@ public class Put {
 
         Institution institutionResult = response.as(Institution.class);
 
-        Mockito.verify(institutionsService).replaceInstitution(institutionCreate, institutionId);
+        Mockito.verify(institutionsService).replaceInstitution(institutionId, institutionCreate);
         assertThat(institutionResult).isEqualTo(expectedInstitution);
     }
 

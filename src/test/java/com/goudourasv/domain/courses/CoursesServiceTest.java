@@ -102,7 +102,7 @@ public class CoursesServiceTest {
         when(coursesRepository.replaceCourse(courseCreate, courseId)).thenReturn(expectedCourse);
 
         //when
-        Course replacedCourse = coursesService.replaceCourse(courseCreate, courseId);
+        Course replacedCourse = coursesService.replaceCourse(courseId, courseCreate);
 
         //then
         verify(coursesRepository).replaceCourse(courseCreate, courseId);
@@ -119,7 +119,7 @@ public class CoursesServiceTest {
         when(coursesRepository.partiallyUpdateCourse(courseUpdate, courseId)).thenReturn(expectedCourse);
 
         //when
-        Course updatedCourse = coursesService.partiallyUpdateCourse(courseUpdate, courseId);
+        Course updatedCourse = coursesService.partiallyUpdateCourse(courseId, courseUpdate);
 
         //then
         verify(coursesRepository).partiallyUpdateCourse(courseUpdate, courseId);

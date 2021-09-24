@@ -1,13 +1,12 @@
 package com.goudourasv.data.instructors
 
-import com.goudourasv.data.institutions.InstitutionEntity
 import com.goudourasv.domain.institutions.Institution
 import com.goudourasv.domain.instructors.Instructor
 
-fun InstructorEntity.toInstructor(institutionEntities: List<InstitutionEntity>): Instructor {
+fun InstructorEntity.toInstructor(): Instructor {
     //TODO check with alex
     val institutions =
-        institutionEntities.map { institutionEntity ->
+        institutionEntities?.map { institutionEntity ->
             Institution(
 
                 country = institutionEntity.country,
@@ -15,18 +14,18 @@ fun InstructorEntity.toInstructor(institutionEntities: List<InstitutionEntity>):
                 id = institutionEntity.id!!,
                 city = institutionEntity.city
             )
-        }
+        } ?: emptyList()
     return Instructor(
         this.id!!,
-        this.firstName ?: "",
-        this.lastName ?: "",
+        this.firstName,
+        this.lastName,
         institutions
     )
 }
 
 fun List<InstructorEntity>.toInstructors(): List<Instructor> {
     val instructors = this.map { instructorEntity ->
-        instructorEntity.toInstructor(instructorEntity.institutionEntities ?: emptyList())
+        instructorEntity.toInstructor()
     }
     return instructors
 }

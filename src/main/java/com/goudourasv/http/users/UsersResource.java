@@ -1,6 +1,7 @@
 package com.goudourasv.http.users;
 
 import com.goudourasv.domain.courses.Course;
+import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.domain.users.UsersService;
 import com.goudourasv.http.users.dto.FavouriteCourseCreate;

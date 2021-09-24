@@ -3,6 +3,7 @@ package com.goudourasv.http.instructors
 import com.goudourasv.domain.instructors.Instructor
 import com.goudourasv.domain.instructors.InstructorsService
 import com.goudourasv.http.instructors.dto.InstructorCreate
+import com.goudourasv.http.instructors.dto.InstructorUpdate
 import io.smallrye.common.annotation.Blocking
 import java.net.URI
 import java.util.*

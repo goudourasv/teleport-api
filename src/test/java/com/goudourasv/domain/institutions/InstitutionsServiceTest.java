@@ -1,7 +1,11 @@
 package com.goudourasv.domain.institutions;
 
+import com.goudourasv.data.institutions.InstitutionsRepository;
+import com.goudourasv.domain.courses.CoursesService;
 import com.goudourasv.domain.instructors.InstructorsService;
 import com.goudourasv.domain.tags.TagsService;
+import com.goudourasv.http.institutions.dto.InstitutionCreate;
+import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,13 +43,13 @@ public class InstitutionsServiceTest {
         String country = "Greece";
         String city = "Thessaloniki";
 
-        when(institutionsRepository.getInstitutions(country,city)).thenReturn(institutions);
+        when(institutionsRepository.getInstitutions(country, city)).thenReturn(institutions);
 
         //when
-        List<Institution> expectedInstitutions = institutionsService.getFilteredInstitutions(country,city);
+        List<Institution> expectedInstitutions = institutionsService.getFilteredInstitutions(country, city);
 
         //then
-        verify(institutionsRepository).getInstitutions(country,city);
+        verify(institutionsRepository).getInstitutions(country, city);
         assertThat(expectedInstitutions).hasSameSizeAs(institutions).hasSameElementsAs(institutions);
     }
 
@@ -91,7 +95,7 @@ public class InstitutionsServiceTest {
         when(institutionsRepository.deleteSpecificInstitution(institutionId)).thenReturn(true);
 
         //when
-        boolean deleted = institutionsService.deleteSpecificCourse(institutionId);
+        boolean deleted = institutionsService.deleteSpecificInstitution(institutionId);
 
         //then
         verify(institutionsRepository).deleteSpecificInstitution(institutionId);
@@ -108,7 +112,7 @@ public class InstitutionsServiceTest {
         when(institutionsRepository.replaceInstitution(institutionCreate, institutionId)).thenReturn(institution);
 
         //when
-        Institution expectedInstitution = institutionsService.replaceInstitution(institutionCreate, institutionId);
+        Institution expectedInstitution = institutionsService.replaceInstitution(institutionId, institutionCreate);
 
         //then
         verify(institutionsRepository).replaceInstitution(institutionCreate, institutionId);
@@ -127,7 +131,7 @@ public class InstitutionsServiceTest {
         when(institutionsRepository.partiallyUpdateInstitution(institutionUpdate, institutionId)).thenReturn(institution);
 
         //when
-        Institution expectedInstitution = institutionsService.partiallyUpdateInstitution(institutionUpdate, institutionId);
+        Institution expectedInstitution = institutionsService.partiallyUpdateInstitution(institutionId, institutionUpdate);
 
         //then
         verify(institutionsRepository).partiallyUpdateInstitution(institutionUpdate, institutionId);

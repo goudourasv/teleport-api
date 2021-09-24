@@ -1,5 +1,6 @@
 package com.goudourasv.http.institutions.httpUnitTest;
 
+import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionsService;
 import com.goudourasv.http.institutions.InstitutionsResource;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;

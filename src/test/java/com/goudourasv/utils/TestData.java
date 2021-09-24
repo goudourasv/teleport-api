@@ -2,6 +2,8 @@ package com.goudourasv.utils;
 
 import com.goudourasv.domain.courses.Course;
 import com.goudourasv.domain.courses.CourseData;
+import com.goudourasv.domain.institutions.Institution;
+import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
 import com.goudourasv.domain.lectures.Lecture;
@@ -140,10 +142,10 @@ public class TestData {
         List<Institution> institutions2 = new ArrayList<>();
         List<Institution> institutions3 = new ArrayList<>();
         List<Institution> institutions4 = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        Institution institution2 = new Institution(UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Tandra");
-        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
-        Institution institution4 = new Institution(UUID.fromString("0ba2fe42-b199-4584-baf8-0059199eaaa1"), "LSE");
+        Institution institution1 = new Institution("Thessaloniki","Greece",UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        Institution institution2 = new Institution("","",UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Tandra");
+        Institution institution3 = new Institution("Thessaloniki","Greece",UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
+        Institution institution4 = new Institution("London","England",UUID.fromString("0ba2fe42-b199-4584-baf8-0059199eaaa1"), "LSE");
         institutions1.add(institution1);
         institutions2.add(institution2);
         institutions3.add(institution3);
@@ -165,8 +167,8 @@ public class TestData {
 
     public static List<Institution> createInstitutions() {
         List<Institution> institutions = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH", "Greece", "Thessaloniki");
-        Institution institution3 = new Institution(UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM", "Greece", "Thessaloniki");
+        Institution institution1 = new Institution("Thessaloniki", "Greece", UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        Institution institution3 = new Institution("Thessaloniki", "Greece", UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
         institutions.add(institution1);
         institutions.add(institution3);
         return institutions;
@@ -223,7 +225,7 @@ public class TestData {
 
     public static Instructor createInstructor() {
         List<Institution> institutions1 = new ArrayList<>();
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        Institution institution1 = new Institution("Thessaloniki", "Greece", UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
         institutions1.add(institution1);
         Instructor instructor2 = new Instructor(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour", institutions1);
 
@@ -249,7 +251,7 @@ public class TestData {
     }
 
     public static Institution createInstitution() {
-        Institution institution1 = new Institution(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        Institution institution1 = new Institution("Thessaloniki", "Greece", UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
         return institution1;
 
     }

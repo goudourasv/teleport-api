@@ -7,5 +7,5 @@ data class InstitutionCreate(
     @NotBlank val name: String,
     @NotBlank val country: String,
     @NotBlank val city: String,
-    val instructorIds: List<UUID>
+    val instructorIds: List<UUID> = emptyList()
 )

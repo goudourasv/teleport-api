@@ -7,10 +7,11 @@ import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.EntityManager
 import javax.persistence.Query
+import javax.ws.rs.NotFoundException
 
 @ApplicationScoped
 class InstitutionsRepository(private val entityManager: EntityManager) {
-    //TODO complete this function
+    //TODO Refactor this ugly function
     fun getInstitutions(country: String?, city: String?): List<Institution> {
         var sqlQuery = " SELECT * FROM institutions"
         if (country != null || city != null) {
@@ -63,21 +64,27 @@ class InstitutionsRepository(private val entityManager: EntityManager) {
         return institutionEntity.toInstitution()
     }
 
+    //Handling the association before deleting element from non-owner
     fun deleteSpecificInstitution(id: UUID): Boolean {
-        val institutionEntity = entityManager.getReference(InstitutionEntity::class.java, id) ?: return false
+        val institutionEntity = entityManager.find(InstitutionEntity::class.java, id) ?: return false
+        institutionEntity.instructorEntities?.forEach { instructorEntity ->
+            instructorEntity.institutionEntities?.remove(
+                institutionEntity
+            )
+        }
         entityManager.remove(institutionEntity)
         return true
     }
 
     fun replaceInstitution(institutionCreate: InstitutionCreate, id: UUID): Institution {
-        val institutionEntity = InstitutionEntity(
-            id = id,
-            name = institutionCreate.name,
-            city = institutionCreate.city,
-            country = institutionCreate.country
-        )
-        //TODO Am I to deal with NotFoundException here or in http layer?
+        val institutionEntity = entityManager.find(InstitutionEntity::class.java, id)
+            ?: throw NotFoundException("Institution with id: $id doesn't exist")
+        institutionEntity.name = institutionCreate.name
+        institutionEntity.city = institutionCreate.city
+        institutionEntity.country = institutionCreate.country
         entityManager.merge(institutionEntity)
+        entityManager.flush()
+
 
         return institutionEntity.toInstitution()
     }
