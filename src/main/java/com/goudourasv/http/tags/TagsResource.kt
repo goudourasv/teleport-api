@@ -16,19 +16,19 @@ import javax.ws.rs.core.UriInfo
 @Path("/tags")
 class TagsResource(private val tagsService: TagsService) {
 
-
-    @Produces(MediaType.APPLICATION_JSON)
-    @GET
     @Blocking
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     fun getTags(): List<Tag> {
-        return tagsService.tagsList
+        return tagsService.getTagsList()
     }
+
 
     @Blocking
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createTag(input: @Valid TagCreate?, uriInfo: UriInfo): Response {
+    fun createTag(input: @Valid TagCreate, uriInfo: UriInfo): Response {
         val createdTag = tagsService.createNewTag(input)
         val path = uriInfo.path
         val location = path + "/" + createdTag.name

@@ -57,7 +57,7 @@ public class Put {
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
         List<String> tags = new ArrayList<>();
 
-        CourseCreate courseCreate = new CourseCreate(null, institutionId, tags, instructorId, null, null, null);
+        CourseCreate courseCreate = new CourseCreate(null, null, null, institutionId, instructorId, null, null);
         UUID courseId = UUID.fromString("30d8f597-537a-4486-bfb5-845a2bae4c45");
 
         with().body(courseCreate)

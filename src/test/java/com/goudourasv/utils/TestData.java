@@ -142,10 +142,10 @@ public class TestData {
         List<Institution> institutions2 = new ArrayList<>();
         List<Institution> institutions3 = new ArrayList<>();
         List<Institution> institutions4 = new ArrayList<>();
-        Institution institution1 = new Institution("Thessaloniki","Greece",UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
-        Institution institution2 = new Institution("","",UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Tandra");
-        Institution institution3 = new Institution("Thessaloniki","Greece",UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
-        Institution institution4 = new Institution("London","England",UUID.fromString("0ba2fe42-b199-4584-baf8-0059199eaaa1"), "LSE");
+        Institution institution1 = new Institution("Thessaloniki", "Greece", UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
+        Institution institution2 = new Institution("", "", UUID.fromString("86664d56-71c6-4de6-9771-cb8e707c8674"), "Tandra");
+        Institution institution3 = new Institution("Thessaloniki", "Greece", UUID.fromString("daad559f-4755-4d8a-9d3c-5e039e2ceb2f"), "UOM");
+        Institution institution4 = new Institution("London", "England", UUID.fromString("0ba2fe42-b199-4584-baf8-0059199eaaa1"), "LSE");
         institutions1.add(institution1);
         institutions2.add(institution2);
         institutions3.add(institution3);
@@ -209,7 +209,7 @@ public class TestData {
         UUID institutionId1 = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId2 = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
 
-        CourseCreate courseCreate1 = new CourseCreate("Electrical engines", institutionId1, null, instructorId2, null, null, null);
+        CourseCreate courseCreate1 = new CourseCreate("Electrical engines", null, null, institutionId1, instructorId2, null, null);
         return courseCreate1;
     }
 
@@ -218,7 +218,7 @@ public class TestData {
 
         UUID instructorId2 = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
 
-        CourseUpdate courseUpdate1 = new CourseUpdate("Electrical engines", institutionId1, null, instructorId2, null, null, null);
+        CourseUpdate courseUpdate1 = new CourseUpdate("Electrical engines", null, null, institutionId1, instructorId2, null, null);
         return courseUpdate1;
     }
 

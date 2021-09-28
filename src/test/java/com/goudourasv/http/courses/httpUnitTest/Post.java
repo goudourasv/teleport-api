@@ -64,7 +64,7 @@ public class Post {
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
         List<String> tags = new ArrayList<>();
 
-        CourseCreate courseCreate = new CourseCreate(null, institutionId, tags, instructorId, null, null, null);
+        CourseCreate courseCreate = new CourseCreate(null, null, null, institutionId, instructorId, tags, null);
 
         with().body(courseCreate)
                 .contentType(ContentType.JSON)

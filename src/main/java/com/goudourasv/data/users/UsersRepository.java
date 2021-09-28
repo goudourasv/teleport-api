@@ -1,6 +1,5 @@
 package com.goudourasv.data.users;
 
-import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;

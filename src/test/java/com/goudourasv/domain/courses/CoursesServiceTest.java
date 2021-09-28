@@ -1,6 +1,5 @@
 package com.goudourasv.domain.courses;
 
-import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import com.goudourasv.http.users.dto.FavouriteCourseCreate;

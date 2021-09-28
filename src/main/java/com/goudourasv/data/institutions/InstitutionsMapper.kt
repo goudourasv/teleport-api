@@ -12,7 +12,5 @@ fun InstitutionEntity.toInstitution(): Institution {
 }
 
 fun List<InstitutionEntity>.toInstitutions(): List<Institution> {
-    val institutions = this.map { institutionEntity -> institutionEntity.toInstitution() }
-    return institutions
-
+    return this.map { institutionEntity -> institutionEntity.toInstitution() }
 }
