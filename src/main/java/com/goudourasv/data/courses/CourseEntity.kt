@@ -37,7 +37,7 @@ import javax.persistence.*
 class CourseEntity(
     @Id
     @GeneratedValue
-    var id: UUID,
+    var id: UUID? = null,
 
     @Column
     var title: String,
@@ -57,7 +57,7 @@ class CourseEntity(
     var instructorEntity: InstructorEntity,
 
     @OneToMany(mappedBy = "courseEntity", cascade = ([CascadeType.ALL]), orphanRemoval = true)
-    var lectureEntities: MutableList<LectureEntity>,
+    val lectureEntities: MutableList<LectureEntity> = mutableListOf(),
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -65,7 +65,7 @@ class CourseEntity(
         joinColumns = [JoinColumn(name = "course_id")],
         inverseJoinColumns = [JoinColumn(name = "tag")]
     )
-    var tagEntities: MutableSet<TagEntity>,
+    val tagEntities: MutableSet<TagEntity> = mutableSetOf(),
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -76,7 +76,7 @@ class CourseEntity(
     var favouritedByUsers: MutableSet<UserEntity> = mutableSetOf(),
 
     @OneToMany(mappedBy = "courseEntity", cascade = ([CascadeType.ALL]), orphanRemoval = true)
-    var ratingEntities: MutableList<LectureEntity>,
+    var ratingEntities: MutableList<LectureEntity>? = null,
 
     ) {
 
@@ -88,7 +88,7 @@ class CourseEntity(
         favouritedByUsers.remove(user)
     }
 
-    fun setLectureEntities(lectureEntities: List<LectureEntity>) {
+    fun setLectureEntities(lectureEntities: MutableList<LectureEntity>) {
         this.lectureEntities.clear()
         this.lectureEntities.addAll(lectureEntities)
     }

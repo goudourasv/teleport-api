@@ -8,7 +8,7 @@ import javax.transaction.Transactional
 @ApplicationScoped
 class TagsService(private val tagsRepository: TagsRepository) {
     @Transactional
-    fun getTagsList(): MutableSet<Tag> {
+    fun getTagSet(): MutableSet<Tag> {
         return tagsRepository.getTags()
     }
 

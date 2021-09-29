@@ -9,7 +9,7 @@ import javax.persistence.*
 class InstructorEntity(
     @Id
     @GeneratedValue
-    var id: UUID? = null,
+    var id: UUID? = null ,
 
     @Column(name = "first_name", nullable = false)
     var firstName: String,

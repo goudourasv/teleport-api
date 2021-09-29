@@ -19,8 +19,8 @@ class TagsResource(private val tagsService: TagsService) {
     @Blocking
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getTags(): List<Tag> {
-        return tagsService.getTagsList()
+    fun getTags(): MutableSet<Tag> {
+        return tagsService.getTagSet()
     }
 
 

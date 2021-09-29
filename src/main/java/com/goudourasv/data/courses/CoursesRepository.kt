@@ -5,16 +5,20 @@ import com.goudourasv.data.instructors.InstructorEntity
 import com.goudourasv.data.lectures.LectureEntity
 import com.goudourasv.data.lectures.LecturesRepository
 import com.goudourasv.data.tags.toTagEntities
+import com.goudourasv.data.users.UserEntity
 import com.goudourasv.domain.courses.Course
 import com.goudourasv.domain.courses.LiveCourse
 import com.goudourasv.http.courses.dto.CourseCreate
 import com.goudourasv.http.courses.dto.CourseUpdate
+import com.goudourasv.http.users.dto.FavouriteCourseCreate
 import java.time.Instant
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.EntityManager
+import javax.persistence.Query
 import javax.ws.rs.BadRequestException
 import javax.ws.rs.NotFoundException
+
 
 @ApplicationScoped
 class CoursesRepository(private val entityManager: EntityManager, private val lecturesRepository: LecturesRepository) {
@@ -22,15 +26,62 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
     fun getCourses(): List<Course> {
         var sqlQuery = "SELECT * FROM courses"
 
-        @SuppressWarnings("UNCHECKED_CAST")
+        @Suppress("UNCHECKED_CAST")
         val courseEntities =
             entityManager.createNativeQuery(sqlQuery, CourseEntity::class.java).resultList as List<CourseEntity>
         return courseEntities.toCourses()
     }
 
-//    fun getFilteredCourses(): List<Course> {
-//
-//    }
+    fun getFilteredCourses(
+        institutionId: UUID?,
+        tags: Set<String?>,
+        instructorId: UUID?
+    ): List<Course?>? {
+        var sqlQuery = "SELECT * FROM courses"
+        if (tags.isNotEmpty()) {
+            sqlQuery += " JOIN course_tag ON courses.id = course_tag.course_id"
+        }
+        if (institutionId != null || instructorId != null || !tags.isEmpty()) {
+            sqlQuery += " WHERE "
+        }
+        val parametersMap: MutableMap<String, Any> =
+            HashMap()
+        var isFirst = true
+        if (institutionId != null) {
+            if (isFirst) {
+                sqlQuery += "institution_id = :institutionId"
+                isFirst = false
+            } else {
+                sqlQuery += " AND institution_id = :institutionId"
+            }
+            parametersMap["institutionId"] = institutionId
+        }
+        if (instructorId != null) {
+            if (isFirst) {
+                sqlQuery += "instructor_id = :instructorId"
+                isFirst = false
+            } else {
+                sqlQuery += " AND instructor_id = :instructorId"
+            }
+            parametersMap["instructorId"] = instructorId
+        }
+        if (tags.isNotEmpty()) {
+            if (isFirst) {
+                sqlQuery += "tag = :tag"
+                isFirst = false
+            } else {
+                sqlQuery += " AND tag = :tag"
+            }
+            parametersMap["tag"] = tags
+        }
+        val query: Query = entityManager.createNativeQuery(sqlQuery, CourseEntity::class.java)
+        for (key in parametersMap.keys) {
+            query.setParameter(key, parametersMap[key])
+        }
+        @Suppress("UNCHECKED_CAST")
+        val courseEntities: List<CourseEntity> = query.resultList as MutableList<CourseEntity>
+        return courseEntities.toCourses()
+    }
 
     fun getSpecificCourse(id: UUID): Course? {
         val courseEntity = entityManager.getReference(CourseEntity::class.java, id) ?: return null
@@ -102,13 +153,13 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         }
 
         if (courseUpdate.tags != null) {
-            val newTags = courseUpdate.tags
-            courseEntity.tagEntities = newTags.toTagEntities()
+            val newTagEntities = courseUpdate.tags.toTagEntities()
+            courseEntity.setTagEntities(newTagEntities)
         }
 
         if (courseUpdate.lectures != null) {
             val lecturesToUpdate = courseUpdate.lectures
-            courseEntity.lectureEntities = lecturesToUpdate.map { lecture ->
+            val lectureEntities = lecturesToUpdate.map { lecture ->
                 LectureEntity(
                     lecture.id,
                     lecture.title,
@@ -117,6 +168,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
                     lecture.endTime
                 )
             }.toMutableList()
+            courseEntity.setLectureEntities(lectureEntities)
         }
 
         entityManager.merge(courseEntity)
@@ -134,6 +186,34 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
 
     }
 
+    fun createFavouriteCourse(favouriteCourseCreate: FavouriteCourseCreate): Course {
+        val favouritedCourseEntity =
+            entityManager.getReference(CourseEntity::class.java, favouriteCourseCreate.courseId)
+        val user = entityManager.getReference(UserEntity::class.java, favouriteCourseCreate.userId)
+        favouritedCourseEntity.addUserToFavouritesSet(user)
+        entityManager.merge(favouritedCourseEntity)
+        entityManager.flush()
+        return favouritedCourseEntity.toCourse()
+    }
+
+    fun deleteSpecificFavourite(userId: UUID, courseId: UUID): Boolean {
+        val courseEntity = entityManager.getReference(CourseEntity::class.java, courseId)
+        val user = entityManager.getReference(UserEntity::class.java, userId)
+        courseEntity.deleteUserFromFavouritesSet(user)
+
+        entityManager.merge(courseEntity)
+        entityManager.flush()
+
+        return true
+    }
+
+    fun getFavouriteCourses(userId: UUID): List<Course> {
+        val courseEntities = entityManager.createNamedQuery("list_favourite_courses", CourseEntity::class.java)
+            .setParameter("user_id", userId).resultList
+
+        return courseEntities.toCourses()
+
+    }
 
 
 }

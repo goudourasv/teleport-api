@@ -28,9 +28,9 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @Consumes(MediaType.APPLICATION_JSON)
     fun getCourses(
         @QueryParam("institution") institutionId: UUID?,
-        @QueryParam("tags") tags: Set<String>?,
+        @QueryParam("tags") tags: Set<String?>,
         @QueryParam("instructor") instructorId: UUID?
-    ): List<Course> {
+    ): List<Course?>? {
         return coursesService.getFilteredCourses(institutionId, tags, instructorId)
     }
 

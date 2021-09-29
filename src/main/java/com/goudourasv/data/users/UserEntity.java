@@ -1,5 +1,6 @@
 package com.goudourasv.data.users;
 
+import com.goudourasv.data.courses.CourseEntity;
 import com.goudourasv.data.ratings.RatingEntity;
 
 import javax.persistence.*;

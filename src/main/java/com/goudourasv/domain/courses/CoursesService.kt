@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 @ApplicationScoped
 class CoursesService(private val coursesRepository: CoursesRepository) {
     @Transactional
-    fun getFilteredCourses(institutionId: UUID?, tags: Set<String>?, instructorId: UUID?): List<Course> {
+    fun getFilteredCourses(institutionId: UUID?, tags: Set<String?>, instructorId: UUID?): List<Course?>? {
         return coursesRepository.getFilteredCourses(institutionId, tags, instructorId)
     }
 
@@ -44,7 +44,7 @@ class CoursesService(private val coursesRepository: CoursesRepository) {
 
     @Transactional
     fun getLiveCourses(): List<LiveCourse> {
-        return coursesRepository.liveCourses
+        return coursesRepository.getLiveCourses()
     }
 
     @Transactional

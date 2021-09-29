@@ -16,7 +16,7 @@ import com.goudourasv.http.courses.dto.CourseCreate
 fun CourseEntity.toCourse(): Course {
 
     return Course(
-        id = this.id,
+        id = this.id!!,
         title = this.title,
         startDate = this.startDate,
         endDate = this.endDate,
@@ -64,8 +64,6 @@ fun CourseCreate.toCourseEntity(
                 lecture.endTime
             )
         }?.toMutableList() ?: mutableListOf(),
-        ratingEntities = mutableListOf(),
-        id =
     )
 
 }
