@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.ws.rs.ServerErrorException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.goudourasv.utils.TestData.createCourse;
 import static com.goudourasv.utils.TestData.createCourseCreate;
@@ -62,7 +60,8 @@ public class Post {
     public void shouldReturn400WhenInvalidCourseCreate() {
         UUID institutionId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
         UUID instructorId = UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687");
-        List<String> tags = new ArrayList<>();
+        Set<String> tags = new HashSet<>() {
+        };
 
         CourseCreate courseCreate = new CourseCreate(null, null, null, institutionId, instructorId, tags, null);
 

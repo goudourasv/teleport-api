@@ -1,6 +1,7 @@
 package com.goudourasv.data.lectures
 
 import com.goudourasv.data.courses.toCourse
+import com.goudourasv.data.courses.toCourseData
 import com.goudourasv.data.courses.toCourseEntity
 import com.goudourasv.domain.lectures.Lecture
 import com.goudourasv.domain.lectures.LectureData
@@ -13,9 +14,8 @@ fun LectureEntity.toLecture(): Lecture {
         uri = this.uri,
         startTime = this.startTime,
         endTime = this.endTime,
-        course = this?.courseEntity.toCourse(),
+        course = this.courseEntity!!.toCourse(),
     )
-
 }
 
 fun List<LectureEntity>.toLectures(): List<Lecture> {
@@ -29,7 +29,7 @@ fun Lecture.toLectureEntity(): LectureEntity{
         uri = this.uri,
         startTime = this.startTime,
         endTime = this.endTime,
-        courseEntity = this.course.toCourseEntity()
+        courseEntity = this.course.toCourseEntity(),
     )
 }
 

@@ -26,7 +26,7 @@ public class GetCourse {
     public void shouldReturn200WithExpectedCourseId() {
 
         UUID courseId = UUID.fromString("85fb9103-bacb-4933-b67d-d0bcf438ca29");
-        Course expectedCourse = new Course(courseId, "Annoula");
+        Course expectedCourse = new Course(courseId, null,null,null,null,null,null,null,null,false);
 
         Mockito.when(coursesService.getSpecificCourse(courseId)).thenReturn(expectedCourse);
 

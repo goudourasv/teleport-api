@@ -5,8 +5,10 @@ import com.goudourasv.data.users.UserEntity
 import com.goudourasv.domain.ratings.Rating
 import com.goudourasv.http.courses.dto.RatingCreate
 import java.util.*
+import javax.enterprise.context.ApplicationScoped
 import javax.persistence.EntityManager
 
+@ApplicationScoped
 class RatingsRepository(private val entityManager: EntityManager) {
 
     fun createRating(courseId: UUID, userId: UUID, ratingCreate: RatingCreate): Rating {

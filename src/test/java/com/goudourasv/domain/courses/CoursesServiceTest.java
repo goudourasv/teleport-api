@@ -1,5 +1,6 @@
 package com.goudourasv.domain.courses;
 
+import com.goudourasv.data.courses.CoursesRepository;
 import com.goudourasv.http.courses.dto.CourseCreate;
 import com.goudourasv.http.courses.dto.CourseUpdate;
 import com.goudourasv.http.users.dto.FavouriteCourseCreate;
@@ -12,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import static com.goudourasv.utils.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

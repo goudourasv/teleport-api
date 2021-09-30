@@ -49,7 +49,7 @@ class CourseEntity(
     var endDate: Instant? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "institutionId")
+    @JoinColumn(name = "institution_id")
     var institutionEntity: InstitutionEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,7 +57,7 @@ class CourseEntity(
     var instructorEntity: InstructorEntity,
 
     @OneToMany(mappedBy = "courseEntity", cascade = ([CascadeType.ALL]), orphanRemoval = true)
-    val lectureEntities: MutableList<LectureEntity> = mutableListOf(),
+    var lectureEntities: MutableList<LectureEntity> = mutableListOf(),
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -65,7 +65,7 @@ class CourseEntity(
         joinColumns = [JoinColumn(name = "course_id")],
         inverseJoinColumns = [JoinColumn(name = "tag")]
     )
-    val tagEntities: MutableSet<TagEntity> = mutableSetOf(),
+    var tagEntities: MutableSet<TagEntity> = mutableSetOf(),
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -88,12 +88,12 @@ class CourseEntity(
         favouritedByUsers.remove(user)
     }
 
-    fun setLectureEntities(lectureEntities: MutableList<LectureEntity>) {
+    fun replaceLectureEntities(lectureEntities: MutableList<LectureEntity>) {
         this.lectureEntities.clear()
         this.lectureEntities.addAll(lectureEntities)
     }
 
-    fun setTagEntities(tagEntities: MutableSet<TagEntity>) {
+    fun replaceTagEntities(tagEntities: MutableSet<TagEntity>) {
         this.tagEntities.clear()
         this.tagEntities.addAll(tagEntities)
 

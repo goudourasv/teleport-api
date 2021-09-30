@@ -6,6 +6,8 @@ import com.goudourasv.domain.institutions.Institution;
 import com.goudourasv.domain.institutions.InstitutionData;
 import com.goudourasv.domain.instructors.Instructor;
 import com.goudourasv.domain.instructors.InstructorData;
+import com.goudourasv.domain.lectures.Lecture;
+import com.goudourasv.domain.lectures.LectureData;
 import com.goudourasv.domain.tags.Tag;
 import com.goudourasv.domain.users.User;
 import com.goudourasv.http.courses.dto.CourseCreate;
@@ -14,6 +16,8 @@ import com.goudourasv.http.institutions.dto.InstitutionCreate;
 import com.goudourasv.http.institutions.dto.InstitutionUpdate;
 import com.goudourasv.http.instructors.dto.InstructorCreate;
 import com.goudourasv.http.instructors.dto.InstructorUpdate;
+import com.goudourasv.http.lectures.dto.LectureCreate;
+import com.goudourasv.http.lectures.dto.LectureUpdate;
 import com.goudourasv.http.users.dto.FavouriteCourseCreate;
 import com.goudourasv.http.users.dto.UserCreate;
 import com.goudourasv.http.users.dto.UserUpdate;
@@ -72,10 +76,10 @@ public class TestData {
         LectureData lecture1 = new LectureData(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"), "Lecture1", null, null, null);
         LectureData lecture2 = new LectureData(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"), "Lecture2", null, null, null);
 
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
-        Course course2 = new Course(UUID.fromString("d946bc18-e92a-407b-980c-301c2bf3b44b"), "Marketing", institution3, tags2, null, null, null, instructor3);
-        Course course3 = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Statistics", institution4, tags3, null, null, null, instructor4);
-        Course course4 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "Programming Methodology", institution1, tags4, null, null, null, instructor1);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2,null,false);
+        Course course2 = new Course(UUID.fromString("d946bc18-e92a-407b-980c-301c2bf3b44b"), "Marketing", institution3, tags2, null, null, null, instructor3,null,false);
+        Course course3 = new Course(UUID.fromString("165f03a3-a4a3-48ca-8c8d-78ea591194cb"), "Statistics", institution4, tags3, null, null, null, instructor4,null,false);
+        Course course4 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "Programming Methodology", institution1, tags4, null, null, null, instructor1,null,false);
         courses.add(course1);
         courses.add(course2);
         courses.add(course3);
@@ -94,8 +98,8 @@ public class TestData {
         Tag engineering = new Tag("Engineering");
         tags1.add(engineering);
         tags1.add(software);
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
-        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2,null,false);
+        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2,null,false);
         expectedCourses.add(course1);
         expectedCourses.add(course2);
         return expectedCourses;
@@ -110,8 +114,8 @@ public class TestData {
         Tag engineering = new Tag("Engineering");
         tags1.add(engineering);
         tags1.add(software);
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
-        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2,null,false);
+        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2,null,false);
         expectedCourses.add(course1);
         expectedCourses.add(course2);
         return expectedCourses;
@@ -126,8 +130,8 @@ public class TestData {
         Tag engineering = new Tag("Engineering");
         tags1.add(engineering);
         tags1.add(software);
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2);
-        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, tags1, null, null, null, instructor2,null,false);
+        Course course2 = new Course(UUID.fromString("24c74444-fadb-4e91-8604-f299ad6189ed"), "SAE 1", institution1, tags1, null, null, null, instructor2,null,false);
         expectedCourses.add(course1);
         expectedCourses.add(course2);
         return expectedCourses;
@@ -173,7 +177,7 @@ public class TestData {
 
     public static List<Lecture> createLectures() {
         List<Lecture> lectures = new ArrayList<>();
-        CourseData courseLecture = new CourseData(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines");
+        Course courseLecture = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines",null,null,null,null,null,null,null,false);
         Lecture lecture1 = new Lecture(UUID.fromString("222c6686-d6dd-4b29-83c7-36abca11f146"), "Lecture 1", null, courseLecture, null, null);
         Lecture lecture2 = new Lecture(UUID.fromString("caeb27ae-e1c1-4104-aad7-ada1e44210ad"), "Lecture 2", null, courseLecture, null, null);
         lectures.add(lecture1);
@@ -197,7 +201,7 @@ public class TestData {
         InstitutionData institution1 = new InstitutionData(UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83"), "AUTH");
         InstructorData instructor2 = new InstructorData(UUID.fromString("7ce6be58-4eb1-4ff1-b470-a34c2fc54687"), "Nikolaos", "Jabbour");
 
-        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, null, null, null, null, instructor2);
+        Course course1 = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical engines", institution1, null, null, null, null, instructor2,null,false);
         return course1;
     }
 
@@ -271,7 +275,8 @@ public class TestData {
     }
 
     public static Lecture createLecture() {
-        CourseData courseLecture = new CourseData(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines");
+        Course courseLecture = new Course(UUID.fromString("2c3b2709-73ba-47f2-b4e2-3f0979ea0600"), "Electrical Engines",null,null,null,null,null,null,null,false
+        );
         Lecture lecture = new Lecture(UUID.fromString("7f0c944c-d9b7-41af-8840-516240cb4584"), "Lecture 3", null, courseLecture, null, null);
         return lecture;
 
@@ -314,7 +319,8 @@ public class TestData {
 
     public static FavouriteCourseCreate createFavouriteCourseCreate() {
         UUID favouriteCourseId = UUID.fromString("e21be850-20f7-4943-bd37-c226cbdc8c83");
-        FavouriteCourseCreate favouriteCourseCreate = new FavouriteCourseCreate(favouriteCourseId);
+        UUID UserId = UUID.fromString("38c5f6a0-8319-4a43-bd8d-05c762513179");
+        FavouriteCourseCreate favouriteCourseCreate = new FavouriteCourseCreate(favouriteCourseId,UserId);
         return favouriteCourseCreate;
 
     }

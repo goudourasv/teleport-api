@@ -41,7 +41,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         if (tags.isNotEmpty()) {
             sqlQuery += " JOIN course_tag ON courses.id = course_tag.course_id"
         }
-        if (institutionId != null || instructorId != null || !tags.isEmpty()) {
+        if (institutionId != null || instructorId != null || tags.isNotEmpty()) {
             sqlQuery += " WHERE "
         }
         val parametersMap: MutableMap<String, Any> =
@@ -66,11 +66,10 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
             parametersMap["instructorId"] = instructorId
         }
         if (tags.isNotEmpty()) {
-            if (isFirst) {
-                sqlQuery += "tag = :tag"
-                isFirst = false
+            sqlQuery += if (isFirst) {
+                "tag = :tag"
             } else {
-                sqlQuery += " AND tag = :tag"
+                " AND tag = :tag"
             }
             parametersMap["tag"] = tags
         }
@@ -154,7 +153,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
 
         if (courseUpdate.tags != null) {
             val newTagEntities = courseUpdate.tags.stringsToTagEntities()
-            courseEntity.setTagEntities(newTagEntities)
+            courseEntity.replaceTagEntities(newTagEntities)
         }
 
         if (courseUpdate.lectures != null) {
@@ -162,7 +161,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
             val lectureEntities = lecturesToUpdate.map {
                 it.toLectureEntity()
             }.toMutableList()
-            courseEntity.setLectureEntities(lectureEntities)
+            courseEntity.replaceLectureEntities(lectureEntities)
         }
 
         entityManager.merge(courseEntity)

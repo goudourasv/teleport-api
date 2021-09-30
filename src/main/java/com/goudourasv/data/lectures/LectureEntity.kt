@@ -16,7 +16,7 @@ class LectureEntity(
     var title: String,
 
     @Column(name = "URI")
-    var uri: URI,
+    var uri: URI?,
 
     @Column(name = "start_time")
     var startTime: Instant,

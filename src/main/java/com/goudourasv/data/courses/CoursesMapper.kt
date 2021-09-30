@@ -12,6 +12,7 @@ import com.goudourasv.data.tags.stringsToTagEntities
 import com.goudourasv.data.tags.tagsToTagEntities
 import com.goudourasv.data.tags.toTags
 import com.goudourasv.domain.courses.Course
+import com.goudourasv.domain.courses.CourseData
 import com.goudourasv.domain.courses.LiveCourse
 import com.goudourasv.domain.lectures.LectureData
 import com.goudourasv.http.courses.dto.CourseCreate
@@ -90,6 +91,13 @@ fun List<Course>.toLiveCourses(): List<LiveCourse> {
         }
     }
     return liveCourses
+}
+
+fun CourseEntity.toCourseData(): CourseData {
+    return CourseData(
+        id = this.id!!,
+        title = this.title,
+    )
 }
 
 
