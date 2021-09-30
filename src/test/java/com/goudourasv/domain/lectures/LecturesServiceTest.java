@@ -1,8 +1,6 @@
 package com.goudourasv.domain.lectures;
 
-import com.goudourasv.data.lectures.LecturesRepository;
 import com.goudourasv.http.lectures.dto.LectureCreate;
-import com.goudourasv.http.lectures.dto.LectureUpdate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

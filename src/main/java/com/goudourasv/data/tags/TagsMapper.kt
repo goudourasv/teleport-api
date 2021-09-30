@@ -19,6 +19,10 @@ fun Tag.toTagEntity(): TagEntity {
     )
 }
 
-fun List<String>?.toTagEntities(): MutableSet<TagEntity> {
+fun MutableSet<String>?.stringsToTagEntities(): MutableSet<TagEntity> {
     return this?.map { tagName -> TagEntity(tagName) }?.toMutableSet() ?: mutableSetOf()
+}
+fun MutableSet<Tag>.tagsToTagEntities() : MutableSet<TagEntity>{
+    return this.map { tag -> TagEntity(tag.toString()) }.toMutableSet()
+
 }

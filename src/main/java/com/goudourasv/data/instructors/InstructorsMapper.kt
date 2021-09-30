@@ -2,6 +2,7 @@ package com.goudourasv.data.instructors
 
 import com.goudourasv.domain.institutions.Institution
 import com.goudourasv.domain.instructors.Instructor
+import com.goudourasv.domain.instructors.InstructorData
 
 fun InstructorEntity.toInstructor(): Instructor {
     //TODO check with alex
@@ -28,4 +29,19 @@ fun List<InstructorEntity>.toInstructors(): List<Instructor> {
         instructorEntity.toInstructor()
     }
     return instructors
+}
+fun InstructorData.toInstructorEntity(): InstructorEntity {
+    return InstructorEntity(
+        id = this.id,
+        firstName = this.firstName,
+        lastName = this.lastName,
+    )
+}
+
+fun InstructorEntity.toInstructorData(): InstructorData {
+    return InstructorData(
+        id = this.id!!,
+        firstName = this.firstName,
+        lastName = this.lastName,
+    )
 }

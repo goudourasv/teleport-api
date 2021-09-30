@@ -2,9 +2,9 @@ package com.goudourasv.data.courses
 
 import com.goudourasv.data.institutions.InstitutionEntity
 import com.goudourasv.data.instructors.InstructorEntity
-import com.goudourasv.data.lectures.LectureEntity
 import com.goudourasv.data.lectures.LecturesRepository
-import com.goudourasv.data.tags.toTagEntities
+import com.goudourasv.data.lectures.toLectureEntity
+import com.goudourasv.data.tags.stringsToTagEntities
 import com.goudourasv.data.users.UserEntity
 import com.goudourasv.domain.courses.Course
 import com.goudourasv.domain.courses.LiveCourse
@@ -153,20 +153,14 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         }
 
         if (courseUpdate.tags != null) {
-            val newTagEntities = courseUpdate.tags.toTagEntities()
+            val newTagEntities = courseUpdate.tags.stringsToTagEntities()
             courseEntity.setTagEntities(newTagEntities)
         }
 
         if (courseUpdate.lectures != null) {
             val lecturesToUpdate = courseUpdate.lectures
-            val lectureEntities = lecturesToUpdate.map { lecture ->
-                LectureEntity(
-                    lecture.id,
-                    lecture.title,
-                    lecture.uri,
-                    lecture.startTime,
-                    lecture.endTime
-                )
+            val lectureEntities = lecturesToUpdate.map {
+                it.toLectureEntity()
             }.toMutableList()
             courseEntity.setLectureEntities(lectureEntities)
         }

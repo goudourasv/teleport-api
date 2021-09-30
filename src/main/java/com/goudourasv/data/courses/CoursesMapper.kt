@@ -1,14 +1,18 @@
 package com.goudourasv.data.courses
 
 import com.goudourasv.data.institutions.InstitutionEntity
+import com.goudourasv.data.institutions.toInstitutionData
+import com.goudourasv.data.institutions.toInstitutionEntity
 import com.goudourasv.data.instructors.InstructorEntity
-import com.goudourasv.data.lectures.LectureEntity
-import com.goudourasv.data.tags.toTagEntities
+import com.goudourasv.data.instructors.toInstructorData
+import com.goudourasv.data.instructors.toInstructorEntity
+import com.goudourasv.data.lectures.toLectureData
+import com.goudourasv.data.lectures.toLectureEntity
+import com.goudourasv.data.tags.stringsToTagEntities
+import com.goudourasv.data.tags.tagsToTagEntities
 import com.goudourasv.data.tags.toTags
 import com.goudourasv.domain.courses.Course
 import com.goudourasv.domain.courses.LiveCourse
-import com.goudourasv.domain.institutions.InstitutionData
-import com.goudourasv.domain.instructors.InstructorData
 import com.goudourasv.domain.lectures.LectureData
 import com.goudourasv.http.courses.dto.CourseCreate
 
@@ -20,23 +24,10 @@ fun CourseEntity.toCourse(): Course {
         title = this.title,
         startDate = this.startDate,
         endDate = this.endDate,
-        institutionData = InstitutionData(this.institutionEntity.id!!, this.institutionEntity.name),
-        instructorData = InstructorData(
-            this.instructorEntity.id!!,
-            this.instructorEntity.firstName,
-            this.instructorEntity.lastName
-        ),
-        lectureData = this.lectureEntities.map { lectureEntity ->
-            LectureData(
-                lectureEntity.id,
-                lectureEntity.title,
-                lectureEntity.uri,
-                lectureEntity.startTime,
-                lectureEntity.endTime
-            )
-        },
+        institutionData = institutionEntity.toInstitutionData(),
+        instructorData = this.instructorEntity.toInstructorData(),
+        lectureData = this.lectureEntities.map { it.toLectureData() },
         tags = this.tagEntities.toTags()
-
     )
 }
 
@@ -54,18 +45,25 @@ fun CourseCreate.toCourseEntity(
         endDate = this.endDate,
         institutionEntity = institutionEntity,
         instructorEntity = instructorEntity,
-        tagEntities = this.tags.toTagEntities(),
+        tagEntities = this.tags.stringsToTagEntities(),
         lectureEntities = this.lectures?.map { lecture ->
-            LectureEntity(
-                lecture.id,
-                lecture.title,
-                lecture.uri,
-                lecture.startTime,
-                lecture.endTime
-            )
+            lecture.toLectureEntity()
         }?.toMutableList() ?: mutableListOf(),
     )
+}
 
+fun Course.toCourseEntity(): CourseEntity {
+    return CourseEntity(
+        title = this.title,
+        startDate = this.startDate,
+        endDate = this.endDate,
+        institutionEntity = this.institutionData.toInstitutionEntity(),
+        instructorEntity = this.instructorData.toInstructorEntity(),
+        tagEntities = this.tags.tagsToTagEntities(),
+        lectureEntities = this.lectureData.map { lectureData ->
+            lectureData.toLectureEntity()
+        }.toMutableList(),
+    )
 }
 
 fun List<Course>.toLiveCourses(): List<LiveCourse> {

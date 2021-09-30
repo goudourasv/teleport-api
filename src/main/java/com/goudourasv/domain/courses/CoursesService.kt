@@ -27,14 +27,16 @@ class CoursesService(private val coursesRepository: CoursesRepository) {
     }
 
     @Transactional
+    fun createCourse(courseCreate: CourseCreate): Course {
+        return coursesRepository.createCourse(courseCreate)
+    }
+
+    @Transactional
     fun replaceCourse(id: UUID, courseCreate: CourseCreate): Course {
         return coursesRepository.replaceCourse(courseCreate, id)
     }
 
-    @Transactional
-    fun createCourse(courseCreate: CourseCreate): Course {
-        return coursesRepository.createCourse(courseCreate)
-    }
+
 
     @Transactional
     fun partiallyUpdateCourse(id: UUID, courseUpdate: CourseUpdate): Course {

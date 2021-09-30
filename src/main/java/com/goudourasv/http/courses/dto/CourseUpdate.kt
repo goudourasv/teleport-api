@@ -14,7 +14,7 @@ data class CourseUpdate(
     val institutionId: UUID?,
     @JsonProperty("instructor")
     val instructorId: UUID?,
-    val tags: MutableList<String>? = mutableListOf(),
+    val tags: MutableSet<String>? = mutableSetOf(),
     @JsonProperty("lectures")
     val lectures: List<Lecture>?
 

@@ -73,12 +73,11 @@ class InstructorsRepository(private val entityManager: EntityManager) {
         val instructorEntity =
             entityManager.getReference(InstructorEntity::class.java, id)
         if (instructorUpdate.firstName != null) {
-            val newInstructorFirstName = instructorUpdate.firstName!!
-            instructorEntity.firstName = newInstructorFirstName
+            instructorEntity.firstName = instructorUpdate.firstName!!
+
         }
         if (instructorUpdate.lastName != null) {
-            val newInstructorLastName = instructorUpdate.lastName!!
-            instructorEntity.lastName = newInstructorLastName
+            instructorEntity.lastName = instructorUpdate.lastName!!
         }
         val newInstitutionIds = instructorUpdate.institutionsIds
         instructorEntity.institutionEntities = newInstitutionIds.map { institutionId ->

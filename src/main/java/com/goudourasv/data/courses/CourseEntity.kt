@@ -43,10 +43,10 @@ class CourseEntity(
     var title: String,
 
     @Column(name = "start_date")
-    var startDate: Instant,
+    var startDate: Instant? = null,
 
     @Column(name = "end_date")
-    var endDate: Instant,
+    var endDate: Instant? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institutionId")
