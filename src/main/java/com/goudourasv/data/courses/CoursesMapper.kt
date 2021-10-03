@@ -50,6 +50,8 @@ fun CourseCreate.toCourseEntity(
         lectureEntities = this.lectures?.map { lecture ->
             lecture.toLectureEntity()
         }?.toMutableList() ?: mutableListOf(),
+
+
     )
 }
 

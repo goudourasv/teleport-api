@@ -56,7 +56,7 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createCourse(courseCreate: @Valid CourseCreate, uriInfo: UriInfo): Response {
+    fun createCourse(@Valid courseCreate: CourseCreate, uriInfo: UriInfo): Response {
         val createdCourse = coursesService.createCourse(courseCreate)
         val path = uriInfo.path
         val location = path + createdCourse.id
@@ -80,7 +80,7 @@ class CoursesResource(private val coursesService: CoursesService, private val ra
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun updateCourse(@PathParam("id") id: UUID, courseCreate: @Valid CourseCreate): Course {
+    fun updateCourse(@PathParam("id") id: UUID, @Valid courseCreate: CourseCreate): Course {
         return coursesService.replaceCourse(id, courseCreate)
     }
 

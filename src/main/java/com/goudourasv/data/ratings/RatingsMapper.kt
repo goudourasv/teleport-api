@@ -8,5 +8,5 @@ fun RatingEntity.toRating(): Rating {
         userId = this.userEntity.id!!,
         userRating = this.userRating,
         message = this.message,
-        )
+    )
 }

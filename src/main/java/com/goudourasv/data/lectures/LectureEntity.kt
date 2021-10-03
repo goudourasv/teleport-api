@@ -29,4 +29,3 @@ class LectureEntity(
     var courseEntity: CourseEntity? = null,
 
 )
-

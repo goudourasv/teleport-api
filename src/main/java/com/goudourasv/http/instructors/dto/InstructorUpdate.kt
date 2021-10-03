@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 data class InstructorUpdate(
-    var firstName: String?,
-    var lastName: String?,
+    val firstName: String?,
+    val lastName: String?,
     @JsonProperty("institutions") var institutionsIds: List<UUID?>
 )

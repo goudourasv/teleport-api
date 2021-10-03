@@ -73,20 +73,21 @@ class InstructorsRepository(private val entityManager: EntityManager) {
         val instructorEntity =
             entityManager.getReference(InstructorEntity::class.java, id)
         if (instructorUpdate.firstName != null) {
-            instructorEntity.firstName = instructorUpdate.firstName!!
+            instructorEntity.firstName = instructorUpdate.firstName
 
         }
         if (instructorUpdate.lastName != null) {
             instructorEntity.lastName = instructorUpdate.lastName!!
         }
-        val newInstitutionIds = instructorUpdate.institutionsIds
-        instructorEntity.institutionEntities = newInstitutionIds.map { institutionId ->
-            entityManager.getReference(
-                InstitutionEntity::class.java,
-                institutionId
-            )
+        if (instructorUpdate.institutionsIds != null) {
+            val newInstitutionIds = instructorUpdate.institutionsIds
+            instructorEntity.institutionEntities = newInstitutionIds.map { institutionId ->
+                entityManager.getReference(
+                    InstitutionEntity::class.java,
+                    institutionId
+                )
+            }.toMutableSet()
         }
-            .toMutableSet()
         entityManager.merge(instructorEntity)
         entityManager.flush()
         return instructorEntity.toInstructor()

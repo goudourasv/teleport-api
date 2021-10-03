@@ -1,6 +1,7 @@
 package com.goudourasv.data.users
 
 import com.goudourasv.data.courses.CourseEntity
+import com.goudourasv.data.lectures.LectureEntity
 import com.goudourasv.data.ratings.RatingEntity
 import java.util.*
 import javax.persistence.*
@@ -27,3 +28,4 @@ class UserEntity(
     var ratingEntities: MutableList<RatingEntity>? = mutableListOf(),
 
 )
+

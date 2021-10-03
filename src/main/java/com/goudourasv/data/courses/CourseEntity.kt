@@ -3,6 +3,7 @@ package com.goudourasv.data.courses
 import com.goudourasv.data.institutions.InstitutionEntity
 import com.goudourasv.data.instructors.InstructorEntity
 import com.goudourasv.data.lectures.LectureEntity
+import com.goudourasv.data.ratings.RatingEntity
 import com.goudourasv.data.tags.TagEntity
 import com.goudourasv.data.users.UserEntity
 import java.time.Instant
@@ -76,7 +77,7 @@ class CourseEntity(
     var favouritedByUsers: MutableSet<UserEntity> = mutableSetOf(),
 
     @OneToMany(mappedBy = "courseEntity", cascade = ([CascadeType.ALL]), orphanRemoval = true)
-    var ratingEntities: MutableList<LectureEntity>? = null,
+    var ratingEntities: MutableList<RatingEntity> = mutableListOf(),
 
     ) {
 
@@ -99,5 +100,11 @@ class CourseEntity(
 
     }
 
+    fun clearRatingEntities(){
+        this.ratingEntities.clear()
+    }
 
+    fun clearLectureEntities(){
+        this.lectureEntities.clear()
+    }
 }

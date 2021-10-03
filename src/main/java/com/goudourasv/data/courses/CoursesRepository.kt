@@ -87,16 +87,6 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         return courseEntity.toCourse()
     }
 
-    private fun findInstitutionById(id: UUID): InstitutionEntity {
-        return entityManager.getReference(InstitutionEntity::class.java, id)
-            ?: throw BadRequestException("Institution with id  $id  doesn't exist")
-    }
-
-    private fun findInstructorById(id: UUID): InstructorEntity {
-        return entityManager.getReference(InstructorEntity::class.java, id)
-            ?: throw BadRequestException("Instructor with id  $id  doesn't exist")
-    }
-
 
     fun createCourse(courseCreate: CourseCreate): Course {
         val institutionEntity = findInstitutionById(courseCreate.institutionId)
@@ -117,12 +107,27 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         return true
     }
 
+    private fun findInstitutionById(id: UUID): InstitutionEntity {
+        return entityManager.find(InstitutionEntity::class.java, id)
+            ?: throw BadRequestException("Institution with id  $id  doesn't exist")
+    }
+
+    private fun findInstructorById(id: UUID): InstructorEntity {
+        return entityManager.find(InstructorEntity::class.java, id)
+            ?: throw BadRequestException("Instructor with id  $id  doesn't exist")
+    }
+
+
     fun replaceCourse(courseCreate: CourseCreate, id: UUID): Course {
         val institutionEntity = findInstitutionById(courseCreate.institutionId)
         val instructorEntity = findInstructorById(courseCreate.instructorId)
         val courseEntity = courseCreate.toCourseEntity(institutionEntity, instructorEntity)
+        courseEntity.clearRatingEntities()
+        courseEntity.clearLectureEntities()
         courseEntity.id = id
+
         entityManager.merge(courseEntity) ?: throw NotFoundException("Course with id:  $id  doesn't exist")
+        entityManager.flush()
         return courseEntity.toCourse()
     }
 

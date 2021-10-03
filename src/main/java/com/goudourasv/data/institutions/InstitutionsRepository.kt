@@ -91,17 +91,15 @@ class InstitutionsRepository(private val entityManager: EntityManager) {
 
     fun partiallyUpdateInstitution(institutionUpdate: InstitutionUpdate, id: UUID): Institution {
         val institutionEntity = entityManager.getReference(InstitutionEntity::class.java, id)
+
         if (institutionUpdate.name != null) {
-            val newInstitutionName = institutionUpdate.name
-            institutionEntity.name = newInstitutionName
+            institutionEntity.name = institutionUpdate.name
         }
         if (institutionUpdate.city != null) {
-            val newInstitutionCity = institutionUpdate.city
-            institutionEntity.city = newInstitutionCity
+            institutionEntity.city = institutionUpdate.city
         }
         if (institutionUpdate.country != null) {
-            val newInstitutionCountry = institutionUpdate.country
-            institutionEntity.country = newInstitutionCountry
+            institutionEntity.country = institutionUpdate.country
         }
 
         entityManager.merge(institutionEntity)

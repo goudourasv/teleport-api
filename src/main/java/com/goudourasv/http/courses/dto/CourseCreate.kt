@@ -16,6 +16,7 @@ data class CourseCreate(
     val instructorId: UUID,
     val tags: MutableSet<String>? = mutableSetOf(),
     @JsonProperty("lectures")
-    val lectures: List<Lecture>?
+    val lectures: List<Lecture>? = mutableListOf()
+
 
 )
