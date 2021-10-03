@@ -43,7 +43,7 @@ class LecturesResource(private val lecturesService: LecturesService) {
         val createdLecture = lecturesService.createLecture(lectureCreate)
         val path = uriInfo.path
         val location = path + "/" + createdLecture.id
-        return Response.created(URI.create(location)).entity(lectureCreate).build()
+        return Response.created(URI.create(location)).entity(createdLecture).build()
     }
 
     @Blocking

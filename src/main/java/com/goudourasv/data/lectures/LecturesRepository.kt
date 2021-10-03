@@ -16,12 +16,10 @@ class LecturesRepository(private val entityManager: EntityManager) {
     fun getFilteredLectures(courseId: UUID): List<Lecture> {
         var sqlQuery = "SELECT * FROM lectures"
         val parametersMap = mutableMapOf<String, Any>()
-        if (courseId != null) {
-            sqlQuery += "WHERE course_id = :courseId"
-            parametersMap["courseId"] = courseId
-        }
+        sqlQuery += "WHERE course_id = :courseId"
+        parametersMap["courseId"] = courseId
 
-        var query: Query = entityManager.createNativeQuery(sqlQuery, LectureEntity::class.java)
+        val query: Query = entityManager.createNativeQuery(sqlQuery, LectureEntity::class.java)
         for (key in parametersMap.keys) {
             query.setParameter(key, parametersMap[key])
         }

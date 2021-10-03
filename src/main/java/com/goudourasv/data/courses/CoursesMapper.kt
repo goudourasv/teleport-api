@@ -8,8 +8,7 @@ import com.goudourasv.data.instructors.toInstructorData
 import com.goudourasv.data.instructors.toInstructorEntity
 import com.goudourasv.data.lectures.toLectureData
 import com.goudourasv.data.lectures.toLectureEntity
-import com.goudourasv.data.tags.stringsToTagEntities
-import com.goudourasv.data.tags.tagsToTagEntities
+import com.goudourasv.data.tags.toTagEntities
 import com.goudourasv.data.tags.toTags
 import com.goudourasv.domain.courses.Course
 import com.goudourasv.domain.courses.CourseData
@@ -46,12 +45,10 @@ fun CourseCreate.toCourseEntity(
         endDate = this.endDate,
         institutionEntity = institutionEntity,
         instructorEntity = instructorEntity,
-        tagEntities = this.tags.stringsToTagEntities(),
-        lectureEntities = this.lectures?.map { lecture ->
+        tagEntities = this.tags.toTagEntities(),
+        lectureEntities = this.lectures.map { lecture ->
             lecture.toLectureEntity()
-        }?.toMutableList() ?: mutableListOf(),
-
-
+        }.toMutableList(),
     )
 }
 
@@ -62,7 +59,7 @@ fun Course.toCourseEntity(): CourseEntity {
         endDate = this.endDate,
         institutionEntity = this.institutionData.toInstitutionEntity(),
         instructorEntity = this.instructorData.toInstructorEntity(),
-        tagEntities = this.tags.tagsToTagEntities(),
+        tagEntities = this.tags.toTagEntities(),
         lectureEntities = this.lectureData.map { lectureData ->
             lectureData.toLectureEntity()
         }.toMutableList(),

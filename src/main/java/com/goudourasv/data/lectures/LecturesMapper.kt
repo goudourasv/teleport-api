@@ -22,6 +22,11 @@ fun List<LectureEntity>.toLectures(): List<Lecture> {
     return this.map { it.toLecture() }
 }
 
+fun List<Lecture>.toLectureEntities(): List<LectureEntity> {
+    return this.map { it.toLectureEntity() }
+
+}
+
 fun Lecture.toLectureEntity(): LectureEntity{
     return LectureEntity(
         id = this.id,

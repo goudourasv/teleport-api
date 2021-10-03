@@ -11,7 +11,7 @@ import java.util.*
 data class Lecture (
     val id: UUID,
     val title: String,
-    val uri: URI,
+    val uri: URI?,
     //TODO Check if we want to return CourseData here
     val course: Course,
     val startTime: Instant,

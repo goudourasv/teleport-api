@@ -2,9 +2,9 @@ package com.goudourasv.data.courses
 
 import com.goudourasv.data.institutions.InstitutionEntity
 import com.goudourasv.data.instructors.InstructorEntity
-import com.goudourasv.data.lectures.LecturesRepository
+import com.goudourasv.data.lectures.toLectureEntities
 import com.goudourasv.data.lectures.toLectureEntity
-import com.goudourasv.data.tags.stringsToTagEntities
+import com.goudourasv.data.tags.toTagEntities
 import com.goudourasv.data.users.UserEntity
 import com.goudourasv.domain.courses.Course
 import com.goudourasv.domain.courses.LiveCourse
@@ -21,10 +21,10 @@ import javax.ws.rs.NotFoundException
 
 
 @ApplicationScoped
-class CoursesRepository(private val entityManager: EntityManager, private val lecturesRepository: LecturesRepository) {
+class CoursesRepository(private val entityManager: EntityManager) {
 
     fun getCourses(): List<Course> {
-        var sqlQuery = "SELECT * FROM courses"
+        val sqlQuery = "SELECT * FROM courses"
 
         @Suppress("UNCHECKED_CAST")
         val courseEntities =
@@ -117,17 +117,23 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
             ?: throw BadRequestException("Instructor with id  $id  doesn't exist")
     }
 
-
     fun replaceCourse(courseCreate: CourseCreate, id: UUID): Course {
+        val courseEntity = entityManager.find(CourseEntity::class.java, id)
+
         val institutionEntity = findInstitutionById(courseCreate.institutionId)
         val instructorEntity = findInstructorById(courseCreate.instructorId)
-        val courseEntity = courseCreate.toCourseEntity(institutionEntity, instructorEntity)
-        courseEntity.clearRatingEntities()
-        courseEntity.clearLectureEntities()
-        courseEntity.id = id
+
+        courseEntity.replaceLectureEntities(courseCreate.lectures.toLectureEntities().toMutableList())
+        courseEntity.replaceTagEntities(courseCreate.tags.toTagEntities())
+        courseEntity.institutionEntity = institutionEntity
+        courseEntity.instructorEntity = instructorEntity
+        courseEntity.title = courseCreate.title
+        courseEntity.startDate = courseCreate.startDate
+        courseEntity.endDate = courseCreate.endDate
 
         entityManager.merge(courseEntity) ?: throw NotFoundException("Course with id:  $id  doesn't exist")
         entityManager.flush()
+
         return courseEntity.toCourse()
     }
 
@@ -157,7 +163,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
         }
 
         if (courseUpdate.tags != null) {
-            val newTagEntities = courseUpdate.tags.stringsToTagEntities()
+            val newTagEntities = courseUpdate.tags.toTagEntities()
             courseEntity.replaceTagEntities(newTagEntities)
         }
 
@@ -176,7 +182,7 @@ class CoursesRepository(private val entityManager: EntityManager, private val le
     }
 
     fun getLiveCourses(): List<LiveCourse> {
-        var currentTimeStamp = Instant.now()
+        val currentTimeStamp = Instant.now()
         val currentCourseEntities = entityManager.createNamedQuery("list_live_courses", CourseEntity::class.java)
             .setParameter("current_timestamp", currentTimeStamp).resultList
         val currentCourses = currentCourseEntities.toCourses()

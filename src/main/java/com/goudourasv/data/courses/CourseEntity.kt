@@ -100,11 +100,5 @@ class CourseEntity(
 
     }
 
-    fun clearRatingEntities(){
-        this.ratingEntities.clear()
-    }
 
-    fun clearLectureEntities(){
-        this.lectureEntities.clear()
-    }
 }

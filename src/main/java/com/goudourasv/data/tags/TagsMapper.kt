@@ -19,10 +19,12 @@ fun Tag.toTagEntity(): TagEntity {
     )
 }
 
-fun MutableSet<String>?.stringsToTagEntities(): MutableSet<TagEntity> {
+fun MutableSet<String>?.toTagEntities(): MutableSet<TagEntity> {
     return this?.map { tagName -> TagEntity(tagName) }?.toMutableSet() ?: mutableSetOf()
 }
-fun MutableSet<Tag>.tagsToTagEntities() : MutableSet<TagEntity>{
+
+@JvmName("tagsToTagEntities")
+fun MutableSet<Tag>.toTagEntities() : MutableSet<TagEntity>{
     return this.map { tag -> TagEntity(tag.toString()) }.toMutableSet()
 
 }
