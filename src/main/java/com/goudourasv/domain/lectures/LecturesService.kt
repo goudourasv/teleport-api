@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 class LecturesService(private val lecturesRepository: LecturesRepository) {
 
     @Transactional
-    fun getFilteredLectures(courseId: UUID): List<Lecture> {
+    fun getFilteredLectures(courseId: UUID?): List<Lecture> {
         return lecturesRepository.getFilteredLectures(courseId)
     }
 

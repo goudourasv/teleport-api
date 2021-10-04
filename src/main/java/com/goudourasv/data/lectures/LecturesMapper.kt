@@ -11,7 +11,7 @@ fun LectureEntity.toLecture(): Lecture {
     return Lecture(
         id = this.id!!,
         title = this.title,
-        uri = this.uri!!,
+        uri = this.uri,
         startTime = this.startTime,
         endTime = this.endTime,
         course = this.courseEntity!!.toCourse(),

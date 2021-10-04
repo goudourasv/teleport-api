@@ -3,4 +3,5 @@ id UUID PRIMARY KEY,
 title VARCHAR(200) NOT NULL,
 start_time TIMESTAMP,
 end_time TIMESTAMP
+
 )

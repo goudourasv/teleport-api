@@ -1,2 +1,2 @@
 ALTER TABLE lectures
-ADD COLUMN course_id UUID;
+ADD COLUMN course_id UUID NOT NULL ;

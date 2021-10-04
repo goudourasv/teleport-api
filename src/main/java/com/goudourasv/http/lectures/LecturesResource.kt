@@ -22,7 +22,7 @@ class LecturesResource(private val lecturesService: LecturesService) {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun getLectures(@QueryParam("courseId)") courseId: UUID): List<Lecture> {
+    fun getLectures(@QueryParam("courseId)") courseId: UUID?): List<Lecture> {
         return lecturesService.getFilteredLectures(courseId)
     }
 

@@ -13,17 +13,20 @@ import javax.persistence.Query
 @ApplicationScoped
 class LecturesRepository(private val entityManager: EntityManager) {
 
-    fun getFilteredLectures(courseId: UUID): List<Lecture> {
+    fun getFilteredLectures(courseId: UUID?): List<Lecture> {
         var sqlQuery = "SELECT * FROM lectures"
         val parametersMap = mutableMapOf<String, Any>()
-        sqlQuery += "WHERE course_id = :courseId"
-        parametersMap["courseId"] = courseId
 
+        if (courseId != null) {
+            sqlQuery += "WHERE course_id = :courseId"
+            parametersMap["courseId"] = courseId
+        }
         val query: Query = entityManager.createNativeQuery(sqlQuery, LectureEntity::class.java)
         for (key in parametersMap.keys) {
             query.setParameter(key, parametersMap[key])
         }
         @Suppress("UNCHECKED_CAST")
+
         val lectureEntities: List<LectureEntity> = query.resultList as List<LectureEntity>
         return lectureEntities.toLectures()
     }
