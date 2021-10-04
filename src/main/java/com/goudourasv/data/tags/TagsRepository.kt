@@ -13,9 +13,9 @@ class TagsRepository(private val entityManager: EntityManager) {
     fun getTags(): MutableSet<Tag> {
         val sqlQuery = "SELECT * FROM tags"
 
-        @SuppressWarnings("UNCHECKED_CAST")
-        var tagEntities: MutableSet<TagEntity> =
-            entityManager.createNativeQuery(sqlQuery, TagEntity::class.java).resultList as MutableSet<TagEntity>
+        @Suppress("UNCHECKED_CAST")
+        val tagEntities: MutableSet<TagEntity> =
+            entityManager.createNativeQuery(sqlQuery, TagEntity::class.java).resultList.toMutableSet() as MutableSet<TagEntity>
         return tagEntities.toTags()
     }
 
@@ -27,9 +27,9 @@ class TagsRepository(private val entityManager: EntityManager) {
         return tagEntity.toTag()
     }
 
-    fun deleteTag(name: String?): Boolean {
-        val sqlQuery = "DELETE FROM tags name = $name"
-        var deletedEntities: Int =
+    fun deleteTag(name: String): Boolean {
+        val sqlQuery = "DELETE FROM tags WHERE tags.name = :name"
+        val deletedEntities: Int =
             entityManager.createNativeQuery(sqlQuery, TagEntity::class.java).setParameter("name", name).executeUpdate()
         if (deletedEntities == 0) {
             return false

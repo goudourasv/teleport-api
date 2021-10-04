@@ -19,7 +19,7 @@ class UserEntity(
     var lastName: String,
 
     @Column(name = "e_mail")
-    var email: String,
+    var email: String? = null,
 
     @ManyToMany(mappedBy = "favouritedByUsers")
     var courseEntities: MutableSet<CourseEntity>? = mutableSetOf(),

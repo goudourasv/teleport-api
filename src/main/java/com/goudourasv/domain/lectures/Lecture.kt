@@ -11,7 +11,7 @@ import java.util.*
 data class Lecture (
     val id: UUID,
     val title: String,
-    //TODO make URI NOT NULL in db and in here and learn how to pass proper uris!
+    //TODO Make URI NOT NULL in db and in here and learn how to pass proper uris!
     val uri: URI?,
     //TODO Check if we want to return CourseData here
     val course: Course,

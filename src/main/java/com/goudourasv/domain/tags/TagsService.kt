@@ -19,7 +19,7 @@ class TagsService(private val tagsRepository: TagsRepository) {
     }
 
     @Transactional
-    fun deleteSpecificTag(name: String?): Boolean {
+    fun deleteSpecificTag(name: String): Boolean {
         var deleted = tagsRepository.deleteTag(name)
         return deleted
     }

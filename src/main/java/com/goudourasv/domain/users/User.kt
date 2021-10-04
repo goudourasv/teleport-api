@@ -8,5 +8,5 @@ data class User(
     val firstName: String,
     val lastName: String,
     @Email
-    val email: String,
+    val email: String?,
 )

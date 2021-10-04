@@ -28,7 +28,7 @@ class TagsResource(private val tagsService: TagsService) {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createTag(input: @Valid TagCreate, uriInfo: UriInfo): Response {
+    fun createTag(@Valid input: TagCreate, uriInfo: UriInfo): Response {
         val createdTag = tagsService.createNewTag(input)
         val path = uriInfo.path
         val location = path + "/" + createdTag.name
@@ -39,7 +39,7 @@ class TagsResource(private val tagsService: TagsService) {
     @DELETE
     @Path("/{name}")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun deleteTag(@PathParam("name") name: String?) {
+    fun deleteTag(@PathParam("name") name: String) {
         tagsService.deleteSpecificTag(name)
     }
 }
