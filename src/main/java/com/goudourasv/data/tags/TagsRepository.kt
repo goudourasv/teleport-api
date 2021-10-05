@@ -20,7 +20,7 @@ class TagsRepository(private val entityManager: EntityManager) {
     }
 
     fun createTag(tagCreate: TagCreate): Tag {
-        val tagEntity = TagEntity(tagCreate.name)
+        val tagEntity = TagEntity(name = tagCreate.name)
 
         entityManager.persist(tagEntity)
         entityManager.flush()

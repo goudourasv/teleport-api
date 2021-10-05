@@ -6,6 +6,7 @@ import com.goudourasv.domain.users.User
 import com.goudourasv.domain.users.UsersService
 import com.goudourasv.http.users.dto.FavouriteCourseCreate
 import com.goudourasv.http.users.dto.UserCreate
+import com.goudourasv.http.users.dto.UserUpdate
 import io.smallrye.common.annotation.Blocking
 import java.net.URI
 import java.util.*
@@ -15,6 +16,7 @@ import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.UriInfo
+
 
 @ApplicationScoped
 @Path("/users")
@@ -69,6 +71,14 @@ class UsersResource(private val usersService: UsersService, private val coursesS
         return Response.created(URI.create(location)).entity(favouriteCourse).build()
     }
 
+    @Blocking
+    @PATCH
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun partiallyUpdateUser(@PathParam("id") id: UUID, userUpdate: UserUpdate): User {
+        return usersService.partiallyUpdateUser(id, userUpdate)
+    }
     @Blocking
     @DELETE
     @Path("/{id}/courses/favourite")
