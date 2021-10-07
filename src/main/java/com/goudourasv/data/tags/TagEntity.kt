@@ -9,8 +9,7 @@ import javax.persistence.ManyToMany
 @Entity(name = "Tags")
 class TagEntity(
     @Id
-    @GeneratedValue
-    var name: String? = null,
+    var name: String,
 
     @ManyToMany(mappedBy = "tagEntities")
     var courseEntities: MutableSet<CourseEntity>? = mutableSetOf(),

@@ -4,7 +4,7 @@ import com.goudourasv.domain.tags.Tag
 
 fun TagEntity.toTag(): Tag {
     return Tag(
-        name = this.name!!
+        name = this.name
     )
 }
 
